@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3d5562e6-f11b-40d1-bc03-ee9729441bd3" name="Default" comment="test commit for the commit management stuff inside Intellij">
-      <change type="DELETED" beforePath="D:\Projects\FunctionalReactiveStuff\FRPSpikeWork\out\production\FRPSpikeWork\main.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="3d5562e6-f11b-40d1-bc03-ee9729441bd3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\Projects\FunctionalReactiveStuff\FRPSpikeWork\src\main.java" afterPath="$PROJECT_DIR$/src/main/Start.java" />
     </list>
     <ignored path="sampleGameEngine.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -436,6 +433,13 @@
       <option name="number" value="Default" />
       <updated>1424183240720</updated>
     </task>
+    <task id="LOCAL-00001" summary="test commit for the commit management stuff inside Intellij">
+      <created>1424184430714</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1424184430715</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
