@@ -1,4 +1,4 @@
-package main;
+package core;
 
 /**
  * Created by TekMaTek on 17/02/2015.

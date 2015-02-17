@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by TekMaTek on 16/02/2015.
+ * Tests taken from the SodiumFRP test framework.
  */
 public class SodiumTests extends TestCase {
     @Override
