@@ -224,3 +224,6 @@ info.plist
 
 # Scala
 target/
+/out
+/libraries
+/.idea
