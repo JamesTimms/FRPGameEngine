@@ -1,4 +1,4 @@
-package core;
+package org.FRPengine.core;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -12,7 +12,7 @@ public class FRPDisplay {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
 
-    public static void CreateDisplay() {
+    public void CreateDisplay() {
         Display.setTitle("My FRP Game Engine");
         try {
             Display.setDisplayMode(new DisplayMode(DEFAULT_WIDTH, DEFAULT_HEIGHT));

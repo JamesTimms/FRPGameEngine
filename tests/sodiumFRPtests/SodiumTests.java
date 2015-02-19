@@ -82,6 +82,20 @@ public class SodiumTests extends TestCase {
         assertEquals(Arrays.asList(7, 7, 9, 9), out);
     }
 
+    public void testPropagation() {
+        StreamSink<Integer> e = new StreamSink();
+        List<Integer> out = new ArrayList();
+        Listener l = e.listen(x -> {
+            out.add(x);
+        });
+        Integer x = 10;
+        e.send(x);
+        e.send(9);
+        x = 11;
+        l.unlisten();
+        assertEquals(Arrays.asList(x, 9), out);
+    }
+
     public void testMergeSimultaneous2() {
         StreamSink<Integer> e = new StreamSink();
         List<Integer> out = new ArrayList();
