@@ -1,6 +1,7 @@
 package sodiumFRPtests;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Test;
 import sodium.Cell;
 import sodium.CellSink;
 import sodium.Listener;
@@ -10,16 +11,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests taken from the SodiumFRP test framework.
  */
-public class SodiumTests extends TestCase {
-    @Override
-    protected void tearDown() throws Exception {
+public class SodiumTests {
+    @After
+    public void tearDown() throws Exception {
         System.gc();
         Thread.sleep(100);
     }
 
+    @Test
     public void testValues() {
         CellSink<Integer> b = new CellSink<Integer>(19);
         List<Integer> out = new ArrayList<Integer>();
@@ -32,80 +37,45 @@ public class SodiumTests extends TestCase {
         assertEquals(Arrays.asList(19, 2, 7), out);
     }
 
-    public void testMultiListenerValues() {
-        CellSink<Integer> b = new CellSink<Integer>(19);
-        List<Integer> out = new ArrayList<Integer>();
-        Listener l = b.listen(x -> {
-            out.add(x);
-        });
-        Listener l2 = b.listen(x -> {
-            out.add(x);
-        });
-        b.send(2);
-        b.send(7);
-        l.unlisten();
-        l2.unlisten();
-        assertEquals(Arrays.asList(19, 19, 2, 2, 7, 7), out);
+    class Position {
+        Position(Integer a, Integer b) {
+            this.a = a;
+            this.b = b;
+        }
+
+        Integer a;
+        Integer b;
+
+        public boolean equals(Position obj) {
+            return (obj.a == this.a) && (obj.b == this.b);
+        }
     }
 
-    public void testConstantBehavior() {
-        Cell<Integer> b = new Cell<Integer>(12);
-        List<Integer> out = new ArrayList();
-        Listener l = b.listen(x -> {
-            out.add(x);
-        });
-        l.unlisten();
-        assertEquals(Arrays.asList(12), out);
+    @Test
+    public void testInitialPositionCell() {
+        StreamSink<Position> posStream = new StreamSink();
+        Position expectedPos = new Position(1, 1);
+        Cell<Position> actualValue = posStream.hold(expectedPos);
+        assertEquals(expectedPos, actualValue.sample());
     }
 
-    public void testValuesThenMap() {
-        CellSink<Integer> b = new CellSink<Integer>(9);
-        List<Integer> out = new ArrayList<Integer>();
-        Listener l = b.value().map(x -> x + 100).listen(x -> {
-            out.add(x);
-        });
-        b.send(2);
-        b.send(7);
-        l.unlisten();
-        assertEquals(Arrays.asList(109, 102, 107), out);
+    @Test
+    public void testPositionCell() {
+        StreamSink<Position> posStream = new StreamSink();
+        Cell<Position> actualValue = posStream.hold(new Position(1, 1));
+        posStream.send(new Position(1, 2));
+        posStream.send(new Position(3, 4));
+        Position expectedPos = new Position(5, 6);
+        posStream.send(expectedPos);
+        assertEquals(expectedPos, actualValue.sample());
     }
 
-    public void testMergeSimultaneous() {
-        StreamSink<Integer> e = new StreamSink();
-        List<Integer> out = new ArrayList();
-        Listener l = e.merge(e).listen(x -> {
-            out.add(x);
-        });
-        e.send(7);
-        e.send(9);
-        l.unlisten();
-        assertEquals(Arrays.asList(7, 7, 9, 9), out);
-    }
-
-    public void testPropagation() {
-        StreamSink<Integer> e = new StreamSink();
-        List<Integer> out = new ArrayList();
-        Listener l = e.listen(x -> {
-            out.add(x);
-        });
-        Integer x = 10;
-        e.send(x);
-        e.send(9);
-        x = 11;
-        l.unlisten();
-        assertEquals(Arrays.asList(x, 9), out);
-    }
-
-    public void testMergeSimultaneous2() {
-        StreamSink<Integer> e = new StreamSink();
-        List<Integer> out = new ArrayList();
-        //stream on the left below is done first. Then stream on the right is done second.
-        Listener l = e.map(x -> x + 1).merge(e).listen(x -> {
-            out.add(x);
-        });
-        e.send(7);
-        e.send(9);
-        l.unlisten();
-        assertEquals(Arrays.asList(8, 7, 10, 9), out);
+    @Test
+    public void testSimplePositionAssignment() {
+        StreamSink<Position> posStream = new StreamSink();
+        Position initialValue = null;
+        Cell<Position> pos = posStream.hold(initialValue);
+        posStream.send(new Position(1, 2));
+        assertTrue(new Position(1, 2).equals(pos.sample()));
     }
 }

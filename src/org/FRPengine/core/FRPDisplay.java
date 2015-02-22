@@ -7,12 +7,12 @@ import org.lwjgl.opengl.DisplayMode;
 /**
  * Created by TekMaTek on 17/02/2015.
  */
-public class FRPDisplay {
+public final class FRPDisplay {
 
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
 
-    public void CreateDisplay() {
+    public static void CreateDisplay() {
         Display.setTitle("My FRP Game Engine");
         try {
             Display.setDisplayMode(new DisplayMode(DEFAULT_WIDTH, DEFAULT_HEIGHT));
@@ -20,6 +20,10 @@ public class FRPDisplay {
         } catch(LWJGLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static void DestroyDisplay() {
+        Display.destroy();
     }
 
 }
