@@ -13,6 +13,9 @@ public final class FRPDisplay {
     private static final int DEFAULT_HEIGHT = 600;
 
     public static void CreateDisplay() {
+        if(Display.isCreated()) {
+            return;
+        }
         Display.setTitle("My FRP Game Engine");
         try {
             Display.setDisplayMode(new DisplayMode(DEFAULT_WIDTH, DEFAULT_HEIGHT));

@@ -18,7 +18,6 @@ public class FRPDisplayTest {
         createAndDestroyDisplay();
     }
 
-    @Test
     public void createAndDestroyDisplay() {
         StreamSink<FRPDisplay> displayStream = new StreamSink();
         Cell<FRPDisplay> display = displayStream.hold(new FRPDisplay());
@@ -32,11 +31,5 @@ public class FRPDisplayTest {
         });
         displayStream.send(display.sample());
         destroyListener.unlisten();
-    }
-
-    @Test(expected = java.lang.IllegalStateException.class)
-    public void testCreateScreenTwice() {
-        FRPDisplay.CreateDisplay();
-        FRPDisplay.CreateDisplay();
     }
 }
