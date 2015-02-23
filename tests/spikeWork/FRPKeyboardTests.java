@@ -5,7 +5,6 @@ import org.FRPengine.core.FRPKeyboard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.lwjgl.input.Keyboard;
 import sodium.Listener;
 
 import java.util.ArrayList;

@@ -1,7 +1,5 @@
 package org.FRPengine.core;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
 import sodium.StreamSink;
 
 /**
