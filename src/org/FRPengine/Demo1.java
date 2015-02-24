@@ -39,6 +39,7 @@ public class Demo1 {
         printKeyUp();
         printKeySpacebar();
         printMousePress();
+        printCursorPosition();
 
         loop();
         Cleanup();
@@ -99,6 +100,12 @@ public class Demo1 {
         allListeners.add(FRPMouse.keyStream
                 .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_RIGHT )
                 .listen(mouse -> System.out.println("Right mouse button Pressed " + mouse.button)));
+    }
+
+    public static void printCursorPosition( ) {
+        allListeners.add( FRPMouse.cursorPosStream
+                //Need to figure out how to limit cursor position update here.
+                .listen(cursor -> System.out.println(cursor.position.toString())));
     }
 
     public static void InitErrorHandling() {
