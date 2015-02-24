@@ -2,6 +2,7 @@ package org.FRPengine;
 
 import org.FRPengine.core.FRPDisplay;
 import org.FRPengine.core.FRPKeyboard;
+import org.FRPengine.core.FRPMouse;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GLContext;
 import sodium.Listener;
@@ -28,18 +29,23 @@ public class Demo1 {
 
     public Demo1() {
         InitErrorHandling();
+
         FRPDisplay.Create();
         FRPKeyboard.Create();
+        FRPMouse.Create();
+
         setupCloseWindow();
         printKeyDown();
         printKeyUp();
         printKeySpacebar();
+        printMousePress();
 
         loop();
         Cleanup();
     }
 
     public static void Cleanup() {
+        FRPMouse.Destroy();
         FRPKeyboard.Destroy();
         FRPDisplay.Destroy();
         KillErrorHandling();
@@ -87,6 +93,12 @@ public class Demo1 {
                 .filter(key -> key.key == GLFW_KEY_SPACE)
                 .listen(key -> System.out.println("SPACE BAR!!!")));
 
+    }
+
+    public static void printMousePress( ) {
+        allListeners.add(FRPMouse.keyStream
+                .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_RIGHT )
+                .listen(mouse -> System.out.println("Right mouse button Pressed " + mouse.button)));
     }
 
     public static void InitErrorHandling() {

@@ -28,10 +28,6 @@ public class FRPKeyboard {
         keyCallback.release();
     }
 
-    public static void Subscribe() {
-
-    }
-
     public static class Key {
         public long window;
         public int key;
