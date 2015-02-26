@@ -1,12 +1,11 @@
 package org.FRPengine.core;
 
-import org.FRPengine.Demo1;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
 
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.glfw.Callbacks.errorCallbackPrint;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
@@ -22,6 +21,7 @@ public final class FRPDisplay {
     private static final String DEFAULT_TITLE = "FRP Game Engine";
 
     private static Long window;//This is an object so it can be null when window fails to load or isn't yet loaded.
+//    static GLFWFramebufferSizeCallback fbCallback;
 
     //Code taken from LWJGL3 guide http://www.lwjglTests.org/guide
     private static void init() {
@@ -56,6 +56,14 @@ public final class FRPDisplay {
 
         // Make the window visible
         glfwShowWindow(window);
+
+
+//        //This might not be important
+//        glfwSetFramebufferSizeCallback(window, fbCallback = new GLFWFramebufferSizeCallback() {
+//            @Override
+//            public void invoke(long window, int width, int height) {
+//            }
+//        });
     }
 
     public static long GetWindow() {
@@ -73,8 +81,15 @@ public final class FRPDisplay {
         glfwDestroyWindow(window);
     }
 
-    public static boolean shouldWindowClose( ) {
+    public static boolean shouldWindowClose() {
         return glfwWindowShouldClose(FRPDisplay.window) == GL11.GL_TRUE;
+    }
+
+    public static void miscStuff() {
+        GLContext.createFromCurrent();
+        glfwMakeContextCurrent(window);
+        glfwSwapInterval(0);
+        glfwShowWindow(window);
     }
 
 }
