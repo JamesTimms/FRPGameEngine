@@ -13,7 +13,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 
 /**
- * LWJGL3 Guide code. http://www.lwjgl.org/guide
+ * LWJGL3 Guide code. http://www.lwjglTests.org/guide
  */
 public class HelloWorld {
 

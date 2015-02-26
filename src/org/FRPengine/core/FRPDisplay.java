@@ -23,7 +23,7 @@ public final class FRPDisplay {
 
     private static Long window;//This is an object so it can be null when window fails to load or isn't yet loaded.
 
-    //Code taken from LWJGL3 guide http://www.lwjgl.org/guide
+    //Code taken from LWJGL3 guide http://www.lwjglTests.org/guide
     private static void init() {
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.

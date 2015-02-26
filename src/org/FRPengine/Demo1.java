@@ -1,24 +1,20 @@
 package org.FRPengine;
 
-import org.FRPengine.core.FRPDisplay;
-import org.FRPengine.core.FRPKeyboard;
-import org.FRPengine.core.FRPMouse;
-import org.FRPengine.core.Time;
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.opengl.GLContext;
+import org.FRPengine.core.*;
+import org.FRPengine.rendering.SimpleRenderer;
 import sodium.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.lwjgl.glfw.Callbacks.errorCallbackPrint;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_TRUE;
 
 /**
  * Created by TekMaTek on 17/02/2015.
  */
 public class Demo1 {
+
     public static List<Listener> allListeners = new ArrayList<>();
     //TODO: Think of better way of storing listeners. These are only here for clean up and so Java GC doesn't remove them.
 
@@ -26,10 +22,8 @@ public class Demo1 {
         new Demo1();
     }
 
-    public static GLFWErrorCallback errorCallback;//TODO: Move to error handling.
-
     public Demo1() {
-        InitErrorHandling();
+        ErrorHandling.Init();
 
         FRPDisplay.Create();
         FRPKeyboard.Create();
@@ -42,7 +36,7 @@ public class Demo1 {
         printMousePress();
         printCursorPosition();
 
-        loop();
+        SimpleRenderer.loop();
         Cleanup();
     }
 
@@ -50,23 +44,10 @@ public class Demo1 {
         FRPMouse.Destroy();
         FRPKeyboard.Destroy();
         FRPDisplay.Destroy();
-        KillErrorHandling();
+        ErrorHandling.Destroy();
         for(int i = 0; i < allListeners.size(); i++) {
             allListeners.get(i).unlisten();
             allListeners.set(i, null);
-        }
-    }
-
-    public static void loop() {
-        while(!FRPDisplay.shouldWindowClose()) {
-            GLContext.createFromCurrent();
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
-            glfwSwapBuffers(FRPDisplay.GetWindow()); // swap the color buffers
-
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
-            glfwPollEvents();
         }
     }
 
@@ -107,17 +88,6 @@ public class Demo1 {
         allListeners.add(FRPMouse.cursorPosStream
                 .filter(x -> Time.readyForFrameRate(Time.ONE_PER_SECOND))
                 .listen(cursor -> System.out.println(cursor.position.toString())));
-    }
-
-    public static void InitErrorHandling() {
-        // Setup an error callback. The default implementation
-        // will print the error message in System.err.
-        glfwSetErrorCallback(Demo1.errorCallback = errorCallbackPrint(System.err));//TODO: move this
-    }
-
-    public static void KillErrorHandling() {
-        glfwTerminate();
-        errorCallback.release();//TODO: move this also
     }
 
 }

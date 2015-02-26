@@ -9,7 +9,7 @@ package org.FRPengine.maths;
  * while calculating. The limit that the components can sum to is 1 / 3 ( root( float.max ) ).
  */
 
-//TODO: Should consider changing this Class into a wrapper for lwjgl's Vector3f Class.
+//TODO: Should consider changing this Class into a wrapper for lwjglTests's Vector3f Class.
 public class Vector3f {
 
 	public static final Vector3f ZERO = new Vector3f( 0.0f, 0.0f, 0.0f );
