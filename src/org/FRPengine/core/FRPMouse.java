@@ -5,9 +5,6 @@ import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import sodium.StreamSink;
 
-import java.awt.*;
-
-import static org.lwjgl.glfw.GLFW.glfwCreateCursor;
 import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
 
@@ -35,13 +32,14 @@ public class FRPMouse {
         glfwSetCursorPosCallback(FRPDisplay.GetWindow(), cursorCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double posX, double posY) {
-                cursorPosStream.send( new Cursor(window, posX, posY));
+                cursorPosStream.send(new Cursor(window, posX, posY));
             }
         });
     }
 
     public static void Destroy() {
         mouseCallback.release();
+        cursorCallback.release();
     }
 
     public static class Mouse {
@@ -50,7 +48,7 @@ public class FRPMouse {
         public int action;
         public int mods;
 
-        public Mouse(long window, int button, int action, int mods){
+        public Mouse(long window, int button, int action, int mods) {
             this.window = window;
             this.button = button;
             this.action = action;
@@ -58,13 +56,13 @@ public class FRPMouse {
         }
     }
 
-    public static class Cursor{
+    public static class Cursor {
         public long window;
         public Vector2f position;
 
-        public Cursor( long window, double posX, double posY ){
+        public Cursor(long window, double posX, double posY) {
             this.window = window;
-            this.position = new Vector2f((float)posX, (float)posY);
+            this.position = new Vector2f((float) posX, (float) posY);
         }
     }
 }

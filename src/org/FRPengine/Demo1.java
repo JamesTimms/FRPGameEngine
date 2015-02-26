@@ -3,6 +3,7 @@ package org.FRPengine;
 import org.FRPengine.core.FRPDisplay;
 import org.FRPengine.core.FRPKeyboard;
 import org.FRPengine.core.FRPMouse;
+import org.FRPengine.core.Time;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GLContext;
 import sodium.Listener;
@@ -96,15 +97,15 @@ public class Demo1 {
 
     }
 
-    public static void printMousePress( ) {
+    public static void printMousePress() {
         allListeners.add(FRPMouse.keyStream
-                .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_RIGHT )
+                .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_RIGHT)
                 .listen(mouse -> System.out.println("Right mouse button Pressed " + mouse.button)));
     }
 
-    public static void printCursorPosition( ) {
-        allListeners.add( FRPMouse.cursorPosStream
-                //Need to figure out how to limit cursor position update here.
+    public static void printCursorPosition() {
+        allListeners.add(FRPMouse.cursorPosStream
+                .filter(x -> Time.readyForFrameRate(Time.ONE_PER_SECOND))
                 .listen(cursor -> System.out.println(cursor.position.toString())));
     }
 
