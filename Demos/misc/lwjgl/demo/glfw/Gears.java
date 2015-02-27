@@ -43,7 +43,7 @@ public class Gears extends AbstractGears {
 		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+//		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
 		keyfun = new GLFWKeyCallback() {
 			@Override
@@ -122,12 +122,12 @@ public class Gears extends AbstractGears {
 		while ( glfwWindowShouldClose(window) == GL_FALSE ) {
 			glfwPollEvents();
 
-			if ( toggleMode != null ) {
-				// Toggle between windowed and fullscreen modes
-				createWindow(toggleMode);
-				initGLState();
-				toggleMode = null;
-			}
+//			if ( toggleMode != null ) {
+//				// Toggle between windowed and fullscreen modes
+//				createWindow(toggleMode);
+//				initGLState();
+//				toggleMode = null;
+//			}
 
 			renderLoop();
 

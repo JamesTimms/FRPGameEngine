@@ -14,7 +14,6 @@ public class Demo2 {
 
     public Demo2() {
         FRPDisplay.Create();
-        FRPDisplay.miscStuff();
         SimpleRenderer.init();
         SimpleRenderer.loop2();
     }

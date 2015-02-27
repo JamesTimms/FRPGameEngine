@@ -26,44 +26,27 @@ public final class FRPDisplay {
     //Code taken from LWJGL3 guide http://www.lwjglTests.org/guide
     private static void init() {
 
-        // Initialize GLFW. Most GLFW functions will not work before doing this.
         if(glfwInit() != GL_TRUE)
             throw new IllegalStateException("Unable to initialize GLFW");
 
-        // Configure our window
-        glfwDefaultWindowHints(); // optional, the current window hints are already the default
-        glfwWindowHint(GLFW_VISIBLE, GL_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE); // the window will be resizable
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-        // Create the window
         window = glfwCreateWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE, NULL, NULL);
         if(window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
-        // Get the resolution of the primary monitor
-        ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        // Center our window
-        glfwSetWindowPos(
-                window,
-                (GLFWvidmode.width(vidmode) - DEFAULT_WIDTH) / 2,
-                (GLFWvidmode.height(vidmode) - DEFAULT_HEIGHT) / 2
-        );
-
-        // Make the OpenGL context current
         glfwMakeContextCurrent(window);
-        // Enable v-sync
+        GLContext.createFromCurrent();
         glfwSwapInterval(1);
+        CentreScreen();
 
-        // Make the window visible
         glfwShowWindow(window);
-
-
-//        //This might not be important
-//        glfwSetFramebufferSizeCallback(window, fbCallback = new GLFWFramebufferSizeCallback() {
-//            @Override
-//            public void invoke(long window, int width, int height) {
-//            }
-//        });
     }
 
     public static long GetWindow() {
@@ -77,6 +60,18 @@ public final class FRPDisplay {
         init();
     }
 
+    public static void CentreScreen() {
+        // Get the resolution of the primary monitor
+        ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        // Center our window
+        glfwSetWindowPos(
+                window,
+                (GLFWvidmode.width(vidmode) - DEFAULT_WIDTH) / 2,
+                (GLFWvidmode.height(vidmode) - DEFAULT_HEIGHT) / 2
+        );
+
+    }
+
     public static void Destroy() {
         glfwDestroyWindow(window);
     }
@@ -84,12 +79,4 @@ public final class FRPDisplay {
     public static boolean shouldWindowClose() {
         return glfwWindowShouldClose(FRPDisplay.window) == GL11.GL_TRUE;
     }
-
-    public static void miscStuff() {
-        GLContext.createFromCurrent();
-        glfwMakeContextCurrent(window);
-        glfwSwapInterval(0);
-        glfwShowWindow(window);
-    }
-
 }

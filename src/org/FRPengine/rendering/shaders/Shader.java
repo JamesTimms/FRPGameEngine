@@ -34,7 +34,7 @@ public class Shader {
 		StringBuilder shaderSource = new StringBuilder( );
 		BufferedReader shaderReader = null;
 		try {
-			shaderReader = new BufferedReader( new FileReader( "./resource/shaders/" + filename ) );
+			shaderReader = new BufferedReader( new FileReader( "./res/shaders/" + filename ) );
 			String line;
 			while( ( line = shaderReader.readLine( ) ) != null ) {
 				shaderSource.append( line ).append( "\n" );

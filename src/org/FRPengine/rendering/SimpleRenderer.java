@@ -2,7 +2,6 @@ package org.FRPengine.rendering;
 
 import org.FRPengine.core.FRPDisplay;
 import org.FRPengine.rendering.shaders.BasicShader;
-import org.FRPengine.rendering.shaders.Material;
 import org.lwjgl.opengl.GLContext;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
@@ -23,41 +22,29 @@ public class SimpleRenderer {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
             glfwSwapBuffers(FRPDisplay.GetWindow()); // swap the color buffers
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
             glfwPollEvents();
         }
     }
 
     public static void loop2() {
         while(!FRPDisplay.shouldWindowClose()) {
-            GLContext.createFromCurrent();
+            glfwPollEvents();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
             glfwSwapBuffers(FRPDisplay.GetWindow()); // swap the color buffers
             RenderSimpleSquare();
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
-            glfwPollEvents();
         }
     }
 
     public static void init() {
         System.out.println(RenderingUtil.GetOpenGLVersion());
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-//        glFrontFace(GL_CW);
-//        glCullFace(GL_BACK);
-//        glEnable(GL_CULL_FACE);
-//        glEnable(GL_DEPTH_TEST);
-
-        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_DEPTH_TEST);
     }
 
     public static void RenderSimpleSquare() {
         shader.Bind();
-        shader.updateUniforms(Material.WhiteNoTexture());
+//        shader.updateUniforms(Material.WhiteNoTexture());
         cube.draw();
     }
-
 }
