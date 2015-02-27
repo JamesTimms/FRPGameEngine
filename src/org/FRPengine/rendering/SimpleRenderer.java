@@ -17,7 +17,6 @@ public class SimpleRenderer {
     private static Mesh cube = MeshUtil.BuildSimpleCube();
     static BasicShader shader = new BasicShader();
 
-
     public static void loop() {
         while(!FRPDisplay.shouldWindowClose()) {
             GLContext.createFromCurrent();

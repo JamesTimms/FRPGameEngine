@@ -1,4 +1,4 @@
-package org.FRPengine;
+package Personal;
 
 import org.FRPengine.core.FRPDisplay;
 import org.FRPengine.rendering.SimpleRenderer;

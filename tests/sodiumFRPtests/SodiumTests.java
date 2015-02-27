@@ -63,11 +63,11 @@ public class SodiumTests {
     public void testPositionCell() {
         StreamSink<Position> posStream = new StreamSink();
         Cell<Position> actualValue = posStream.hold(new Position(1, 1));
-//        posStream.send(new Position(1, 2));
-//        posStream.send(new Position(3, 4));
-//        Position expectedPos = new Position(5, 6);
-//        posStream.send(expectedPos);
-        assertEquals(new Position(0, 0).a, actualValue.sample().a);
+        posStream.send(new Position(1, 2));
+        posStream.send(new Position(3, 4));
+        Position expectedPos = new Position(5, 6);
+        posStream.send(expectedPos);
+        assertEquals(expectedPos, actualValue.sample());
     }
 
     @Test

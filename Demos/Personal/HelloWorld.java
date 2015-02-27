@@ -1,4 +1,4 @@
-package org.FRPengine;
+package Personal;
 
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;

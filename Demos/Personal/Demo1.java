@@ -1,14 +1,14 @@
-package org.FRPengine;
+package Personal;
 
 import org.FRPengine.core.*;
-import org.FRPengine.rendering.SimpleRenderer;
+import org.lwjgl.opengl.GLContext;
 import sodium.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.GL_TRUE;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Created by TekMaTek on 17/02/2015.
@@ -17,6 +17,7 @@ public class Demo1 {
 
     public static List<Listener> allListeners = new ArrayList<>();
     //TODO: Think of better way of storing listeners. These are only here for clean up and so Java GC doesn't remove them.
+    public static long rate_of_update = Time.ONE_PER_SECOND;
 
     public static void main(String[] args) {
         new Demo1();
@@ -32,12 +33,25 @@ public class Demo1 {
         setupCloseWindow();
         printKeyDown();
         printKeyUp();
-        printKeySpacebar();
+        setupTimeIncreaseKeys();
         printMousePress();
         printCursorPosition();
 
-        SimpleRenderer.loop();
+        loop();
         Cleanup();
+    }
+    
+    public static void loop() {
+        while(!FRPDisplay.shouldWindowClose()) {
+            GLContext.createFromCurrent();
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+            glfwSwapBuffers(FRPDisplay.GetWindow()); // swap the color buffers
+            // Poll for window events. The key callback above will only be
+            // invoked during this call.
+            glfwPollEvents();
+        }
+        
     }
 
     public static void Cleanup() {
@@ -68,14 +82,21 @@ public class Demo1 {
         allListeners.add(FRPKeyboard.keyStream
                 .filter(key -> key.action == GLFW_RELEASE)
                 .listen(key -> System.out.println("up " + key.key)));
-
     }
 
-    public static void printKeySpacebar() {
+    public static void setupTimeIncreaseKeys() {
         allListeners.add(FRPKeyboard.keyStream
-                .filter(key -> key.key == GLFW_KEY_SPACE)
-                .listen(key -> System.out.println("SPACE BAR!!!")));
-
+                .filter(key -> key.key == GLFW_KEY_UP)
+                .listen(key -> {
+                    System.out.println(rate_of_update);
+                    rate_of_update += 1;
+                }));
+        allListeners.add(FRPKeyboard.keyStream
+                .filter(key -> key.key == GLFW_KEY_DOWN)
+                .listen(key -> {
+                    System.out.println(rate_of_update);
+                    rate_of_update -= 1;
+                }));
     }
 
     public static void printMousePress() {
@@ -86,7 +107,7 @@ public class Demo1 {
 
     public static void printCursorPosition() {
         allListeners.add(FRPMouse.cursorPosStream
-                .filter(x -> Time.readyForFrameRate(Time.ONE_PER_SECOND))
+                .filter(x -> Time.readyForFrameRate(rate_of_update))
                 .listen(cursor -> System.out.println(cursor.position.toString())));
     }
 
