@@ -40,7 +40,6 @@ public class SimpleRenderer {
         draw();
 
         glfwSwapBuffers(FRPDisplay.GetWindow());
-        glfwPollEvents();
     }
 
     public static void init() {
