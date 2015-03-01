@@ -167,7 +167,7 @@ public class MeshUtil {
         return new Mesh(vertices, indices, true);
     }
 
-    public static Mesh BuildSquare() {
+    public static Mesh BuildTriangle() {
         return new Mesh(
                 new Vertex[] {
                         new Vertex(new Vector3f(-1.0f, -1.0f, 0.0f)),

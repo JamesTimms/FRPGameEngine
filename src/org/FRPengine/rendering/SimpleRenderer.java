@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class SimpleRenderer {
 
     //    private static Mesh cube = MeshUtil.BuildSimpleCube();
-    private static Mesh square = MeshUtil.BuildSquare();
+    private static Mesh triangle = MeshUtil.BuildTriangle();
     static BasicShader shader = new BasicShader();
     private static Listener renderLoopListener;
 
@@ -48,6 +48,6 @@ public class SimpleRenderer {
     }
 
     public static void draw() {
-        shader.draw(square);
+        shader.draw(triangle);
     }
 }
