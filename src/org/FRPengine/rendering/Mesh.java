@@ -6,9 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
 
 
 /**
@@ -16,23 +14,29 @@ import static org.lwjgl.opengl.GL20.*;
  */
 public class Mesh {
 
-	private int vertexBO;
-	private int indexBO;
-	private int indicesLength;
+	public int vertexBO;
+    public int indexBO;
+    public int indicesLength;
 
 	public Mesh( String filename ) {
 		initMeshData( );
-		loadMesh( filename );
+		loadMesh(filename);
 	}
 
 	public Mesh( Vertex[] vertices, int[] indices ) {
-		this( vertices, indices, false );
+		this(vertices, indices, false);
 	}
 
 	public Mesh( Vertex[] vertices, int[] indices, boolean shouldCalcNormals ) {
 		initMeshData( );
 		addVertices( vertices, indices, shouldCalcNormals );
 	}
+
+    public void addVertices(Vertex[] vertices) {
+        indicesLength = vertices.length * Vertex.SIZE;
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBO);
+        glBufferData(GL_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer(vertices), GL_STATIC_DRAW);
+    }
 
 	private void initMeshData( ) {
 		vertexBO = glGenBuffers( );
@@ -94,7 +98,7 @@ public class Mesh {
 	}
 
 	private void addVertices( Vertex[] vertices, int[] indices ) {
-		addVertices( vertices, indices, false );
+		addVertices(vertices, indices, false);
 	}
 
 	private void addVertices( Vertex[] vertices, int[] indices, boolean shouldCalcNormals ) {
@@ -105,30 +109,8 @@ public class Mesh {
 		glBindBuffer( GL_ARRAY_BUFFER, vertexBO );
 		glBufferData( GL_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer( vertices ), GL_STATIC_DRAW );
 
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indexBO );
-		glBufferData( GL_ELEMENT_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer( indices ), GL_STATIC_DRAW );
-	}
-
-	public void draw( ) {
-		final int POSITION = 0;
-		final int TEXTURE_COORDS = 1;
-		final int NORMALS = 2;
-		final int SIZE_OF_BYTE = 4;
-		glEnableVertexAttribArray( POSITION );
-		glEnableVertexAttribArray( TEXTURE_COORDS );
-		glEnableVertexAttribArray( NORMALS );
-
-		glBindBuffer( GL_ARRAY_BUFFER, vertexBO );
-		glVertexAttribPointer( POSITION, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0 );
-		glVertexAttribPointer( TEXTURE_COORDS, 2, GL_FLOAT, false, Vertex.SIZE * 4, SIZE_OF_BYTE * 3 );
-		glVertexAttribPointer( NORMALS, 3, GL_FLOAT, false, Vertex.SIZE * 4, SIZE_OF_BYTE * 5 );
-
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indexBO );
-		glDrawElements( GL_TRIANGLES, indicesLength, GL_UNSIGNED_INT, 0 );
-
-		glDisableVertexAttribArray( POSITION );
-		glDisableVertexAttribArray( TEXTURE_COORDS );
-		glDisableVertexAttribArray( NORMALS );
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer(indices), GL_STATIC_DRAW);
 	}
 
 	private void calcNormals( Vertex[] vertices, int[] indices ) {

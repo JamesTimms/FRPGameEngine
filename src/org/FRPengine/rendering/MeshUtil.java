@@ -9,161 +9,171 @@ import org.FRPengine.maths.Vector3f;
  */
 public class MeshUtil {
 
-	public static Mesh BuildSimplePlane( ) {
-		final float FIELD_DEPTH = 10.0f;
-		final float FIELD_WIDTH = 10.0f;
-		Vertex[] vertices = new Vertex[] {
-				new Vertex(
-						new Vector3f( -FIELD_WIDTH, 0.0f, -FIELD_DEPTH ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( -FIELD_WIDTH, 0.0f, FIELD_DEPTH * 3.0f ),
-						new Vector2f( 0.0f, 1.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( FIELD_WIDTH * 3.0f, 0.0f, -FIELD_DEPTH ),
-						new Vector2f( 1.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( FIELD_WIDTH * 3.0f, 0.0f, FIELD_DEPTH * 3.0f ),
-						new Vector2f( 1.0f, 1.0f ),
-						Vector3f.ZERO )
-		};
-
-		int indices[] = {
-				0, 1, 2,
-				2, 1, 3
-		};
-
-		return new Mesh( vertices, indices, true );
-	}
-
-	public static Mesh BuildSimpleCube( ) {
+    public static Mesh BuildSimplePlane() {
+        final float FIELD_DEPTH = 10.0f;
+        final float FIELD_WIDTH = 10.0f;
         Vertex[] vertices = new Vertex[] {
-				new Vertex(
-						new Vector3f( -1.0f, -1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, -1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, 1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( -1.0f, 1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
+                new Vertex(
+                        new Vector3f(-FIELD_WIDTH, 0.0f, -FIELD_DEPTH),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(-FIELD_WIDTH, 0.0f, FIELD_DEPTH * 3.0f),
+                        new Vector2f(0.0f, 1.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(FIELD_WIDTH * 3.0f, 0.0f, -FIELD_DEPTH),
+                        new Vector2f(1.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(FIELD_WIDTH * 3.0f, 0.0f, FIELD_DEPTH * 3.0f),
+                        new Vector2f(1.0f, 1.0f),
+                        Vector3f.ZERO)
+        };
 
-				new Vertex(
-						new Vector3f( -1.0f, -1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, -1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, 1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( -1.0f, 1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
+        int indices[] = {
+                0, 1, 2,
+                2, 1, 3
+        };
 
-				new Vertex(
-						new Vector3f( -1.0f, -1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( -1.0f, 1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( -1.0f, 1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( -1.0f, -1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
+        return new Mesh(vertices, indices, true);
+    }
 
-				new Vertex(
-						new Vector3f( 1.0f, -1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, 1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, 1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, -1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
+    public static Mesh BuildSimpleCube() {
+        Vertex[] vertices = new Vertex[] {
+                new Vertex(
+                        new Vector3f(-1.0f, -1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, -1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, 1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(-1.0f, 1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
 
-				new Vertex(
-						new Vector3f( -1.0f, -1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( -1.0f, -1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, -1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, -1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
+                new Vertex(
+                        new Vector3f(-1.0f, -1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, -1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, 1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(-1.0f, 1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
 
-				new Vertex(
-						new Vector3f( -1.0f, 1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( -1.0f, 1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, 1.0f, 1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO ),
-				new Vertex(
-						new Vector3f( 1.0f, 1.0f, -1.0f ),
-						new Vector2f( 0.0f, 0.0f ),
-						Vector3f.ZERO )
-		};
+                new Vertex(
+                        new Vector3f(-1.0f, -1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(-1.0f, 1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(-1.0f, 1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(-1.0f, -1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
 
-		int indices[] = {
-				0, 1, 2,
-				0, 2, 3,
+                new Vertex(
+                        new Vector3f(1.0f, -1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, 1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, 1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, -1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
 
-				4, 5, 6,
-				4, 6, 7,
+                new Vertex(
+                        new Vector3f(-1.0f, -1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(-1.0f, -1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, -1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, -1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
 
-				8, 9, 10,
-				8, 10, 11,
+                new Vertex(
+                        new Vector3f(-1.0f, 1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(-1.0f, 1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, 1.0f, 1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO),
+                new Vertex(
+                        new Vector3f(1.0f, 1.0f, -1.0f),
+                        new Vector2f(0.0f, 0.0f),
+                        Vector3f.ZERO)
+        };
 
-				12, 13, 14,
-				12, 14, 15,
+        int indices[] = {
+                0, 1, 2,
+                0, 2, 3,
 
-				16, 17, 18,
-				16, 18, 19,
+                4, 5, 6,
+                4, 6, 7,
 
-				20, 21, 22,
-				20, 22, 23
-		};
+                8, 9, 10,
+                8, 10, 11,
 
-		return new Mesh( vertices, indices, true );
-	}
+                12, 13, 14,
+                12, 14, 15,
+
+                16, 17, 18,
+                16, 18, 19,
+
+                20, 21, 22,
+                20, 22, 23
+        };
+
+        return new Mesh(vertices, indices, true);
+    }
+
+    public static Mesh BuildSquare() {
+        return new Mesh(
+                new Vertex[] {
+                        new Vertex(new Vector3f(-1.0f, -1.0f, 0.0f)),
+                        new Vertex(new Vector3f(1.0f, -1.0f, 0.0f)),
+                        new Vertex(new Vector3f(0.0f, 1.0f, 0.0f))
+                }, new int[] {0, 1, 2, 3}
+        );
+    }
 }
