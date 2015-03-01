@@ -3,6 +3,7 @@ package org.FRPengine.rendering;
 import org.FRPengine.core.FRPDisplay;
 import org.FRPengine.core.Time;
 import org.FRPengine.rendering.shaders.BasicShader;
+import org.FRPengine.rendering.shaders.Material;
 import sodium.Listener;
 import sodium.StreamSink;
 
@@ -27,7 +28,7 @@ public class SimpleRenderer {
                 .filter(Time::readyForFrameRate)
                 .listen(cursor -> Render());
         while(!FRPDisplay.shouldWindowClose()) {
-            renderLoop.send(Time.ONE_PER_SECOND);
+            renderLoop.send(Time.TEN_PER_SECOND);
         }
         renderLoopListener.unlisten();
     }
@@ -49,7 +50,7 @@ public class SimpleRenderer {
 
     public static void RenderSimpleSquare() {
         shader.Bind();
-//        shader.updateUniforms(Material.WhiteNoTexture());
-//        cube.draw();
+        shader.updateUniforms(Material.WhiteNoTexture());
+        cube.draw();
     }
 }

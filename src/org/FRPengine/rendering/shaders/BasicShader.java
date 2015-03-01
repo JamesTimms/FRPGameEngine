@@ -12,7 +12,7 @@ public class BasicShader extends Shader {
 		addFragmentShader( LoadShader( "basic/basicFragment.fragment" ) );
 		CompileShader( );
         
-//		addUniform( "color" );
+		addUniform( "color" );
 	}
 
 	public void updateUniforms( Material material ) {
