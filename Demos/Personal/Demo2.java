@@ -17,5 +17,4 @@ public class Demo2 {
         SimpleRenderer.init();
         SimpleRenderer.loop();
     }
-
 }
