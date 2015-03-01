@@ -24,8 +24,7 @@ public class Demo1 {
     }
 
     public Demo1() {
-        ErrorHandling.Init();
-
+        ErrorHandling.Create();
         FRPDisplay.Create();
         FRPKeyboard.Create();
         FRPMouse.Create();
@@ -40,18 +39,15 @@ public class Demo1 {
         loop();
         Cleanup();
     }
-    
+
     public static void loop() {
         while(!FRPDisplay.shouldWindowClose()) {
             GLContext.createFromCurrent();
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+            glClear(GL_COLOR_BUFFER_BIT);
 
-            glfwSwapBuffers(FRPDisplay.GetWindow()); // swap the color buffers
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
+            glfwSwapBuffers(FRPDisplay.GetWindow());
             glfwPollEvents();
         }
-        
     }
 
     public static void Cleanup() {
@@ -110,5 +106,4 @@ public class Demo1 {
                 .filter(x -> Time.readyForFrameRate(rate_of_update))
                 .listen(cursor -> System.out.println(cursor.position.toString())));
     }
-
 }

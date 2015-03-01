@@ -13,7 +13,7 @@ public class ErrorHandling {
 
     public static GLFWErrorCallback errorCallback;
 
-    public static void Init() {
+    public static void Create() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         glfwSetErrorCallback(errorCallback = errorCallbackPrint(System.err));

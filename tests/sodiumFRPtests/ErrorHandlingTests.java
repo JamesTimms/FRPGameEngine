@@ -18,7 +18,7 @@ public class ErrorHandlingTests {
     //TODO: look up how error handling works in lwjgl3
     @Test
     public void testErrorSetup() {
-        ErrorHandling.Init();
+        ErrorHandling.Create();
         glfwDefaultWindowHints();//This line should throw an error.
         ErrorHandling.Destroy();
     }
