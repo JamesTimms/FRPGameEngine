@@ -16,8 +16,8 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  */
 public final class FRPDisplay {
 
-    private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 600;
+    public static final int DEFAULT_WIDTH = 800;
+    public static final int DEFAULT_HEIGHT = 600;
     private static final String DEFAULT_TITLE = "FRP Game Engine";
 
     private static Long window;//This is an object so it can be null when window fails to load or isn't yet loaded.

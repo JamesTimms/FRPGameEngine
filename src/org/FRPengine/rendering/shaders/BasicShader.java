@@ -25,13 +25,13 @@ public class BasicShader extends Shader {
 
 	public void updateUniforms( Material material ) {
 		dealWithTexture(material);
-
 		setUniform3f("color", material.color);
 	}
 
     public void draw(Mesh mesh) {
         Bind();
         updateUniforms(Material.WhiteNoTexture());
+        
         glEnableVertexAttribArray(0);
 
         glBindBuffer(GL_ARRAY_BUFFER, mesh.vertexBO);

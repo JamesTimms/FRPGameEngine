@@ -2,6 +2,7 @@ package org.FRPengine.rendering.shaders;
 
 import org.FRPengine.maths.Matrix4f;
 import org.FRPengine.maths.Vector3f;
+import org.FRPengine.rendering.Mesh;
 import org.FRPengine.rendering.RenderingUtil;
 
 import java.io.BufferedReader;
@@ -15,7 +16,7 @@ import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
  * Created by TekMaTek on 19/12/2014.
  */
 
-public class Shader {
+public abstract class Shader {
 
 	public static Vector3f ambientLight = new Vector3f( 0.2f, 0.2f, 0.2f );
 	private int program;
@@ -23,16 +24,18 @@ public class Shader {
 
 	public Shader( ) {
 		program = glCreateProgram( );
-		uniforms = new HashMap< String, Integer >( );
+		uniforms = new HashMap<>( );
 		if( program == 0 ) {
 			System.err.println( "Shader creation failed: Could not find valid memory location in constructor." );
 			System.exit( 1 );
 		}
 	}
 
-	public static String LoadShader( String filename ) {
+    public abstract void draw(Mesh mesh);
+
+    public static String LoadShader( String filename ) {
 		StringBuilder shaderSource = new StringBuilder( );
-		BufferedReader shaderReader = null;
+		BufferedReader shaderReader;
 		try {
 			shaderReader = new BufferedReader( new FileReader( "./res/shaders/" + filename ) );
 			String line;
@@ -64,14 +67,12 @@ public class Shader {
 
 	public void CompileShader( ) {
 		glLinkProgram( program );
-
 		if( glGetProgrami( program, GL_LINK_STATUS ) == 0 ) {
 			System.err.println( glGetShaderInfoLog( program, 1024 ) );
 			System.exit( 1 );
 		}
 
 		glValidateProgram( program );
-
 		if( glGetProgrami( program, GL_VALIDATE_STATUS ) == 0 ) {
 			System.err.println( glGetShaderInfoLog( program, 1024 ) );
 			System.exit( 1 );
