@@ -1,8 +1,10 @@
 package org.FRPengine.rendering;
 
 import org.FRPengine.core.FRPDisplay;
+import org.FRPengine.core.Time;
 import org.FRPengine.rendering.shaders.BasicShader;
-import org.lwjgl.opengl.GLContext;
+import sodium.Listener;
+import sodium.StreamSink;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
@@ -15,36 +17,39 @@ public class SimpleRenderer {
 
     private static Mesh cube = MeshUtil.BuildSimpleCube();
     static BasicShader shader = new BasicShader();
+    private static Listener renderLoopListener;
 
     public static void loop() {
-        while(!FRPDisplay.shouldWindowClose()) {
-            GLContext.createFromCurrent();
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            glfwSwapBuffers(FRPDisplay.GetWindow()); // swap the color buffers
-            glfwPollEvents();
+        StreamSink<Long> renderLoop = new StreamSink<>();
+
+        renderLoopListener = renderLoop
+                .filter(Time::readyForFrameRate)
+                .listen(cursor -> Render());
+        while(!FRPDisplay.shouldWindowClose()) {
+            renderLoop.send(Time.ONE_PER_SECOND);
         }
+        renderLoopListener.unlisten();
     }
 
-    public static void loop2() {
-        while(!FRPDisplay.shouldWindowClose()) {
-            glfwPollEvents();
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+    public static void Render() {
+        glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            glfwSwapBuffers(FRPDisplay.GetWindow()); // swap the color buffers
-            RenderSimpleSquare();
-        }
+        RenderSimpleSquare();
+
+        glfwSwapBuffers(FRPDisplay.GetWindow());
+        glfwPollEvents();
     }
 
     public static void init() {
         System.out.println(RenderingUtil.GetOpenGLVersion());
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glEnable(GL_DEPTH_TEST);
+        glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
     }
 
     public static void RenderSimpleSquare() {
         shader.Bind();
 //        shader.updateUniforms(Material.WhiteNoTexture());
-        cube.draw();
+//        cube.draw();
     }
 }
