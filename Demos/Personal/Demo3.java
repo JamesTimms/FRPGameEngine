@@ -22,7 +22,7 @@ public class Demo3 {
 
     public static void loop() {
         while(!FRPDisplay.shouldWindowClose()) {
-            SimpleRenderer.Render();
+            SimpleRenderer.RenderDemo3();
         }
     }
 }

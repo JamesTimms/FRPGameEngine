@@ -13,12 +13,17 @@ import static org.lwjgl.opengl.GL11.*;
 public class SimpleRenderer {
 
     private static Mesh cube = MeshUtil.BuildSimpleCube();
-    private static Mesh triangle = MeshUtil.BuildTriangle();
     static Shader shader = new ComplicatedShader();
 
     public static void Render() {
         glClear(GL_COLOR_BUFFER_BIT);
         draw();
+        glfwSwapBuffers(FRPDisplay.GetWindow());
+    }
+
+    public static void RenderDemo3() {
+        glClear(GL_COLOR_BUFFER_BIT);
+        drawDemo3();
         glfwSwapBuffers(FRPDisplay.GetWindow());
     }
 
@@ -29,6 +34,8 @@ public class SimpleRenderer {
 
     public static void draw() {
         shader.draw(cube);
-//        shader.draw(triangle);
+    }
+
+    public static void drawDemo3() {
     }
 }
