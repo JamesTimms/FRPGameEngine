@@ -2,6 +2,7 @@ package org.FRPengine.core;
 
 import org.FRPengine.maths.Matrix4f;
 import org.FRPengine.maths.Vector3f;
+import sodium.Cell;
 
 /**
  * Created by TekMaTek on 26/01/2015.
@@ -19,7 +20,7 @@ public class Camera {
     private Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
     private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
     private Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
-    public Vector3f translation = new Vector3f(0.0f, 0.0f, -10.0f);
+    public Cell<Vector3f> translation;
     private Vector3f rotation;
     private Vector3f scale;
 
@@ -38,8 +39,8 @@ public class Camera {
     public Matrix4f GetViewProjection() {
         Matrix4f cameraRotation = new Matrix4f().initCamera(forward, up);
         Matrix4f cameraTranslation = new Matrix4f().initTranslation(
-                -translation.getX(), -translation.getY(),
-                -translation.getZ());
+                -translation.sample().getX(), -translation.sample().getY(),
+                -translation.sample().getZ());
 
         return cameraProjection().mul(cameraRotation.mul(cameraTranslation));
     }

@@ -4,7 +4,6 @@ import org.FRPengine.core.FRPDisplay;
 import org.FRPengine.rendering.shaders.ComplicatedShader;
 import org.FRPengine.rendering.shaders.Shader;
 
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -18,11 +17,8 @@ public class SimpleRenderer {
     static Shader shader = new ComplicatedShader();
 
     public static void Render() {
-        glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
-
         draw();
-
         glfwSwapBuffers(FRPDisplay.GetWindow());
     }
 

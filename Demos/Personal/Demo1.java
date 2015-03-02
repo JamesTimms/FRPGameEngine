@@ -102,8 +102,9 @@ public class Demo1 {
     }
 
     public static void printCursorPosition() {
+        Time frameTimer = new Time();
         allListeners.add(FRPMouse.cursorPosStream
-                .filter(x -> Time.readyForFrameRate(rate_of_update))
+                .filter(x -> frameTimer.shouldGetFrame(rate_of_update))
                 .listen(cursor -> System.out.println(cursor.position.toString())));
     }
 }
