@@ -42,5 +42,9 @@ public class FRPKeyboard {
             this.action = action;
             this.mods = mods;
         }
+
+        public Key(int key, int action) {
+            this(0l, key, 0, action, 0);
+        }
     }
 }
