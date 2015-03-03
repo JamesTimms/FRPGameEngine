@@ -36,17 +36,19 @@ public class Demo3 {
     public void loop() {
         shader2 = new BasicShader();
         sceneMeshes = new Transform[] {
-                new Transform(new Vector3f(0.0f, 0.0f, 0.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(-0.3f, 0.0f, 0.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(0.1f, 0.4f, 0.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(0.3f, 0.0f, 0.0f), MeshUtil.BuildSquare())
+                new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(-0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(0.1f, 0.4f, -1.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare())
         };
 
+        int i = 0;
         for(Transform transform : sceneMeshes) {
-            transform.translation = FRPUtil.SetupMovement(transform);
+            transform.translation = FRPUtil.SetupMovement(transform, i);
+            i++;
         }
         
-//        sceneMeshes.setTranslation(new Vector3f(0.7f, 0.0f, 0.0f));
+        sceneMeshes[1].setTranslation(new Vector3f(0.0f, -0.5f, 0.0f));
 //TODO: figure out how to iterate over sceneMeshes with an operation like above.
 
         while(!FRPDisplay.shouldWindowClose()) {

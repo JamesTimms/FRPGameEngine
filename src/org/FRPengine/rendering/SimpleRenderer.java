@@ -15,9 +15,10 @@ import static org.lwjgl.opengl.GL11.*;
 public class SimpleRenderer {
 
     private static Transform cube = new Transform(Vector3f.ZERO, MeshUtil.BuildSimpleCube());
-    static Shader shader = new ComplicatedShader();
+    static Shader shader;
 
     public static void Render() {
+        shader = new ComplicatedShader();
         glClear(GL_COLOR_BUFFER_BIT);
         draw();
         glfwSwapBuffers(FRPDisplay.GetWindow());

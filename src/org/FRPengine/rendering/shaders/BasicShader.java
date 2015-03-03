@@ -5,6 +5,7 @@ import org.FRPengine.rendering.Vertex;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL20.*;
 
@@ -34,11 +35,14 @@ public class BasicShader extends Shader {
         Bind();
         updateUniforms(transform, Material.WhiteNoTexture());
 
-        glEnableVertexAttribArray(0);
+        final int POSITION = 0;
+        final int SIZE_OF_BYTE = 4;
+        glEnableVertexAttribArray(POSITION);
 
         glBindBuffer(GL_ARRAY_BUFFER, transform.mesh.vertexBO);
-        glVertexAttribPointer(0, transform.mesh.vertexLength, GL_FLOAT, false, Vertex.SIZE * 4, 0);
-        glDrawArrays(GL_TRIANGLES, 0, transform.mesh.indicesLength);
+        glVertexAttribPointer(POSITION, 3, GL_FLOAT, false, Vertex.SIZE * SIZE_OF_BYTE, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, transform.mesh.indexBO);
+        glDrawElements(GL_TRIANGLES, transform.mesh.indicesLength, GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(0);
     }

@@ -31,9 +31,9 @@ public class FRPUtil {
                 });
     }
 
-    public static Cell<Vector3f> SetupMovement(Transform transform) {
+    public static Cell<Vector3f> SetupMovement(Transform transform, int factor) {
         return transform.translation.updates()
-                .merge(mapArrowKeysToMovementOf(-0.1f))
-                .accum(transform.translation.sample(), Vector3f::add);
+                .merge(mapArrowKeysToMovementOf(-0.01f * factor * factor))
+                .accum(transform.translation.sample(), (current, vector) -> current.add(vector));
     }
 }

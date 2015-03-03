@@ -1,6 +1,4 @@
-#version 330
-
-in vec2 texCoord0;
+#version 130
 
 uniform vec3 color;
 uniform sampler2D sampler;

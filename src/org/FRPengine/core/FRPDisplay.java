@@ -23,7 +23,6 @@ public final class FRPDisplay {
     private static Long window;//This is an object so it can be null when window fails to load or isn't yet loaded.
 //    static GLFWFramebufferSizeCallback fbCallback;
 
-    //Code taken from LWJGL3 guide http://www.lwjglTests.org/guide
     private static void init() {
 
         if(glfwInit() != GL_TRUE)
@@ -39,6 +38,7 @@ public final class FRPDisplay {
 
         glfwMakeContextCurrent(window);
         GLContext.createFromCurrent();
+        System.out.println(glfwGetVersionString());
         glfwSwapInterval(1);
         CentreScreen();
 

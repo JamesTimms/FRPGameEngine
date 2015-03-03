@@ -156,7 +156,7 @@ public class MeshUtil {
                         new Vertex(new Vector3f(SIZE, -SIZE, 0.0f)),//bottom right
                         new Vertex(new Vector3f(-SIZE, SIZE, 0.0f)),//top left
                         new Vertex(new Vector3f(SIZE, SIZE, 0.0f))//top right
-                }, new int[] {0, 1, 2, 0, 2, 3,}
+                }, new int[] {0, 1, 2, 1, 3, 2}
         );
     }
 }
