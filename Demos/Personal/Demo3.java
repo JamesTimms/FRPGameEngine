@@ -38,8 +38,8 @@ public class Demo3 {
         shader2 = new BasicShader();
         sceneMeshes = new Transform[] {
                 new Transform(new Vector3f(0.0f, 0.0f, 0.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(0.1f, 0.0f, 0.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(-0.1f, 0.0f, 0.0f), MeshUtil.BuildSquare())
+                new Transform(new Vector3f(0.2f, 0.0f, 0.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(0.4f, 0.0f, 0.0f), MeshUtil.BuildSquare())
         };
         while(!FRPDisplay.shouldWindowClose()) {
             if(frameTimer.shouldGetFrame(120)) {
