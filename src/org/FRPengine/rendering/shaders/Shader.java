@@ -1,8 +1,8 @@
 package org.FRPengine.rendering.shaders;
 
+import org.FRPengine.core.Transform;
 import org.FRPengine.maths.Matrix4f;
 import org.FRPengine.maths.Vector3f;
-import org.FRPengine.rendering.Mesh;
 import org.FRPengine.rendering.RenderingUtil;
 
 import java.io.BufferedReader;
@@ -31,7 +31,7 @@ public abstract class Shader {
 		}
 	}
 
-    public abstract void draw(Mesh mesh);
+    public abstract void draw(Transform transform);
 
     public static String LoadShader( String filename ) {
 		StringBuilder shaderSource = new StringBuilder( );

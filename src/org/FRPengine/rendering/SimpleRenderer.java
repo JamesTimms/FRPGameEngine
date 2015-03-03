@@ -1,6 +1,8 @@
 package org.FRPengine.rendering;
 
 import org.FRPengine.core.FRPDisplay;
+import org.FRPengine.core.Transform;
+import org.FRPengine.maths.Vector3f;
 import org.FRPengine.rendering.shaders.ComplicatedShader;
 import org.FRPengine.rendering.shaders.Shader;
 
@@ -12,18 +14,12 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class SimpleRenderer {
 
-    private static Mesh cube = MeshUtil.BuildSimpleCube();
+    private static Transform cube = new Transform(Vector3f.ZERO, MeshUtil.BuildSimpleCube());
     static Shader shader = new ComplicatedShader();
 
     public static void Render() {
         glClear(GL_COLOR_BUFFER_BIT);
         draw();
-        glfwSwapBuffers(FRPDisplay.GetWindow());
-    }
-
-    public static void RenderDemo3() {
-        glClear(GL_COLOR_BUFFER_BIT);
-        drawDemo3();
         glfwSwapBuffers(FRPDisplay.GetWindow());
     }
 
@@ -34,8 +30,5 @@ public class SimpleRenderer {
 
     public static void draw() {
         shader.draw(cube);
-    }
-
-    public static void drawDemo3() {
     }
 }

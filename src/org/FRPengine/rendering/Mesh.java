@@ -17,6 +17,7 @@ public class Mesh {
 	public int vertexBO;
     public int indexBO;
     public int indicesLength;
+    public int vertexLength;
 
 	public Mesh( String filename ) {
 		initMeshData( );
@@ -34,14 +35,33 @@ public class Mesh {
 
     public void addVertices(Vertex[] vertices) {
         indicesLength = vertices.length * Vertex.SIZE;
+        vertexLength = vertices.length;
         glBindBuffer(GL_ARRAY_BUFFER, vertexBO);
         glBufferData(GL_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer(vertices), GL_STATIC_DRAW);
+    }
+    
+    private void addVertices( Vertex[] vertices, int[] indices ) {
+        addVertices(vertices, indices, false);
+    }
+
+    private void addVertices( Vertex[] vertices, int[] indices, boolean shouldCalcNormals ) {
+        if( shouldCalcNormals ) {
+            calcNormals( vertices, indices );
+        }
+        indicesLength = indices.length;
+        vertexLength = vertices.length;
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBO);
+        glBufferData( GL_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer( vertices ), GL_STATIC_DRAW );
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer(indices), GL_STATIC_DRAW);
     }
 
 	private void initMeshData( ) {
 		vertexBO = glGenBuffers( );
 		indexBO = glGenBuffers( );
 		indicesLength = 0;
+        vertexLength = 0;
 	}
 
 	private void loadMesh( String filename ) {
@@ -95,22 +115,6 @@ public class Mesh {
 		indices.toArray( indexData );
 
 		this.addVertices( vertexData, RenderingUtil.toIntArray( indexData ) );
-	}
-
-	private void addVertices( Vertex[] vertices, int[] indices ) {
-		addVertices(vertices, indices, false);
-	}
-
-	private void addVertices( Vertex[] vertices, int[] indices, boolean shouldCalcNormals ) {
-		if( shouldCalcNormals ) {
-			calcNormals( vertices, indices );
-		}
-		indicesLength = indices.length;
-		glBindBuffer( GL_ARRAY_BUFFER, vertexBO );
-		glBufferData( GL_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer( vertices ), GL_STATIC_DRAW );
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer(indices), GL_STATIC_DRAW);
 	}
 
 	private void calcNormals( Vertex[] vertices, int[] indices ) {
