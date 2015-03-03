@@ -26,6 +26,7 @@ public class Demo3 {
 
     static Time frameTimer = new Time();
     static Time renderTimer = new Time();
+    static Time moveTimer = new Time();
 
     public Demo3() {
         FRPDisplay.Create();
@@ -36,11 +37,17 @@ public class Demo3 {
 
     public void loop() {
         shader2 = new BasicShader();
-        sceneMeshes = new Transform[] {
-                new Transform(new Vector3f(0.0f, 0.0f, 0.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(0.2f, 0.0f, 0.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(0.4f, 0.0f, 0.0f), MeshUtil.BuildSquare())
-        };
+        sceneMeshes = new Transform(
+                new Vector3f(-0.5f, 0.0f, 0.0f),
+                MeshUtil.BuildSquare());
+
+        sceneMeshes.translation = sceneMeshes.translation.value()
+                .merge(FRPKeyboard.mapArrowKeysToMovementOf(-0.1f))
+                .accum(new Vector3f(0.0f, 0.0f, 0.0f), Vector3f::add);
+
+        sceneMeshes.setTranslation(new Vector3f(0.7f, 0.0f, 0.0f));
+
+
         while(!FRPDisplay.shouldWindowClose()) {
             if(frameTimer.shouldGetFrame(120)) {
                 glfwPollEvents();
@@ -48,17 +55,21 @@ public class Demo3 {
             if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                 RenderDemo3();
             }
-        }
-    }
-    
-    public static void drawDemo3() {
-        for( Transform transform : sceneMeshes){
-            shader2.draw(transform);
+            if(moveTimer.shouldGetFrame(1)) {
+                sceneMeshes.setTranslation(new Vector3f(0.02f, 0.0f, 0.0f));
+            }
         }
     }
 
+    public static void drawDemo3() {
+//        for( Transform transform : sceneMeshes){
+        shader2.draw(sceneMeshes);
+//        }
+    }
+
     static Shader shader2;
-    private static Transform[] sceneMeshes;
+    private static Transform sceneMeshes;
+
     public void RenderDemo3() {
         glClear(GL_COLOR_BUFFER_BIT);
         drawDemo3();

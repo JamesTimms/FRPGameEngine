@@ -26,24 +26,7 @@ public class Demo2 {
     }
 
     public static void loop() {
-        Camera.mainCamera.translation = FRPKeyboard.keyStream
-                .filter(key -> key.action != GLFW_RELEASE
-                        && isArrowKeyPressed(key.key))
-                .map(key -> {
-                    final float UNIT = 0.5f;
-                    switch(key.key) {
-                        case (GLFW_KEY_RIGHT):
-                            return new Vector3f(-UNIT, 0.0f, 0.0f);
-                        case (GLFW_KEY_LEFT):
-                            return new Vector3f(UNIT, 0.0f, 0.0f);
-                        case (GLFW_KEY_UP):
-                            return new Vector3f(0.0f, -UNIT, 0.0f);
-                        case (GLFW_KEY_DOWN):
-                            return new Vector3f(0.0f, UNIT, 0.0f);
-                        default:
-                            return Vector3f.ZERO;
-                    }
-                })
+        Camera.mainCamera.translation = FRPKeyboard.mapArrowKeysToMovementOf(0.5f)
                 .accum(new Vector3f(0.0f, 0.0f, -10.0f), (currentPos, movement) -> currentPos.add(movement));
 
         Time renderTimer = new Time();
@@ -57,12 +40,5 @@ public class Demo2 {
                 SimpleRenderer.Render();
             }
         }
-    }
-
-    public static boolean isArrowKeyPressed(int key) {
-        return key == GLFW_KEY_RIGHT
-                || key == GLFW_KEY_LEFT
-                || key == GLFW_KEY_UP
-                || key == GLFW_KEY_DOWN;
     }
 }
