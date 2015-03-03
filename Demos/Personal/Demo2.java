@@ -1,9 +1,6 @@
 package Personal;
 
-import org.FRPengine.core.Camera;
-import org.FRPengine.core.FRPDisplay;
-import org.FRPengine.core.FRPKeyboard;
-import org.FRPengine.core.Time;
+import org.FRPengine.core.*;
 import org.FRPengine.maths.Vector3f;
 import org.FRPengine.rendering.SimpleRenderer;
 
@@ -26,7 +23,7 @@ public class Demo2 {
     }
 
     public static void loop() {
-        Camera.mainCamera.translation = FRPKeyboard.mapArrowKeysToMovementOf(0.5f)
+        Camera.mainCamera.translation = FRPUtil.mapArrowKeysToMovementOf(0.5f)
                 .accum(new Vector3f(0.0f, 0.0f, -10.0f), (currentPos, movement) -> currentPos.add(movement));
 
         Time renderTimer = new Time();

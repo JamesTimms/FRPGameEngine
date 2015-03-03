@@ -1,8 +1,6 @@
 package org.FRPengine.core;
 
-import org.FRPengine.maths.Vector3f;
 import org.lwjgl.glfw.GLFWKeyCallback;
-import sodium.Stream;
 import sodium.StreamSink;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -48,26 +46,6 @@ public class FRPKeyboard {
         public Key(int key, int action) {
             this(0l, key, 0, action, 0);
         }
-    }
-
-    public static Stream<Vector3f> mapArrowKeysToMovementOf(float moveAmount) {
-        return FRPKeyboard.keyStream
-                .filter(key -> key.action != GLFW_RELEASE
-                        && FRPKeyboard.isArrowKeyPressed(key.key))
-                .map(key -> {
-                    switch(key.key) {
-                        case (GLFW_KEY_RIGHT):
-                            return new Vector3f(-moveAmount, 0.0f, 0.0f);
-                        case (GLFW_KEY_LEFT):
-                            return new Vector3f(moveAmount, 0.0f, 0.0f);
-                        case (GLFW_KEY_UP):
-                            return new Vector3f(0.0f, -moveAmount, 0.0f);
-                        case (GLFW_KEY_DOWN):
-                            return new Vector3f(0.0f, moveAmount, 0.0f);
-                        default:
-                            return Vector3f.ZERO;
-                    }
-                });
     }
 
     public static boolean isArrowKeyPressed(int key) {

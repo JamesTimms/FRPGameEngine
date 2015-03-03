@@ -1,9 +1,6 @@
 package Personal;
 
-import org.FRPengine.core.FRPDisplay;
-import org.FRPengine.core.FRPKeyboard;
-import org.FRPengine.core.Time;
-import org.FRPengine.core.Transform;
+import org.FRPengine.core.*;
 import org.FRPengine.maths.Vector3f;
 import org.FRPengine.rendering.MeshUtil;
 import org.FRPengine.rendering.SimpleRenderer;
@@ -37,16 +34,19 @@ public class Demo3 {
 
     public void loop() {
         shader2 = new BasicShader();
-        sceneMeshes = new Transform(
-                new Vector3f(-0.5f, 0.0f, 0.0f),
-                MeshUtil.BuildSquare());
+        sceneMeshes = new Transform[] {
+                new Transform(new Vector3f(0.0f, 0.0f, 0.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(-0.3f, 0.0f, 0.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(0.1f, 0.4f, 0.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(0.3f, 0.0f, 0.0f), MeshUtil.BuildSquare())
+        };
 
-        sceneMeshes.translation = sceneMeshes.translation.value()
-                .merge(FRPKeyboard.mapArrowKeysToMovementOf(-0.1f))
-                .accum(new Vector3f(0.0f, 0.0f, 0.0f), Vector3f::add);
+        for(Transform transform : sceneMeshes) {
+            transform.translation = FRPUtil.SetupMovement(transform);
+        }
 
-        sceneMeshes.setTranslation(new Vector3f(0.7f, 0.0f, 0.0f));
-
+//        sceneMeshes.setTranslation(new Vector3f(0.7f, 0.0f, 0.0f));
+//TODO: figure out how to iterate over sceneMeshes with an operation like above.
 
         while(!FRPDisplay.shouldWindowClose()) {
             if(frameTimer.shouldGetFrame(120)) {
@@ -56,19 +56,21 @@ public class Demo3 {
                 RenderDemo3();
             }
             if(moveTimer.shouldGetFrame(1)) {
-                sceneMeshes.setTranslation(new Vector3f(0.02f, 0.0f, 0.0f));
+                for(Transform transform : sceneMeshes) {
+                    transform.setTranslation(new Vector3f(0.02f, 0.0f, 0.0f));
+                }
             }
         }
     }
 
     public static void drawDemo3() {
-//        for( Transform transform : sceneMeshes){
-        shader2.draw(sceneMeshes);
-//        }
+        for(Transform transform : sceneMeshes) {
+            shader2.draw(transform);
+        }
     }
 
     static Shader shader2;
-    private static Transform sceneMeshes;
+    private static Transform[] sceneMeshes;
 
     public void RenderDemo3() {
         glClear(GL_COLOR_BUFFER_BIT);
