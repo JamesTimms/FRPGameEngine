@@ -24,6 +24,7 @@ public class Demo3 {
     static Time frameTimer = new Time();
     static Time renderTimer = new Time();
     static Time moveTimer = new Time();
+    //TODO: make time a cool stream.
 
     public Demo3() {
         FRPDisplay.Create();
@@ -44,7 +45,7 @@ public class Demo3 {
         for(Transform transform : sceneMeshes) {
             transform.translation = FRPUtil.SetupMovement(transform);
         }
-
+        
 //        sceneMeshes.setTranslation(new Vector3f(0.7f, 0.0f, 0.0f));
 //TODO: figure out how to iterate over sceneMeshes with an operation like above.
 
