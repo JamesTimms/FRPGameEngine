@@ -6,6 +6,10 @@ import org.FRPengine.rendering.MeshUtil;
 import org.FRPengine.rendering.SimpleRenderer;
 import org.FRPengine.rendering.shaders.BasicShader;
 import org.FRPengine.rendering.shaders.Shader;
+import sodium.Cell;
+import sodium.Listener;
+import sodium.Stream;
+import sodium.StreamSink;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
@@ -24,6 +28,7 @@ public class Demo3 {
     static Time frameTimer = new Time();
     static Time renderTimer = new Time();
     static Time moveTimer = new Time();
+    static StreamSink<Boolean> timeStream = new StreamSink<>();
     //TODO: make time a cool stream.
 
     public Demo3() {
@@ -47,7 +52,7 @@ public class Demo3 {
             transform.translation = FRPUtil.SetupMovement(transform, i);
             i++;
         }
-        
+
         sceneMeshes[1].setTranslation(new Vector3f(0.0f, -0.5f, 0.0f));
 //TODO: figure out how to iterate over sceneMeshes with an operation like above.
 
@@ -58,11 +63,34 @@ public class Demo3 {
             if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                 RenderDemo3();
             }
-            if(moveTimer.shouldGetFrame(1)) {
+            if(moveTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                 for(Transform transform : sceneMeshes) {
                     transform.setTranslation(new Vector3f(0.02f, 0.0f, 0.0f));
                 }
             }
+
+            //infinite recursion
+            Cell<Boolean> shouldRunFrame = timeStream
+//                    .accum( new Time(), (deltaTime, totalTime) -> deltaTime + totalTime)
+//                    .map( cur -> cur)
+                    .hold(true);
+//                    .listen( cur -> {
+//                        for(Transform transform : sceneMeshes) {
+//                            transform.setTranslation(new Vector3f(0.02f * cur.getTheFuckingTimeBro(), 0.0f, 0.0f));
+//                        }
+//                    });
+
+            Time time = new Time();
+            timeStream.send(time.shouldGetFrame(Time.THIRTY_PER_SECOND));
+
+            Stream<Time> theThing = new Stream<Time>();
+            Listener zilean = theThing
+                    .gate(shouldRunFrame)
+                    .listen(cur -> {
+                        for(Transform transform : sceneMeshes) {
+                            transform.setTranslation(new Vector3f(0.02f * cur.getTheFuckingTimeBro(), 0.0f, 0.0f));
+                        }
+                    });
         }
     }
 
