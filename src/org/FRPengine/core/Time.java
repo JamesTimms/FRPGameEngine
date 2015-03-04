@@ -16,8 +16,8 @@ public class Time {
     long timeLastLoop;
     long timeThisLoop;
     
-    long timeAtLastProcessed;
-    long timeElapsedSinceLastProcess;
+    long previousDeltaTime;
+    long deltaTime;
 
     public static long getTime() {
         return System.nanoTime();
@@ -32,13 +32,13 @@ public class Time {
         boolean isReady = (timeElapsed += perLoopDelta) > frameThrottle && (_frame_rate > 0);
         if(isReady) {
             timeElapsed = 0;
-            timeElapsedSinceLastProcess = timeAtLastProcessed - timeElapsedSinceLastProcess;
-            timeAtLastProcessed = timeThisLoop;
+            deltaTime = previousDeltaTime - deltaTime;
+            previousDeltaTime = timeThisLoop;
         }
         return isReady;
     }
 
-    public long getTheFuckingTimeBro( ) {
-        return timeElapsedSinceLastProcess;
+    public long getDeltaTime() {
+        return deltaTime;
     }
 }
