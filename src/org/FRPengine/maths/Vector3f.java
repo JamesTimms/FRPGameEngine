@@ -190,4 +190,5 @@ public class Vector3f {
 	public boolean equals( Vector3f vector ) {
 		return x == vector.getX( ) && y == vector.getY( ) && z == vector.getZ( );
 	}
+
 }

@@ -10,14 +10,18 @@ public class Time {
     public static final long TEN_PER_SECOND = 10;
     public static final long THIRTY_PER_SECOND = 30;
     public static final long SECOND = 1000000000L;
-    
+
     long perLoopDelta;
     double timeElapsed = 0.0d;
     long timeLastLoop;
     long timeThisLoop;
-    
+
     long previousDeltaTime;
     long deltaTime;
+
+    public Time() {
+        previousDeltaTime = getTime();
+    }
 
     public static long getTime() {
         return System.nanoTime();
@@ -32,13 +36,13 @@ public class Time {
         boolean isReady = (timeElapsed += perLoopDelta) > frameThrottle && (_frame_rate > 0);
         if(isReady) {
             timeElapsed = 0;
-            deltaTime = previousDeltaTime - deltaTime;
-            previousDeltaTime = timeThisLoop;
+            deltaTime = timeThisLoop - previousDeltaTime;
+            previousDeltaTime = timeThisLoop;//(deltaTime == 0) ? timeThisLoop : deltaTime;
         }
         return isReady;
     }
 
-    public long getDeltaTime() {
-        return deltaTime;
+    public float getDeltaTime() {
+        return (float)deltaTime / (float)SECOND;
     }
 }

@@ -31,7 +31,7 @@ public class FRPUtil {
                 });
     }
 
-    public static Cell<Vector3f> SetupMovement(Transform transform, int factor) {
+    public static Cell<Vector3f> setupMovement(Transform transform, int factor) {
         return transform.translation.updates()
                 .merge(mapArrowKeysToMovementOf(-0.01f * factor * factor))
                 .accum(transform.translation.sample(), (current, vector) -> current.add(vector));

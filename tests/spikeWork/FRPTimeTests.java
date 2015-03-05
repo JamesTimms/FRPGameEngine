@@ -26,6 +26,34 @@ public class FRPTimeTests {
     }
 
     @Test
+    public void testDeltaTime() throws InterruptedException {//TODO: Make this work. It's broken...
+//        Time testTime = new Time();
+//        long delta = 0L;
+//        long lastDelta = 0L;
+//        testTime.getDeltaTime();
+//        int misc = 0;
+//        for(int i = 0; i < 100000000; i++) {
+//            if(testTime.shouldGetFrame(120 - misc)) {
+//                delta = System.nanoTime() - lastDelta;
+//                lastDelta = delta;
+//                assertTrue(ApproaxEquals(delta/Time.SECOND, testTime.getDeltaTime(), 0));
+//                System.out.println("test: " + delta/Time.SECOND + "   real: " + testTime.getDeltaTime());
+//                misc ++;
+//            }
+//        }
+    }
+
+    public static boolean ApproaxEquals(long a, long b, int significantFigures) {
+        long numberOne = Math.abs(a - b);
+        long numberTwo = Math.max(Math.abs(a), Math.abs(b));
+        double numberThree = Math.pow(0.1d, significantFigures);
+        double numberFour = numberThree
+                * numberTwo;
+        boolean result = numberOne < numberFour;
+        return result;
+    }
+
+    @Test
     public void testTimeDelay() {//TODO: Figure out best way to gate time.
 //        StreamSink<Time> timeStream = new StreamSink<>();
 //        Cell<Boolean> timeGate = timeStream
