@@ -35,7 +35,7 @@ public class Transform {
         this.mesh = mesh;
     }
 
-    public void MergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
+    public void mergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
         this.translation =
                 this.translation
                 .updates()

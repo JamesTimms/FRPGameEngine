@@ -6,7 +6,6 @@ import org.FRPengine.rendering.MeshUtil;
 import org.FRPengine.rendering.SimpleRenderer;
 import org.FRPengine.rendering.shaders.BasicShader;
 import org.FRPengine.rendering.shaders.Shader;
-import sodium.Cell;
 import sodium.Listener;
 import sodium.Stream;
 import sodium.StreamSink;
@@ -22,7 +21,6 @@ import static org.lwjgl.opengl.GL11.glClear;
 public class Demo3 {
 
     private Time moveTimer;
-    private Time move2Timer;
 
     public static void main(String[] args) {
         new Demo3();
@@ -39,23 +37,21 @@ public class Demo3 {
         loop();
     }
 
-    public Listener moverFunction;
-    public Listener pollFunction;
-
     public void setupTimeLoopDemo() {
         moveTimer = new Time();
         for(Transform transform : sceneMeshes) {
-            transform.MergeIntoCellAndAccum(movements(moveTimer, transform.translation));
+            transform.mergeIntoCellAndAccum(movements(moveTimer));
         }
     }
 
-    public static Stream<Vector3f> movements(Time timer, Cell<Vector3f> existingTransform){
+    public static Stream<Vector3f> movements(Time timer){
         return timePulse
                 .filter(time -> time == timer)
                 .filter(time -> time.shouldGetFrame(Time.THIRTY_PER_SECOND))
-                .map(time -> new Vector3f(0.01f * time.getDeltaTime(), 0.0f, 0.0f))
-                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f))
-                .merge(existingTransform.updates());
+                .map(Time::getDeltaTime)
+                .map(time -> new Vector3f(0.1f * time, 0.0f, 0.0f))
+                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
+//                .merge(existingTransform.updates());
     }
 
     public void loop() {
@@ -76,7 +72,7 @@ public class Demo3 {
             if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                 renderDemo3();
             }
-//            timePulse.send(moveTimer);//Sent arbitrarily and doesn't matter when it's sent just as long as it
+            timePulse.send(moveTimer);//Sent arbitrarily and doesn't matter when it's sent just as long as it
             //isn't infrequently enough to cause a frame to be missed.
         }
     }
