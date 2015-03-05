@@ -43,6 +43,6 @@ public class Time {
     }
 
     public float getDeltaTime() {
-        return (float)deltaTime / (float)SECOND;
+        return (float)deltaTime / SECOND;
     }
 }
