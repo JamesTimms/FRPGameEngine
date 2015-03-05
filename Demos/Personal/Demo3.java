@@ -6,7 +6,9 @@ import org.FRPengine.rendering.MeshUtil;
 import org.FRPengine.rendering.SimpleRenderer;
 import org.FRPengine.rendering.shaders.BasicShader;
 import org.FRPengine.rendering.shaders.Shader;
+import sodium.Cell;
 import sodium.Listener;
+import sodium.Stream;
 import sodium.StreamSink;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
@@ -42,70 +44,39 @@ public class Demo3 {
 
     public void setupTimeLoopDemo() {
         moveTimer = new Time();
-        move2Timer = new Time();
+        for(Transform transform : sceneMeshes) {
+            transform.MergeIntoCellAndAccum(movements(moveTimer, transform.translation));
+        }
+    }
 
-        sceneMeshes[1].translation = timePulse
-                .filter(time -> time == moveTimer)
+    public static Stream<Vector3f> movements(Time timer, Cell<Vector3f> existingTransform){
+        return timePulse
+                .filter(time -> time == timer)
                 .filter(time -> time.shouldGetFrame(Time.THIRTY_PER_SECOND))
-                .map(time -> {
-                    final float MOVE_AMT = 0.05f;
-                    return new Vector3f(MOVE_AMT * time.getDeltaTime(), 0.0f, 0.0f);
-                })
-//                .snapshot(sceneMeshes[1].translation)//Merging with the key pressed Stream basically.
+                .map(time -> new Vector3f(0.01f * time.getDeltaTime(), 0.0f, 0.0f))
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f))
-                .accum(new Vector3f(-0.7f, 0.2f, 0.0f), (frame, total) -> {
-                    return total.add(frame);
-                });
-//                .updates()
-//                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.01f))
-//                .hold(new Vector3f(-0.5f, -0.2f, 0.0f));
-
-//        sceneMeshes[1].translation =
-//                sceneMeshes[1].translation
-//                .updates()
-//                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f))
-//                        .hold(Vector3f.ZERO);
-//                FRPUtil.setupMovement(sceneMeshes[1], 1);
-
-//        pollFunction = timePulse
-//                .filter(time -> time == frameTimer)
-//                .filter(time -> time.shouldGetFrame(120))
-//                .listen(time -> glfwPollEvents());
-//        Listener renderTimer = timePulse
-//                .filter(moveTimer -> moveTimer.shouldGetFrame(120))
-//                .listen( moveTimer -> renderDemo3());
+                .merge(existingTransform.updates());
     }
 
     public void loop() {
         shader2 = new BasicShader();
         sceneMeshes = new Transform[] {
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(-0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare())
-//                new Transform(new Vector3f(0.1f, 0.4f, -1.0f), MeshUtil.BuildSquare()),
-//                new Transform(new Vector3f(0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare())
+                new Transform(new Vector3f(-0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(0.1f, 0.4f, -1.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare())
         };
 
-        int i = 0;
-        for(Transform transform : sceneMeshes) {
-//            transform.translation = FRPUtil.setupMovement(transform, i);
-            i++;
-        }//TODO: figure out how to iterate over sceneMeshes with an operation like above.
         setupTimeLoopDemo();
 
         while(!FRPDisplay.shouldWindowClose()) {
             if(frameTimer.shouldGetFrame(120)) {
                 glfwPollEvents();
             }
-//            timePulse.send(frameTimer);
             if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                 renderDemo3();
             }
-            if(move2Timer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
-//                for(Transform transform : sceneMeshes) {
-//                sceneMeshes[1].setTranslation(new Vector3f(0.1f * moveTimer.getDeltaTime(), 0.0f, 0.0f));
-//                }
-            }
-            timePulse.send(moveTimer);//Sent arbitrarily and doesn't matter when it's sent just as long as it
+//            timePulse.send(moveTimer);//Sent arbitrarily and doesn't matter when it's sent just as long as it
             //isn't infrequently enough to cause a frame to be missed.
         }
     }

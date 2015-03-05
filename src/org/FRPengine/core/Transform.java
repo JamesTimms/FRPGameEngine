@@ -3,8 +3,7 @@ package org.FRPengine.core;
 import org.FRPengine.maths.Matrix4f;
 import org.FRPengine.maths.Vector3f;
 import org.FRPengine.rendering.Mesh;
-import sodium.Cell;
-import sodium.StreamSink;
+import sodium.*;
 
 /**
  * Created by TekMaTek on 26/01/2015.
@@ -34,6 +33,14 @@ public class Transform {
         this.rotation = Vector3f.ZERO;
         this.scale = Vector3f.ONE;
         this.mesh = mesh;
+    }
+
+    public void MergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
+        this.translation =
+                this.translation
+                .updates()
+                .merge(otherStream)
+                .accum(this.translation.sample(), (newVector, total) -> total.add(newVector));
     }
 
     public Matrix4f getTransformMatrix() {

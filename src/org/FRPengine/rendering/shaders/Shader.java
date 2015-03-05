@@ -36,12 +36,13 @@ public abstract class Shader {
     public static String LoadShader( String filename ) {
 		StringBuilder shaderSource = new StringBuilder( );
 		BufferedReader shaderReader;
+
 		try {
 			shaderReader = new BufferedReader( new FileReader( "./res/shaders/" + filename ) );
 			String line;
 			while( ( line = shaderReader.readLine( ) ) != null ) {
-				shaderSource.append( line ).append( "\n" );
-			}
+				shaderSource.append( line ).append("\n");
+			}//concatenate
 			shaderReader.close( );
 		} catch( Exception exception ) {
 			exception.printStackTrace( );
