@@ -6,9 +6,12 @@ import org.FRPengine.core.Time;
 import org.junit.After;
 import org.junit.Before;
 import org.testng.annotations.Test;
+import sodium.Listener;
+import sodium.StreamSink;
 
 import static junit.framework.Assert.assertTrue;
 //
+
 /**
  * Created by TekMaTek on 02/03/2015.
  */
@@ -29,7 +32,7 @@ public class FRPTimeTests {
     }
 
     @Test
-    public void testDeltaTime() {//TODO: Make this work. It's broken...
+    public void testDeltaTime() {
         Time testTime = new Time();
         long delta = 0L;
         long lastTime = System.nanoTime();
@@ -40,37 +43,36 @@ public class FRPTimeTests {
                 long time = System.nanoTime();
                 delta = time - lastTime;
                 lastTime = time;
-                System.out.println("test: " + (float)delta/ Time.SECOND + "   real: " + testTime.getDeltaTime());
-                assertTrue(ApproxEqualsRange((float)delta/ Time.SECOND, testTime.getDeltaTime(), (float)70000 / Time.SECOND));
-//                assertTrue(ApproxEquals((float) delta / Time.SECOND, testTime.getDeltaTime(), 1));
-                misc ++;
+//                System.out.println("test: " + (float) delta / Time.SECOND + "   real: " + testTime.getDeltaTime());
+                assertTrue(ApproxEqualsRange((float) delta / Time.SECOND, testTime.getDeltaTime(), (float) 70000 / Time.SECOND));
+                misc++;
             }
         }
     }
 
-    public static boolean ApproxEqualsRange(float a, float b, float range){
+    public static boolean ApproxEqualsRange(float a, float b, float range) {
         return (a + range) > b && (a - range) < b;
     }
 
-    public static boolean ApproxEquals(float a, float b, int significantFigures) {
-        float numberOne = Math.abs(a - b);
-        float numberTwo = Math.max(Math.abs(a), Math.abs(b));
-        double numberThree = Math.pow(0.1d, significantFigures);
-        double numberFour = numberThree
-                * numberTwo;
-        boolean result = numberOne < numberFour;
-        return result;
-    }
-
     @Test
-    public void testTimeDelay() {//TODO: Figure out best way to gate time.
-//        StreamSink<Time> timeStream = new StreamSink<>();
-//        Cell<Boolean> timeGate = timeStream
-//                .map(time -> time.shouldGetFrame(Time.THIRTY_PER_SECOND))
-//                .hold(false);
-//        Cell<Time> timeValue = timeStream
-//                .gate( timeGate )
-//                .hold(new Time());
-//        assertEquals();
+    public void testTimeDelay() {//TODO: Sometimes fails an assert but somehow still passes.
+        StreamSink<Time> timeStream = new StreamSink<>();
+        Time testTime = new Time();
+        final long[] delta = {0L};
+        final long[] lastTime = {System.nanoTime()};
+        final long[] timeNT = {0l};
+        Listener timeListener = timeStream
+                .filter(time -> time.shouldGetFrame(Time.THIRTY_PER_SECOND))
+                .listen(time -> {
+                    timeNT[0] = System.nanoTime();
+                    delta[0] = timeNT[0] - lastTime[0];
+                    lastTime[0] = timeNT[0];
+//                    System.out.println("test: " + (float) delta[0] / Time.SECOND + "   real: " + testTime.getDeltaTime());
+                    assertTrue(ApproxEqualsRange((float) delta[0] / Time.SECOND, testTime.getDeltaTime(), (float) 70000 / Time.SECOND));
+                });
+        for(int i = 0; i < 10000000; i++) {
+            timeStream.send(testTime);
+        }
+        timeListener.unlisten();
     }
 }

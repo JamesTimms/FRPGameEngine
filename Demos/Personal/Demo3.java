@@ -6,7 +6,6 @@ import org.FRPengine.rendering.MeshUtil;
 import org.FRPengine.rendering.SimpleRenderer;
 import org.FRPengine.rendering.shaders.BasicShader;
 import org.FRPengine.rendering.shaders.Shader;
-import sodium.Listener;
 import sodium.Stream;
 import sodium.StreamSink;
 
@@ -51,7 +50,6 @@ public class Demo3 {
                 .map(Time::getDeltaTime)
                 .map(time -> new Vector3f(0.1f * time, 0.0f, 0.0f))
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
-//                .merge(existingTransform.updates());
     }
 
     public void loop() {
