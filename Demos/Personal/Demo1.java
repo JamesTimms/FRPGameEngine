@@ -17,7 +17,7 @@ public class Demo1 {
 
     public static List<Listener> allListeners = new ArrayList<>();
     //TODO: Think of better way of storing listeners. These are only here for clean up and so Java GC doesn't remove them.
-    public static long rate_of_update = Time.ONE_PER_SECOND;
+    public static int rate_of_update = Time.ONE_PER_SECOND;
 
     public static void main(String[] args) {
         new Demo1();

@@ -8,6 +8,7 @@ import org.FRPengine.rendering.shaders.BasicShader;
 import org.FRPengine.rendering.shaders.Shader;
 import sodium.Stream;
 import sodium.StreamSink;
+import sodium.Tuple2;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
@@ -27,7 +28,7 @@ public class Demo3 {
 
     static Time frameTimer = new Time();
     static Time renderTimer = new Time();
-    static StreamSink<Time> timePulse = new StreamSink<>();
+    static StreamSink<Integer> timePulse = new StreamSink<>();
 
     public Demo3() {
         FRPDisplay.Create();
@@ -39,16 +40,17 @@ public class Demo3 {
     public void setupTimeLoopDemo() {
         moveTimer = new Time();
         for(Transform transform : sceneMeshes) {
-            transform.mergeIntoCellAndAccum(movements(moveTimer));
+            transform.mergeIntoCellAndAccum(movements());
         }
     }
 
-    public static Stream<Vector3f> movements(Time timer){
+    public static Stream<Vector3f> movements(){
         return timePulse
-                .filter(time -> time == timer)
-                .filter(time -> time.shouldGetFrame(Time.THIRTY_PER_SECOND))
-                .map(Time::getDeltaTime)
-                .map(time -> new Vector3f(0.1f * time, 0.0f, 0.0f))
+                .snapshot(Time.stream(), (Integer x, Time z) -> new Tuple2<>(x, z))
+                .filter(tuple -> tuple.b.shouldGetFrame(tuple.a))
+                .map(timeTuple -> timeTuple.b)
+                .map(Time::deltaOfFrameRate)
+                .map(deltaTime -> new Vector3f(0.1f * deltaTime, 0.0f, 0.0f))
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
     }
 
@@ -70,7 +72,7 @@ public class Demo3 {
             if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                 renderDemo3();
             }
-            timePulse.send(moveTimer);//Sent arbitrarily and doesn't matter when it's sent just as long as it
+            timePulse.send(Time.THIRTY_PER_SECOND);//Sent arbitrarily and doesn't matter when it's sent just as long as it
             //isn't infrequently enough to cause a frame to be missed.
         }
     }
