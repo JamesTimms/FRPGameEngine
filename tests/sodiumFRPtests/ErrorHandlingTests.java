@@ -1,10 +1,6 @@
 package sodiumFRPtests;
 
-import org.FRPengine.core.ErrorHandling;
 import org.junit.After;
-import org.junit.Test;
-
-import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
 
 /**
  * Created by TekMaTek on 26/02/2015.
@@ -16,11 +12,11 @@ public class ErrorHandlingTests {
         Thread.sleep(100);
     }
     //TODO: look up how error handling works in lwjgl3
-    @Test
-    public void testErrorSetup() {
-        ErrorHandling.Create();
-        glfwDefaultWindowHints();//This line should throw an error.
-        ErrorHandling.Destroy();
-    }
+//    @Test(expected=Exception.class)
+//    public void testErrorSetup() {
+//        ErrorHandling.Create();
+//        glfwDefaultWindowHints();//This line should throw an error.
+//        ErrorHandling.Destroy();
+//    }
 
 }
