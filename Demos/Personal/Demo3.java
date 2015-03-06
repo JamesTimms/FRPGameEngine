@@ -8,7 +8,6 @@ import org.FRPengine.rendering.shaders.BasicShader;
 import org.FRPengine.rendering.shaders.Shader;
 import sodium.Stream;
 import sodium.StreamSink;
-import sodium.Tuple2;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
@@ -26,9 +25,9 @@ public class Demo3 {
         new Demo3();
     }
 
-    static Time frameTimer = new Time();
+    static Time pollTimer = new Time();
     static Time renderTimer = new Time();
-    static StreamSink<Integer> timePulse = new StreamSink<>();
+    static StreamSink<Integer> frameStream = new StreamSink<>();
 
     public Demo3() {
         FRPDisplay.Create();
@@ -44,11 +43,8 @@ public class Demo3 {
         }
     }
 
-    public static Stream<Vector3f> movements(){
-        return timePulse
-                .snapshot(Time.stream(), (Integer x, Time z) -> new Tuple2<>(x, z))
-                .filter(tuple -> tuple.b.shouldGetFrame(tuple.a))
-                .map(timeTuple -> timeTuple.b)
+    public static Stream<Vector3f> movements() {
+        return Time.stream(frameStream)
                 .map(Time::deltaOfFrameRate)
                 .map(deltaTime -> new Vector3f(0.1f * deltaTime, 0.0f, 0.0f))
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
@@ -66,14 +62,15 @@ public class Demo3 {
         setupTimeLoopDemo();
 
         while(!FRPDisplay.shouldWindowClose()) {
-            if(frameTimer.shouldGetFrame(120)) {
+            if(pollTimer.shouldGetFrame(120)) {
                 glfwPollEvents();
             }
             if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                 renderDemo3();
             }
-            timePulse.send(Time.THIRTY_PER_SECOND);//Sent arbitrarily and doesn't matter when it's sent just as long as it
+            frameStream.send(Time.THIRTY_PER_SECOND);//Sent arbitrarily and doesn't matter when it's sent just as long as it
             //isn't infrequently enough to cause a frame to be missed.
+
         }
     }
 

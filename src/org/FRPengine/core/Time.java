@@ -2,6 +2,7 @@ package org.FRPengine.core;
 
 import sodium.Cell;
 import sodium.Stream;
+import sodium.Tuple2;
 
 /**
  * Created by TekMaTek on 21/03/2014.
@@ -54,6 +55,13 @@ public class Time {
     public static Cell<Time> stream() {
         return new Stream<Time>()
                 .hold(new Time());
+    }
+
+    public static Stream<Time> stream(Stream<Integer> frameRateStream) {
+        return frameRateStream
+                .snapshot(Time.stream(), (Integer x, Time z) -> new Tuple2<>(x, z))
+                .filter(tuple -> tuple.b.shouldGetFrame(tuple.a))
+                .map(timeTuple -> timeTuple.b);
     }
 
     public static float deltaOfFrameRate(Time time) {
