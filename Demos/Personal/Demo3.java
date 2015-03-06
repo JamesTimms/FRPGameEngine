@@ -9,7 +9,6 @@ import org.FRPengine.rendering.shaders.Shader;
 import sodium.Stream;
 import sodium.StreamSink;
 
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
@@ -19,13 +18,10 @@ import static org.lwjgl.opengl.GL11.glClear;
  */
 public class Demo3 {
 
-    private Time moveTimer;
-
     public static void main(String[] args) {
         new Demo3();
     }
 
-    static Time pollTimer = new Time();
     static Time renderTimer = new Time();
     static StreamSink<Integer> frameStream = new StreamSink<>();
 
@@ -37,15 +33,13 @@ public class Demo3 {
     }
 
     public void setupTimeLoopDemo() {
-        moveTimer = new Time();
         for(Transform transform : sceneMeshes) {
             transform.mergeIntoCellAndAccum(movements());
         }
     }
 
     public static Stream<Vector3f> movements() {
-        return Time.stream(frameStream)
-                .map(Time::deltaOfFrameRate)
+        return Time.deltaOf(frameStream)
                 .map(deltaTime -> new Vector3f(0.1f * deltaTime, 0.0f, 0.0f))
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
     }
@@ -58,13 +52,10 @@ public class Demo3 {
                 new Transform(new Vector3f(0.1f, 0.4f, -1.0f), MeshUtil.BuildSquare()),
                 new Transform(new Vector3f(0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare())
         };
-
         setupTimeLoopDemo();
 
         while(!FRPDisplay.shouldWindowClose()) {
-            if(pollTimer.shouldGetFrame(120)) {
-                glfwPollEvents();
-            }
+            FRPKeyboard.pollAtFrameRate(20);//Deals with previously sent keys and grabs the next keys?
             if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                 renderDemo3();
             }

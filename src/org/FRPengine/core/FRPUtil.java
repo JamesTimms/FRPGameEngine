@@ -12,7 +12,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class FRPUtil {
 
     public static Stream<Vector3f> mapArrowKeysToMovementOf(float moveAmount) {
-        return FRPKeyboard.keyStream
+        return FRPKeyboard.setupPollStream()
                 .filter(key -> key.action != GLFW_RELEASE
                         && FRPKeyboard.isArrowKeyPressed(key.key))
                 .map(key -> {

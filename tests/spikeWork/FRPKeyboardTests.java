@@ -2,6 +2,7 @@ package spikeWork;
 
 import org.FRPengine.core.FRPDisplay;
 import org.FRPengine.core.FRPKeyboard;
+import org.FRPengine.core.Time;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,37 +32,47 @@ public class FRPKeyboardTests {
 
     @Test
     public void testKeyStream() {
-        Cell<FRPKeyboard.Key> keyPress = FRPKeyboard.keyStream.hold(null);
+        Cell<FRPKeyboard.Key> keyPress = FRPKeyboard.setupPollStream().hold(null);
         assertEquals(null, keyPress.sample());
 
         FRPKeyboard.Key key = new FRPKeyboard.Key(GLFW_KEY_SPACE, GLFW_PRESS);
-        FRPKeyboard.keyStream.send(key);
+        FRPKeyboard.pollFakeKeyEvent(key);
+        assertEquals(key, keyPress.sample());
+    }
+
+    @Test
+    public void testKeyStream2() {
+        Cell<FRPKeyboard.Key> keyPress = FRPKeyboard.setupPollStream().hold(null);
+        assertEquals(null, keyPress.sample());
+
+        FRPKeyboard.Key key = new FRPKeyboard.Key(GLFW_KEY_SPACE, GLFW_PRESS);
+        FRPKeyboard.pollFakeKeyEvent(key, Time.THIRTY_PER_SECOND);
         assertEquals(key, keyPress.sample());
     }
 
     @Test
     public void testFilterKeyStream() {
-        Cell<FRPKeyboard.Key> keyPress = FRPKeyboard.keyStream
+        Cell<FRPKeyboard.Key> keyPress = FRPKeyboard.setupPollStream()
                 .filter(key -> key.key == GLFW_KEY_SPACE)
                 .hold(null);
 
         FRPKeyboard.Key key = new FRPKeyboard.Key(GLFW_KEY_RIGHT, GLFW_PRESS);
-        FRPKeyboard.keyStream.send(key);
+        FRPKeyboard.pollFakeKeyEvent(key);
         assertEquals(null, keyPress.sample());
 
         FRPKeyboard.Key key2 = new FRPKeyboard.Key(GLFW_KEY_SPACE, GLFW_PRESS);
-        FRPKeyboard.keyStream.send(key2);
+        FRPKeyboard.pollFakeKeyEvent(key2);
         assertEquals(key2, keyPress.sample());
     }
 
     @Test
     public void testMapKeyStream() {
-        Cell<String> keyPress = FRPKeyboard.keyStream
+        Cell<String> keyPress = FRPKeyboard.setupPollStream()
                 .map(key -> "" + key.action)
                 .hold(null);
 
         FRPKeyboard.Key key = new FRPKeyboard.Key(GLFW_KEY_SPACE, GLFW_PRESS);
-        FRPKeyboard.keyStream.send(key);
+        FRPKeyboard.pollFakeKeyEvent(key);
         assertEquals("" + key.action, keyPress.sample());
     }
 }

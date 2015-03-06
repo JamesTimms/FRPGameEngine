@@ -10,6 +10,7 @@ import sodium.Tuple2;
 public class Time {
 
     public static final int FRAME_CAP = 120;
+    public static final int INSTANTLY = 0;
     public static final int ONE_PER_SECOND = 1;
     public static final int TEN_PER_SECOND = 10;
     public static final int THIRTY_PER_SECOND = 30;
@@ -43,7 +44,7 @@ public class Time {
         long _frameRate = (frameRate > FRAME_CAP) ? FRAME_CAP : frameRate;
         long frameThrottle = (_frameRate <= 0) ? 0 : SECOND / _frameRate;
         timeElapsed = timeElapsed + perLoopDelta;
-        boolean isReady = timeElapsed > frameThrottle && (_frameRate > 0);
+        boolean isReady = timeElapsed > frameThrottle;
         if(isReady) {
             timeElapsed = 0.0d;
             deltaTime = timeThisLoop - previousDeltaTime;
@@ -64,8 +65,9 @@ public class Time {
                 .map(timeTuple -> timeTuple.b);
     }
 
-    public static float deltaOfFrameRate(Time time) {
-        return time.getDeltaTime();
+    public static Stream<Float> deltaOf(Stream<Integer> frameRateStream) {
+        return stream( frameRateStream)
+                .map(Time::getDeltaTime);
     }
 
     private float getDeltaTime() {

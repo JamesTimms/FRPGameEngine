@@ -62,32 +62,32 @@ public class Demo1 {
     }
 
     public static void setupCloseWindow() {
-        allListeners.add(FRPKeyboard.keyStream
+        allListeners.add(FRPKeyboard.setupPollStream()
                 .filter(key -> key.key == GLFW_KEY_ESCAPE && key.action == GLFW_RELEASE)
                 .listen(key -> glfwSetWindowShouldClose(key.window, GL_TRUE)));
     }
 
     public static void printKeyDown() {
-        allListeners.add(FRPKeyboard.keyStream
+        allListeners.add(FRPKeyboard.setupPollStream()
                 .filter(key -> key.action == GLFW_PRESS)
                 .listen(key -> System.out.println("down " + key.key)));
 
     }
 
     public static void printKeyUp() {
-        allListeners.add(FRPKeyboard.keyStream
+        allListeners.add(FRPKeyboard.setupPollStream()
                 .filter(key -> key.action == GLFW_RELEASE)
                 .listen(key -> System.out.println("up " + key.key)));
     }
 
     public static void setupTimeIncreaseKeys() {
-        allListeners.add(FRPKeyboard.keyStream
+        allListeners.add(FRPKeyboard.setupPollStream()
                 .filter(key -> key.key == GLFW_KEY_UP)
                 .listen(key -> {
                     System.out.println(rate_of_update);
                     rate_of_update += 1;
                 }));
-        allListeners.add(FRPKeyboard.keyStream
+        allListeners.add(FRPKeyboard.setupPollStream()
                 .filter(key -> key.key == GLFW_KEY_DOWN)
                 .listen(key -> {
                     System.out.println(rate_of_update);

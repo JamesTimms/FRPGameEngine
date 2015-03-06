@@ -1,6 +1,8 @@
 package org.FRPengine.core;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
+import sodium.CellSink;
+import sodium.Stream;
 import sodium.StreamSink;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -10,7 +12,9 @@ import static org.lwjgl.glfw.GLFW.*;
  */
 public class FRPKeyboard {
 
-    public final static StreamSink<Key> keyStream = new StreamSink<>();
+//    public final static StreamSink<Key> keyStream = new StreamSink<>();
+    private static CellSink<Key> keyEvent = new CellSink<>(new Key(0,0,0,0,0));
+    private final static StreamSink<Integer> pollStream = new StreamSink<>();
 
     private static GLFWKeyCallback keyCallback;
 
@@ -19,9 +23,37 @@ public class FRPKeyboard {
         glfwSetKeyCallback(FRPDisplay.GetWindow(), keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
-                keyStream.send(new Key(window, key, scancode, action, mods));
+                System.out.println(key);
+                keyEvent.send(new Key(window, key, scancode, action, mods));
+                //TODO: Figure out if can merge the key being send upwards?
             }
         });
+    }
+
+    public static void pollAtFrameRate(int frameRate) {
+        FRPKeyboard.pollStream.send(frameRate);//Deals with previously sent keys and grabs the next keys?
+    }
+
+    public static Stream<Key> setupPollStream(Stream<Integer> pollStream){
+        return Time.stream(pollStream)
+                .snapshot(keyEvent);
+    }
+
+    public static void fakeKeyEvent(Key key){
+        keyEvent.send(key);
+    }
+
+    public static void pollFakeKeyEvent(Key key){
+        pollFakeKeyEvent(key, 0);
+    }
+
+    public static void pollFakeKeyEvent(Key key, int frameRate){
+        fakeKeyEvent(key);
+        pollStream.send(frameRate);
+    }
+
+    public static Stream<Key> setupPollStream(){
+        return setupPollStream( pollStream );
     }
 
     public static void Destroy() {
