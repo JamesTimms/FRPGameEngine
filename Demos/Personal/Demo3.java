@@ -70,7 +70,6 @@ public class Demo3 {
             }
             frameStream.send(Time.THIRTY_PER_SECOND);//Sent arbitrarily and doesn't matter when it's sent just as long as it
             //isn't infrequently enough to cause a frame to be missed.
-
         }
     }
 
