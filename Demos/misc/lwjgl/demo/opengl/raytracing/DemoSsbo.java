@@ -196,7 +196,7 @@ public class DemoSsbo {
 		glfwShowWindow(window);
 		debugProc = GLContext.createFromCurrent().setupDebugMessageCallback(System.err);
 
-		/* Create all needed GL resources */
+		/* create all needed GL resources */
 		createFramebufferTexture();
 		createSampler();
 		quadFullScreenVao();
@@ -212,7 +212,7 @@ public class DemoSsbo {
 	}
 
 	/**
-	 * Create a VAO with a full-screen quad VBO.
+	 * create a VAO with a full-screen quad VBO.
 	 */
 	private void quadFullScreenVao() {
 		this.vao = glGenVertexArrays();
@@ -235,7 +235,7 @@ public class DemoSsbo {
 	}
 
 	/**
-	 * Create a shader object from the given classpath resource.
+	 * create a shader object from the given classpath resource.
 	 *
 	 * @param resource
 	 *            the class path
@@ -271,7 +271,7 @@ public class DemoSsbo {
 	}
 
 	/**
-	 * Create the full-scren quad shader.
+	 * create the full-scren quad shader.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -296,7 +296,7 @@ public class DemoSsbo {
 	}
 
 	/**
-	 * Create the tracing compute shader program.
+	 * create the tracing compute shader program.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -361,7 +361,7 @@ public class DemoSsbo {
 	}
 
 	/**
-	 * Create the texture that will serve as our framebuffer.
+	 * create the texture that will serve as our framebuffer.
 	 */
 	private void createFramebufferTexture() {
 		this.tex = glGenTextures();
@@ -371,7 +371,7 @@ public class DemoSsbo {
 	}
 
 	/**
-	 * Create the sampler to sample the framebuffer texture within the shader.
+	 * create the sampler to sample the framebuffer texture within the shader.
 	 */
 	private void createSampler() {
 		this.sampler = glGenSamplers();
@@ -380,7 +380,7 @@ public class DemoSsbo {
 	}
 
 	/**
-	 * Create the buffer that will hold our framebuffer image.
+	 * create the buffer that will hold our framebuffer image.
 	 */
 	private void createFramebufferBuffer() {
 		this.imageBuffer = glGenBuffers();
@@ -400,7 +400,7 @@ public class DemoSsbo {
 	}
 
 	/**
-	 * Create a Shader Storage Buffer Object which will hold our boxes to be
+	 * create a Shader Storage Buffer Object which will hold our boxes to be
 	 * read by our Compute Shader.
 	 */
 	private void createSceneSSBO() {

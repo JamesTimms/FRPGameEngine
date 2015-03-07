@@ -232,7 +232,7 @@ public class HybridDemo {
 		glfwShowWindow(window);
 		debugProc = GLContext.createFromCurrent().setupDebugMessageCallback(System.err);
 
-		/* Create all needed GL resources */
+		/* create all needed GL resources */
 		createRaytracingTexture();
 		createSampler();
 		createRasterizerTextures();
@@ -366,7 +366,7 @@ public class HybridDemo {
 	}
 
 	/**
-	 * Create the frame buffer object that our rasterizer uses to render the
+	 * create the frame buffer object that our rasterizer uses to render the
 	 * view-space position and normal into the textures.
 	 */
 	private void createRasterFrameBufferObject() {
@@ -387,7 +387,7 @@ public class HybridDemo {
 	}
 
 	/**
-	 * Create a shader object from the given classpath resource.
+	 * create a shader object from the given classpath resource.
 	 *
 	 * @param resource
 	 *            the class path
@@ -423,7 +423,7 @@ public class HybridDemo {
 	}
 
 	/**
-	 * Create the full-scren quad shader.
+	 * create the full-scren quad shader.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -448,7 +448,7 @@ public class HybridDemo {
 	}
 
 	/**
-	 * Create the raster shader.
+	 * create the raster shader.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -475,7 +475,7 @@ public class HybridDemo {
 	}
 
 	/**
-	 * Create the tracing compute shader program.
+	 * create the tracing compute shader program.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -551,7 +551,7 @@ public class HybridDemo {
 	}
 
 	/**
-	 * Create the texture that will serve as our framebuffer for the ray tracer.
+	 * create the texture that will serve as our framebuffer for the ray tracer.
 	 */
 	private void createRaytracingTexture() {
 		this.raytraceTexture = glGenTextures();
@@ -561,7 +561,7 @@ public class HybridDemo {
 	}
 
 	/**
-	 * Create the sampler to sample the framebuffer texture within the shader.
+	 * create the sampler to sample the framebuffer texture within the shader.
 	 */
 	private void createSampler() {
 		this.sampler = glGenSamplers();
@@ -570,7 +570,7 @@ public class HybridDemo {
 	}
 
 	/**
-	 * Create the textures that the rasterizer renders into.
+	 * create the textures that the rasterizer renders into.
 	 */
 	private void createRasterizerTextures() {
 		this.positionTexture = glGenTextures();

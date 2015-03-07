@@ -230,7 +230,7 @@ public class HybridDemoSsboInstancing {
 		glfwShowWindow(window);
 		debugProc = GLContext.createFromCurrent().setupDebugMessageCallback(System.err);
 
-		/* Create all needed GL resources */
+		/* create all needed GL resources */
 		createRaytracingTexture();
 		createSampler();
 		createRasterizerTextures();
@@ -262,7 +262,7 @@ public class HybridDemoSsboInstancing {
 	}
 
 	/**
-	 * Create a Shader Storage Buffer Object which will hold our boxes to be
+	 * create a Shader Storage Buffer Object which will hold our boxes to be
 	 * read by our Compute Shader.
 	 */
 	private void createSceneSSBO() {
@@ -317,7 +317,7 @@ public class HybridDemoSsboInstancing {
 	private void createSceneVao() {
 		int vao = glGenVertexArrays();
 
-		/* Create vertex data */
+		/* create vertex data */
 		int vbo = glGenBuffers();
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -331,7 +331,7 @@ public class HybridDemoSsboInstancing {
 		glVertexAttribPointer(1, 3, GL_FLOAT, false, 4 * (3 + 3), 4 * 3);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		/* Create per instance data (position and size of box) */
+		/* create per instance data (position and size of box) */
 		int ivbo = glGenBuffers();
 		glBindBuffer(GL_ARRAY_BUFFER, ivbo);
 		bb = BufferUtils.createByteBuffer(4 * (3 + 3) * boxes.length);
@@ -408,7 +408,7 @@ public class HybridDemoSsboInstancing {
 	}
 
 	/**
-	 * Create the frame buffer object that our rasterizer uses to render the
+	 * create the frame buffer object that our rasterizer uses to render the
 	 * view-space position and normal into the textures.
 	 */
 	private void createRasterFrameBufferObject() {
@@ -429,7 +429,7 @@ public class HybridDemoSsboInstancing {
 	}
 
 	/**
-	 * Create a shader object from the given classpath resource.
+	 * create a shader object from the given classpath resource.
 	 *
 	 * @param resource
 	 *            the class path
@@ -465,7 +465,7 @@ public class HybridDemoSsboInstancing {
 	}
 
 	/**
-	 * Create the full-scren quad shader.
+	 * create the full-scren quad shader.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -490,7 +490,7 @@ public class HybridDemoSsboInstancing {
 	}
 
 	/**
-	 * Create the raster shader.
+	 * create the raster shader.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -519,7 +519,7 @@ public class HybridDemoSsboInstancing {
 	}
 
 	/**
-	 * Create the tracing compute shader program.
+	 * create the tracing compute shader program.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -606,7 +606,7 @@ public class HybridDemoSsboInstancing {
 	}
 
 	/**
-	 * Create the texture that will serve as our framebuffer for the ray tracer.
+	 * create the texture that will serve as our framebuffer for the ray tracer.
 	 */
 	private void createRaytracingTexture() {
 		this.raytraceTexture = glGenTextures();
@@ -616,7 +616,7 @@ public class HybridDemoSsboInstancing {
 	}
 
 	/**
-	 * Create the sampler to sample the framebuffer texture within the shader.
+	 * create the sampler to sample the framebuffer texture within the shader.
 	 */
 	private void createSampler() {
 		this.sampler = glGenSamplers();
@@ -625,7 +625,7 @@ public class HybridDemoSsboInstancing {
 	}
 
 	/**
-	 * Create the textures that the rasterizer renders into.
+	 * create the textures that the rasterizer renders into.
 	 */
 	private void createRasterizerTextures() {
 		this.positionTexture = glGenTextures();

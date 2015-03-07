@@ -244,7 +244,7 @@ public class PhotonMappingDemo {
 		glfwShowWindow(window);
 		ctx = GLContext.createFromCurrent();
 
-		/* Create all needed GL resources */
+		/* create all needed GL resources */
 		createPhotonMapTexture();
 		createSampler();
 		createPhotonTraceProgram();
@@ -265,7 +265,7 @@ public class PhotonMappingDemo {
 	}
 
 	/**
-	 * Create a Shader Storage Buffer Object which will hold our boxes to be
+	 * create a Shader Storage Buffer Object which will hold our boxes to be
 	 * read by our Compute Shader.
 	 */
 	private void createSceneSSBO() {
@@ -297,7 +297,7 @@ public class PhotonMappingDemo {
 	private void createSceneVao() {
 		int vao = glGenVertexArrays();
 
-		/* Create vertex data */
+		/* create vertex data */
 		int vbo = glGenBuffers();
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -311,7 +311,7 @@ public class PhotonMappingDemo {
 		glVertexAttribPointer(1, 3, GL_FLOAT, false, 4 * (3 + 3), 4 * 3);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		/* Create per instance data (position and size of box) */
+		/* create per instance data (position and size of box) */
 		int ivbo = glGenBuffers();
 		glBindBuffer(GL_ARRAY_BUFFER, ivbo);
 		bb = BufferUtils.createByteBuffer(4 * (3 + 3) * boxes.length);
@@ -388,7 +388,7 @@ public class PhotonMappingDemo {
 	}
 
 	/**
-	 * Create a shader object from the given classpath resource.
+	 * create a shader object from the given classpath resource.
 	 *
 	 * @param resource
 	 *            the class path
@@ -474,10 +474,10 @@ public class PhotonMappingDemo {
 	}
 
 	/**
-	 * Create the cubemap texture array for our photon map.
+	 * create the cubemap texture array for our photon map.
 	 */
 	private void createPhotonMapTexture() {
-		/* Create it */
+		/* create it */
 		this.photonMapTexture = glGenTextures();
 		glBindTexture(GL_TEXTURE_CUBE_MAP_ARRAY, photonMapTexture);
 		glTexStorage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 1, GL_RG16F, photonMapSize, photonMapSize, 6 * boxes.length / 2);
@@ -528,7 +528,7 @@ public class PhotonMappingDemo {
 	}
 
 	/**
-	 * Create the sampler to sample the cube map textures within the shader.
+	 * create the sampler to sample the cube map textures within the shader.
 	 */
 	private void createSampler() {
 		this.sampler = glGenSamplers();
@@ -540,7 +540,7 @@ public class PhotonMappingDemo {
 	}
 
 	/**
-	 * Create the raster shader.
+	 * create the raster shader.
 	 *
 	 * @throws java.io.IOException
 	 */

@@ -66,7 +66,7 @@ public final class EFXTest {
 	private static void silentTests() throws Exception {
 		ALDevice device = ALDevice.create(null);
 
-		// Create context (only necessary if LWJGL context isn't sufficient, done as example)
+		// create context (only necessary if LWJGL context isn't sufficient, done as example)
 		IntBuffer contextAttribList = BufferUtils.createIntBuffer(16);
 		contextAttribList.put(ALC10.ALC_FREQUENCY);
 		contextAttribList.put(44100);
@@ -267,7 +267,7 @@ public final class EFXTest {
 	private static void playbackTest() throws Exception {
 		ALContext alContext = setupEfx();
 
-		// Create a source and buffer audio data
+		// create a source and buffer audio data
 		int source = alGenSources();
 		int buffer = alGenBuffers();
 		WaveData waveFile = WaveData.create("Footsteps.wav");

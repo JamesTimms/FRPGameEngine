@@ -21,10 +21,8 @@ public final class FRPDisplay {
     private static final String DEFAULT_TITLE = "FRP Game Engine";
 
     private static Long window;//This is an object so it can be null when window fails to load or isn't yet loaded.
-//    static GLFWFramebufferSizeCallback fbCallback;
 
     private static void init() {
-
         if(glfwInit() != GL_TRUE)
             throw new IllegalStateException("Unable to initialize GLFW");
 
@@ -40,26 +38,29 @@ public final class FRPDisplay {
         GLContext.createFromCurrent();
         System.out.println(glfwGetVersionString());
         glfwSwapInterval(1);
-        CentreScreen();
+        centreScreen();
 
-        glfwShowWindow(window);
     }
 
-    public static long GetWindow() {
+    public static long getWindow() {
         if(window == null) {
             init();
         }
         return window;
     }
 
-    public static void Create() {
+    public static void create() {
+        init();
+        glfwShowWindow(window);
+    }
+
+    public static void createForTesting() {
         init();
     }
 
-    public static void CentreScreen() {
-        // Get the resolution of the primary monitor
+
+    public static void centreScreen() {
         ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        // Center our window
         glfwSetWindowPos(
                 window,
                 (GLFWvidmode.width(vidmode) - DEFAULT_WIDTH) / 2,
@@ -68,7 +69,7 @@ public final class FRPDisplay {
 
     }
 
-    public static void Destroy() {
+    public static void destroy() {
         glfwDestroyWindow(window);
     }
 

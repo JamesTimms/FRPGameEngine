@@ -200,7 +200,7 @@ public class Demo {
         debugProc = GLContext.createFromCurrent().setupDebugMessageCallback(System.err);
         System.out.println(glGetString(GL_VERSION));
 
-		/* Create all needed GL resources */
+		/* create all needed GL resources */
         createFramebufferTexture();
         createSampler();
         quadFullScreenVao();
@@ -216,7 +216,7 @@ public class Demo {
     }
 
     /**
-     * Create a VAO with a full-screen quad VBO.
+     * create a VAO with a full-screen quad VBO.
      */
     private void quadFullScreenVao() {
         this.vao = glGenVertexArrays();
@@ -239,7 +239,7 @@ public class Demo {
     }
 
     /**
-     * Create a shader object from the given classpath resource.
+     * create a shader object from the given classpath resource.
      *
      * @param resource the class path
      * @param type     the shader type
@@ -271,7 +271,7 @@ public class Demo {
     }
 
     /**
-     * Create the full-scren quad shader.
+     * create the full-scren quad shader.
      *
      * @throws java.io.IOException
      */
@@ -296,7 +296,7 @@ public class Demo {
     }
 
     /**
-     * Create the tracing compute shader program.
+     * create the tracing compute shader program.
      *
      * @throws java.io.IOException
      */
@@ -356,7 +356,7 @@ public class Demo {
     }
 
     /**
-     * Create the texture that will serve as our framebuffer.
+     * create the texture that will serve as our framebuffer.
      */
     private void createFramebufferTexture() {
         this.tex = glGenTextures();
@@ -366,7 +366,7 @@ public class Demo {
     }
 
     /**
-     * Create the sampler to sample the framebuffer texture within the shader.
+     * create the sampler to sample the framebuffer texture within the shader.
      */
     private void createSampler() {
         this.sampler = glGenSamplers();

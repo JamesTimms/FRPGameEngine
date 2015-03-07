@@ -21,7 +21,7 @@ public class SimpleRenderer {
         shader = new ComplicatedShader();
         glClear(GL_COLOR_BUFFER_BIT);
         draw();
-        glfwSwapBuffers(FRPDisplay.GetWindow());
+        glfwSwapBuffers(FRPDisplay.getWindow());
     }
 
     public static void init() {

@@ -203,7 +203,7 @@ public class Demo33Ubo {
 		glfwShowWindow(window);
 		debugProc = GLContext.createFromCurrent().setupDebugMessageCallback(System.err);
 
-		/* Create all needed GL resources */
+		/* create all needed GL resources */
 		createFramebufferTexture();
 		createSampler();
 		createFrameBufferObject();
@@ -221,7 +221,7 @@ public class Demo33Ubo {
 	}
 
 	/**
-	 * Create a VAO with a full-screen quad VBO.
+	 * create a VAO with a full-screen quad VBO.
 	 */
 	private void quadFullScreenVao() {
 		this.vao = glGenVertexArrays();
@@ -244,7 +244,7 @@ public class Demo33Ubo {
 	}
 
 	/**
-	 * Create a shader object from the given classpath resource.
+	 * create a shader object from the given classpath resource.
 	 *
 	 * @param resource
 	 *            the class path
@@ -280,7 +280,7 @@ public class Demo33Ubo {
 	}
 
 	/**
-	 * Create the full-scren quad shader.
+	 * create the full-scren quad shader.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -305,7 +305,7 @@ public class Demo33Ubo {
 	}
 
 	/**
-	 * Create the ray tracing shader program.
+	 * create the ray tracing shader program.
 	 *
 	 * @return that program id
 	 *
@@ -361,7 +361,7 @@ public class Demo33Ubo {
 	}
 
 	/**
-	 * Create the texture that will serve as our framebuffer.
+	 * create the texture that will serve as our framebuffer.
 	 */
 	private void createFramebufferTexture() {
 		this.tex = glGenTextures();
@@ -371,7 +371,7 @@ public class Demo33Ubo {
 	}
 
 	/**
-	 * Create the sampler to sample the framebuffer texture within the shader.
+	 * create the sampler to sample the framebuffer texture within the shader.
 	 */
 	private void createSampler() {
 		this.sampler = glGenSamplers();
@@ -388,7 +388,7 @@ public class Demo33Ubo {
 	}
 
 	/**
-	 * Create the frame buffer object that our ray tracing shader uses to render
+	 * create the frame buffer object that our ray tracing shader uses to render
 	 * into the framebuffer texture.
 	 */
 	private int createFrameBufferObject() {

@@ -58,7 +58,7 @@ public class HelloWorld {
         int WIDTH = 300;
         int HEIGHT = 300;
 
-        // Create the window
+        // create the window
         window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");

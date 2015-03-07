@@ -25,7 +25,7 @@ public class FRPTimeTests {
         return (a + range) > b && (a - range) < b;
     }
 
-    public static boolean ApproaxEquals(float a, float b, int significantFigures) {
+    public static boolean ApproxEquals(float a, float b, int significantFigures) {
         float difference = Math.abs(a - b);
         float max = Math.max(Math.abs(a), Math.abs(b));
         double sigfigs = Math.pow(0.1d, significantFigures);
@@ -47,8 +47,8 @@ public class FRPTimeTests {
                     timeNT[0] = System.nanoTime();
                     delta[0] = timeNT[0] - lastTime[0];
                     lastTime[0] = timeNT[0];
-                    System.out.println("test: " + (float) delta[0] / Time.SECOND + "   real: " + time);
-                    assertTrue(ApproaxEquals((float) delta[0] / Time.SECOND, time, 2));
+//                    System.out.println("test: " + (float) delta[0] / Time.SECOND + "   real: " + time);
+                    assertTrue(ApproxEquals((float) delta[0] / Time.SECOND, time, 2));
                 });
         for(int i = 0; i < 1000000; i++) {
             timeStream.send(Time.THIRTY_PER_SECOND);

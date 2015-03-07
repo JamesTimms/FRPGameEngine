@@ -84,7 +84,7 @@ public class Gears extends AbstractGears {
 		if ( window == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 
-		// Destroy old window
+		// destroy old window
 		if ( this.window != NULL ) {
 			glfwSetInputMode(this.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			glfwDestroyWindow(this.window);

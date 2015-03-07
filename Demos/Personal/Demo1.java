@@ -25,7 +25,7 @@ public class Demo1 {
 
     public Demo1() {
         ErrorHandling.Create();
-        FRPDisplay.Create();
+        FRPDisplay.create();
         FRPKeyboard.Create();
         FRPMouse.Create();
 
@@ -45,7 +45,7 @@ public class Demo1 {
             GLContext.createFromCurrent();
             glClear(GL_COLOR_BUFFER_BIT);
 
-            glfwSwapBuffers(FRPDisplay.GetWindow());
+            glfwSwapBuffers(FRPDisplay.getWindow());
             glfwPollEvents();
         }
     }
@@ -53,7 +53,7 @@ public class Demo1 {
     public static void Cleanup() {
         FRPMouse.Destroy();
         FRPKeyboard.Destroy();
-        FRPDisplay.Destroy();
+        FRPDisplay.destroy();
         ErrorHandling.Destroy();
         for(int i = 0; i < allListeners.size(); i++) {
             allListeners.get(i).unlisten();
@@ -62,32 +62,32 @@ public class Demo1 {
     }
 
     public static void setupCloseWindow() {
-        allListeners.add(FRPKeyboard.setupPollStream()
+        allListeners.add(FRPKeyboard.keyEvent
                 .filter(key -> key.key == GLFW_KEY_ESCAPE && key.action == GLFW_RELEASE)
                 .listen(key -> glfwSetWindowShouldClose(key.window, GL_TRUE)));
     }
 
     public static void printKeyDown() {
-        allListeners.add(FRPKeyboard.setupPollStream()
+        allListeners.add(FRPKeyboard.keyEvent
                 .filter(key -> key.action == GLFW_PRESS)
                 .listen(key -> System.out.println("down " + key.key)));
 
     }
 
     public static void printKeyUp() {
-        allListeners.add(FRPKeyboard.setupPollStream()
+        allListeners.add(FRPKeyboard.keyEvent
                 .filter(key -> key.action == GLFW_RELEASE)
                 .listen(key -> System.out.println("up " + key.key)));
     }
 
     public static void setupTimeIncreaseKeys() {
-        allListeners.add(FRPKeyboard.setupPollStream()
+        allListeners.add(FRPKeyboard.keyEvent
                 .filter(key -> key.key == GLFW_KEY_UP)
                 .listen(key -> {
                     System.out.println(rate_of_update);
                     rate_of_update += 1;
                 }));
-        allListeners.add(FRPKeyboard.setupPollStream()
+        allListeners.add(FRPKeyboard.keyEvent
                 .filter(key -> key.key == GLFW_KEY_DOWN)
                 .listen(key -> {
                     System.out.println(rate_of_update);

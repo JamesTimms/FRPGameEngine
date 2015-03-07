@@ -9,6 +9,7 @@ import org.FRPengine.rendering.shaders.Shader;
 import sodium.Stream;
 import sodium.StreamSink;
 
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
@@ -23,10 +24,11 @@ public class Demo3 {
     }
 
     static Time renderTimer = new Time();
+    static Time pollTimer = new Time();
     static StreamSink<Integer> frameStream = new StreamSink<>();
 
     public Demo3() {
-        FRPDisplay.Create();
+        FRPDisplay.create();
         FRPKeyboard.Create();
         SimpleRenderer.init();
         loop();
@@ -55,7 +57,9 @@ public class Demo3 {
         setupTimeLoopDemo();
 
         while(!FRPDisplay.shouldWindowClose()) {
-            FRPKeyboard.pollAtFrameRate(20);//Deals with previously sent keys and grabs the next keys?
+            if(pollTimer.shouldGetFrame(120)) {
+                glfwPollEvents();
+            }
             if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                 renderDemo3();
             }
@@ -76,6 +80,6 @@ public class Demo3 {
     public void renderDemo3() {
         glClear(GL_COLOR_BUFFER_BIT);
         drawDemo3();
-        glfwSwapBuffers(FRPDisplay.GetWindow());
+        glfwSwapBuffers(FRPDisplay.getWindow());
     }
 }

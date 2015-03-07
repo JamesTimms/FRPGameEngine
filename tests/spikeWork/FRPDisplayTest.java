@@ -22,12 +22,12 @@ public class FRPDisplayTest {
         StreamSink<FRPDisplay> displayStream = new StreamSink();
         Cell<FRPDisplay> display = displayStream.hold(new FRPDisplay());
         Listener listener = displayStream.listen(x -> {
-            FRPDisplay.Create();
+            FRPDisplay.createForTesting();
         });
         displayStream.send(display.sample());
         listener.unlisten();
         Listener destroyListener = displayStream.listen(x -> {
-            FRPDisplay.Destroy();
+            FRPDisplay.destroy();
         });
         displayStream.send(display.sample());
         destroyListener.unlisten();

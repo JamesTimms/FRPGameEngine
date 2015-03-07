@@ -22,14 +22,14 @@ public class FRPMouse {
     public static void Create() {
 //        glfwCreateCursor(null, 0, 0);
 
-        glfwSetMouseButtonCallback(FRPDisplay.GetWindow(), mouseCallback = new GLFWMouseButtonCallback() {
+        glfwSetMouseButtonCallback(FRPDisplay.getWindow(), mouseCallback = new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {
                 keyStream.send(new Mouse(window, button, action, mods));
             }
         });
 
-        glfwSetCursorPosCallback(FRPDisplay.GetWindow(), cursorCallback = new GLFWCursorPosCallback() {
+        glfwSetCursorPosCallback(FRPDisplay.getWindow(), cursorCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double posX, double posY) {
                 cursorPosStream.send(new Cursor(window, posX, posY));

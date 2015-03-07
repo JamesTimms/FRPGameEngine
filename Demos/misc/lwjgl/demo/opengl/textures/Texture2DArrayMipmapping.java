@@ -121,7 +121,7 @@ public class Texture2DArrayMipmapping {
 		glfwShowWindow(window);
 		ctx = GLContext.createFromCurrent();
 
-		/* Create all needed GL resources */
+		/* create all needed GL resources */
 		createTexture();
 		createSampler();
 		createVao();
@@ -189,7 +189,7 @@ public class Texture2DArrayMipmapping {
 	}
 
 	/**
-	 * Create a shader object from the given classpath resource.
+	 * create a shader object from the given classpath resource.
 	 *
 	 * @param resource
 	 *            the class path
@@ -225,7 +225,7 @@ public class Texture2DArrayMipmapping {
 	}
 
 	/**
-	 * Create the raster shader.
+	 * create the raster shader.
 	 *
 	 * @throws java.io.IOException
 	 */
@@ -260,7 +260,7 @@ public class Texture2DArrayMipmapping {
 	}
 
 	/**
-	 * Create the sampler to sample the texture within the shader.
+	 * create the sampler to sample the texture within the shader.
 	 */
 	private void createSampler() {
 		this.sampler = glGenSamplers();
