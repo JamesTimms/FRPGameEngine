@@ -18,7 +18,7 @@ public class FRPKeyboardTests {
     @Before
     public void createDisplayAndKeyboard() {
         FRPDisplay.createForTesting();
-        FRPKeyboard.Create();
+        FRPKeyboard.create();
     }
     
     @After

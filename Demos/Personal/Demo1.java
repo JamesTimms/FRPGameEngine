@@ -26,7 +26,7 @@ public class Demo1 {
     public Demo1() {
         ErrorHandling.Create();
         FRPDisplay.create();
-        FRPKeyboard.Create();
+        FRPKeyboard.create();
         FRPMouse.Create();
 
         setupCloseWindow();

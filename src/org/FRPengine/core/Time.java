@@ -65,7 +65,7 @@ public class Time {
                 .map(timeTuple -> timeTuple.b);
     }
 
-    public static Stream<Float> deltaOf(Stream<Integer> frameRateStream) {
+    public static Stream<Float> deltaOf(Stream<Integer> frameRateStream) {//TODO: Make this be called more like other primitives on streams.
         return stream( frameRateStream)
                 .map(Time::getDeltaTime);
     }

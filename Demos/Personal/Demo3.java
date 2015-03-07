@@ -29,7 +29,7 @@ public class Demo3 {
 
     public Demo3() {
         FRPDisplay.create();
-        FRPKeyboard.Create();
+        FRPKeyboard.create();
         SimpleRenderer.init();
         loop();
     }
@@ -59,12 +59,12 @@ public class Demo3 {
         while(!FRPDisplay.shouldWindowClose()) {
             if(pollTimer.shouldGetFrame(120)) {
                 glfwPollEvents();
+                if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
+                    renderDemo3();
+                }
+                frameStream.send(Time.THIRTY_PER_SECOND);//Sent arbitrarily and doesn't matter when it's sent just as long as it
+                //isn't infrequently enough to cause a frame to be missed.
             }
-            if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
-                renderDemo3();
-            }
-            frameStream.send(Time.THIRTY_PER_SECOND);//Sent arbitrarily and doesn't matter when it's sent just as long as it
-            //isn't infrequently enough to cause a frame to be missed.
         }
     }
 

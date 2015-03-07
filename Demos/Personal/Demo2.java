@@ -17,7 +17,7 @@ public class Demo2 {
     
     public Demo2() {
         FRPDisplay.create();
-        FRPKeyboard.Create();
+        FRPKeyboard.create();
         SimpleRenderer.init();
         loop();
     }

@@ -13,7 +13,7 @@ public class FRPKeyboard {
     public static final StreamSink<Key> keyEvent = new StreamSink<>();
     private static GLFWKeyCallback keyCallback;
 
-    public static void Create() {
+    public static void create() {
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(FRPDisplay.getWindow(), keyCallback = new GLFWKeyCallback() {
             @Override
