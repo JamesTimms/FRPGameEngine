@@ -1,9 +1,12 @@
 package org.FRPengine.core;
 
+import org.FRPengine.core.collision.AABB;
 import org.FRPengine.maths.Matrix4f;
 import org.FRPengine.maths.Vector3f;
 import org.FRPengine.rendering.Mesh;
-import sodium.*;
+import sodium.Cell;
+import sodium.Stream;
+import sodium.StreamSink;
 
 /**
  * Created by TekMaTek on 26/01/2015.
@@ -13,34 +16,45 @@ public class Transform {
     public Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
     public Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
     public Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
-    
+
     public Cell<Vector3f> translation;
     private StreamSink<Vector3f> updateTo = new StreamSink<>();
+
+    public AABB collider;
     //TODO: Figure out way of combining this stream implicitly with translation.
-    
+
     private Vector3f rotation;
     private Vector3f scale;
     public Mesh mesh;
 
     public Transform() {
-        this.translation = updateTo.hold(Vector3f.ZERO);
-        this.rotation = Vector3f.ZERO;
-        this.scale = Vector3f.ONE;
+        this(Vector3f.ZERO, Vector3f.ZERO, Vector3f.ZERO, null);
     }
 
     public Transform(Vector3f translation, Mesh mesh) {
-        this.translation = updateTo.hold(translation);
-        this.rotation = Vector3f.ZERO;
-        this.scale = Vector3f.ONE;
+        this(translation, Vector3f.ZERO, Vector3f.ONE, mesh);
+    }
+
+    private Transform(Vector3f translation, Vector3f rotation, Vector3f scale, Mesh mesh) {
+        this.translation = initPosStream(translation);
+        this.rotation = rotation;
+        this.scale = scale;
         this.mesh = mesh;
+        this.collider = new AABB(translation.add(new Vector3f(-0.05f, -0.05f, -0.05f))
+                , translation.add(new Vector3f(0.05f, 0.05f, 0.05f)));
+    }
+
+    private Cell<Vector3f> initPosStream(Vector3f pos) {
+        return updateTo
+                .hold(pos);
     }
 
     public void mergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
-        this.translation =
-                this.translation
-                .updates()
-                .merge(otherStream)
+        this.updateTo = (StreamSink<Vector3f>) updateTo
+                .merge(otherStream);
+        this.translation = updateTo
                 .accum(this.translation.sample(), (newVector, total) -> total.add(newVector));
+
     }
 
     public Matrix4f getTransformMatrix() {

@@ -1,5 +1,7 @@
 package org.FRPengine.core;
 
+import org.FRPengine.core.collision.AABB;
+import org.FRPengine.maths.Vector3f;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
@@ -59,14 +61,17 @@ public final class FRPDisplay {
     }
 
 
-    public static void centreScreen() {
+    private static void centreScreen() {
         ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         glfwSetWindowPos(
                 window,
                 (GLFWvidmode.width(vidmode) - DEFAULT_WIDTH) / 2,
                 (GLFWvidmode.height(vidmode) - DEFAULT_HEIGHT) / 2
         );
+    }
 
+    public static AABB setupScreenCollider() {
+        return new AABB(Vector3f.ZERO, new Vector3f(DEFAULT_WIDTH / 2.0f, DEFAULT_HEIGHT / 2.0f, 0.0f));
     }
 
     public static void destroy() {
