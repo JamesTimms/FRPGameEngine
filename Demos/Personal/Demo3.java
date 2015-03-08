@@ -1,6 +1,7 @@
 package Personal;
 
 import org.FRPengine.core.*;
+import org.FRPengine.core.collision.BoundingBox;
 import org.FRPengine.maths.Vector3f;
 import org.FRPengine.rendering.MeshUtil;
 import org.FRPengine.rendering.SimpleRenderer;
@@ -41,9 +42,14 @@ public class Demo3 {
     }
 
     public static Stream<Vector3f> movements() {
-        return Time.deltaOf(frameStream)
-                .map(deltaTime -> new Vector3f(0.1f * deltaTime, 0.0f, 0.0f))
+        return mapCollision(Time.deltaOf(frameStream))
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
+    }
+
+    public static Stream<Vector3f> mapCollision(Stream<Float> time) {
+        return time
+                .filter(deltaTime -> !BoundingBox.isColliding())
+                .map(deltaTime -> new Vector3f(0.1f * deltaTime, 0.0f, 0.0f));
     }
 
     public void loop() {
