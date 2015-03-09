@@ -35,18 +35,28 @@ public class Transform {
         this(translation, Vector3f.ZERO, Vector3f.ONE, mesh);
     }
 
-    private Transform(Vector3f translation, Vector3f rotation, Vector3f scale, Mesh mesh) {
-        this.translation = initPosStream(translation);
+    private Transform(Vector3f position, Vector3f rotation, Vector3f scale, Mesh mesh) {
+        this.translation = initPosStream(position);
         this.rotation = rotation;
         this.scale = scale;
         this.mesh = mesh;
-        this.collider = new AABB(translation.add(new Vector3f(-0.05f, -0.05f, -0.05f))
-                , translation.add(new Vector3f(0.05f, 0.05f, 0.05f)));
+        this.collider = updateABBA();
     }
 
     private Cell<Vector3f> initPosStream(Vector3f pos) {
         return updateTo
-                .hold(pos);
+                .accum(pos, (newVector, total) -> total.add(newVector));
+    }
+
+    private AABB updateABBA( ){
+        return new AABB(
+                updateTo
+                        .accum(this.translation.sample().add(new Vector3f(-0.05f, -0.05f, 0.0f))
+                                , Vector3f::add),
+                updateTo
+                        .accum(this.translation.sample().add(new Vector3f(0.05f, 0.05f, 0.0f))
+                                , Vector3f::add)
+        );
     }
 
     public void mergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
@@ -54,7 +64,7 @@ public class Transform {
                 .merge(otherStream);
         this.translation = updateTo
                 .accum(this.translation.sample(), (newVector, total) -> total.add(newVector));
-
+        this.collider = updateABBA();
     }
 
     public Matrix4f getTransformMatrix() {

@@ -1,7 +1,6 @@
 package org.FRPengine.core;
 
 import org.FRPengine.maths.Vector3f;
-import sodium.Cell;
 import sodium.Stream;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -29,11 +28,5 @@ public class FRPUtil {
                             return Vector3f.ZERO;
                     }
                 });
-    }
-
-    public static Cell<Vector3f> setupMovement(Transform transform, int factor) {
-        return transform.translation.updates()
-                .merge(mapArrowKeysToMovementOf(-0.01f * factor * factor))
-                .accum(transform.translation.sample(), (current, vector) -> current.add(vector));
     }
 }

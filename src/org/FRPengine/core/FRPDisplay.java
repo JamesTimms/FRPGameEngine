@@ -5,6 +5,7 @@ import org.FRPengine.maths.Vector3f;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
+import sodium.Stream;
 
 import java.nio.ByteBuffer;
 
@@ -71,7 +72,11 @@ public final class FRPDisplay {
     }
 
     public static AABB setupScreenCollider() {
-        return new AABB(Vector3f.ZERO, new Vector3f(DEFAULT_WIDTH / 2.0f, DEFAULT_HEIGHT / 2.0f, 0.0f));
+//        return new AABB(Vector3f.ZERO, new Vector3f(DEFAULT_WIDTH / 2.0f, DEFAULT_HEIGHT / 2.0f, 0.0f));
+        return new AABB(
+                new Stream<Vector3f>().hold(new Vector3f(-1.0f, -1.0f, 0.0f)),
+                new Stream<Vector3f>().hold(new Vector3f(1.0f, 1.0f, 0.0f))
+        );
     }
 
     public static void destroy() {

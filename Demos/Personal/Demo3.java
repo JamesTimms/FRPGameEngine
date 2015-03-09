@@ -45,7 +45,7 @@ public class Demo3 {
         background = FRPDisplay.setupScreenCollider();
         for(Transform transform : sceneMeshes) {
             transform.mergeIntoCellAndAccum(movements());
-            transform.mergeIntoCellAndAccum(mapCollision());
+            transform.mergeIntoCellAndAccum(mapCollision(transform));
         }
     }
 
@@ -55,11 +55,12 @@ public class Demo3 {
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
     }
 
-    public static Stream<Vector3f> mapCollision() {
+    public static Stream<Vector3f> mapCollision(Transform transform) {
         return colliderStream
-                .map(colliders -> !colliders.a.isColliding(colliders.b))//The collision test result
+                .filter(thing -> (thing.a == transform.collider) || (thing.b == transform.collider))
+                .map(colliders -> colliders.a.isOutsideOf(colliders.b))//The collision test result
                 .filter(hasCollided -> hasCollided)//The collision result inspection.
-                .map(hasCollided -> new Vector3f(-0.002f, 0.0f, 0.0f));//The response.
+                .map(hasCollided -> new Vector3f(-0.002f, -0.001f, 0.0f));//The response.
     }
 
     public static void checkCollisions() {
