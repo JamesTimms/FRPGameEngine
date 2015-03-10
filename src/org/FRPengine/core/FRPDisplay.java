@@ -74,8 +74,8 @@ public final class FRPDisplay {
     public static AABB setupScreenCollider() {
 //        return new AABB(Vector3f.ZERO, new Vector3f(DEFAULT_WIDTH / 2.0f, DEFAULT_HEIGHT / 2.0f, 0.0f));
         return new AABB(
-                new Stream<Vector3f>().hold(new Vector3f(-1.0f, -1.0f, 0.0f)),
-                new Stream<Vector3f>().hold(new Vector3f(1.0f, 1.0f, 0.0f))
+                new Stream<Vector3f>().hold(new Vector3f(-0.6f, -0.6f, 0.0f)),
+                new Stream<Vector3f>().hold(new Vector3f(0.6f, 0.6f, 0.0f))
         );
     }
 

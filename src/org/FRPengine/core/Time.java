@@ -66,7 +66,7 @@ public class Time {
     }
 
     public static Stream<Float> deltaOf(Stream<Integer> frameRateStream) {//TODO: Make this be called more like other primitives on streams.
-        return stream( frameRateStream)
+        return stream(frameRateStream)
                 .map(Time::getDeltaTime);
     }
 

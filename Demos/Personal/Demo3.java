@@ -58,9 +58,8 @@ public class Demo3 {
     public static Stream<Vector3f> mapCollision(Transform transform) {
         return colliderStream
                 .filter(thing -> (thing.a == transform.collider) || (thing.b == transform.collider))
-                .map(colliders -> colliders.a.isOutsideOf(colliders.b))//The collision test result
-                .filter(hasCollided -> hasCollided)//The collision result inspection.
-                .map(hasCollided -> new Vector3f(-0.002f, -0.001f, 0.0f));//The response.
+                .filter(colliders -> colliders.a.isOutsideOf(colliders.b))
+                .map(colliders -> (colliders.a.resolveCollision(colliders.b)).mul(-1.0f));
     }
 
     public static void checkCollisions() {
