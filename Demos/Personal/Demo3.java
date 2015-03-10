@@ -1,7 +1,7 @@
 package Personal;
 
 import org.FRPengine.core.*;
-import org.FRPengine.core.collision.AABB;
+import org.FRPengine.Physics.collision.AABB;
 import org.FRPengine.maths.Vector3f;
 import org.FRPengine.rendering.MeshUtil;
 import org.FRPengine.rendering.SimpleRenderer;

@@ -1,5 +1,6 @@
-package org.FRPengine.core.collision;
+package org.FRPengine.Physics.collision;
 
+import org.FRPengine.maths.Vector2f;
 import org.FRPengine.maths.Vector3f;
 import sodium.Cell;
 
@@ -61,7 +62,24 @@ public class AABB {//TODO: Finish implementing the solution for Z in 3D collisio
         return new Vector3f(resolutionX, resolutionY, resolutionZ);
     }
 
-//    public Vector3f resolveCollision2(Vector3f vel, Vector3f angleOfIncident) {
-//        return new Vector3f(resolutionX, resolutionY, resolutionZ);
+//    public Vector3f resolveCollision2(Vector2f colDepth, Vector2f colNormal) {
+//        //Vector2f directionVector = PositionA − PositionB
+//        //directionVector.cross(colNormal) = (PositionA − PositionB).cross(colNormal)
+//        //directionVector.cross(colNormal) = −elasticity ∗ (PositionA − PositionB).cross(colNormal)
+//
+//        float scalarJ = 1.0f;
+//        float massOfObject1 = 1.0f;//1 is place holder
+//        float massOfObject2 = 1.0f;//1 is place holder
+//        //collisionResolution = scalarJ ∗ directionVector / massOfObject
+//        //newVector = oldVector + collisionResolution; which implies
+//        //newVectorA = oldVectorA + collisionResolution; with mass = massA
+//        //newVectorB = oldVectorB - collisionResolution; with mass = massB
+//
+//        //VAB⋅n=−e∗(VB−VA)⋅n
+//        //
+//
+//        //(VA−VV+j∗nmassA+j∗nmassB)∗n=−e∗(VB−VA)⋅n∴
+//        //(VA−VV+j∗nmassA+j∗nmassB)∗n+e∗(VB−VA)⋅n=0
+//
 //    }
 }

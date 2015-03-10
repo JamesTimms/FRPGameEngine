@@ -1,6 +1,6 @@
 package spikeWork;
 
-import org.FRPengine.core.collision.AABB;
+import org.FRPengine.Physics.collision.AABB;
 import org.FRPengine.maths.Vector3f;
 import org.junit.After;
 import org.testng.annotations.Test;

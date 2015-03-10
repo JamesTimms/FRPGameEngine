@@ -1,6 +1,6 @@
 package org.FRPengine.core;
 
-import org.FRPengine.core.collision.AABB;
+import org.FRPengine.Physics.collision.AABB;
 import org.FRPengine.maths.Vector3f;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;

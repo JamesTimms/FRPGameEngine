@@ -1,4 +1,4 @@
-package org.FRPengine.core.collision;
+package org.FRPengine.Physics.collision;
 
 import org.FRPengine.maths.Vector3f;
 
@@ -9,6 +9,7 @@ public class Collider {
 
     public Vector3f pos;
     public AABB boundBox;
+    public float restitution;
 
     public Collider(Vector3f pos, AABB boundBox){
         this.pos = pos;
