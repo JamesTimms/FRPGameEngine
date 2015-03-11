@@ -7,6 +7,7 @@ import org.FRPengine.rendering.MeshUtil;
 import org.FRPengine.rendering.SimpleRenderer;
 import org.FRPengine.rendering.shaders.BasicShader;
 import org.FRPengine.rendering.shaders.Shader;
+import sodium.Cell;
 import sodium.Listener;
 import sodium.StreamSink;
 import sodium.Tuple2;
@@ -32,6 +33,7 @@ public class Demo4 {
 
     private static Shader shader2;
     private static Transform[] sceneMeshes;
+    private static Cell<Integer> score;
 
     public Demo4() {
         FRPDisplay.create();
@@ -53,7 +55,7 @@ public class Demo4 {
 //                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
 //    }
 
-    Listener tempJunkListener;
+    Listener scoreListener;
 
     public void loop() {
         shader2 = new BasicShader();
@@ -61,16 +63,32 @@ public class Demo4 {
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare())
         };
 
-        tempJunkListener = FRPMouse.clickStream
+        score = FRPMouse.clickStream
 //        Optional<FRPMouse.Mouse>
                 .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT &&
                         mouse.action == GLFW_PRESS)
                 .snapshot(cursorPosStream.hold(null), (click, cursor) -> new Tuple2<>(click, cursor))
-                .filter(mouse -> new Click(screenToWorldSpace(mouse.b.position))
-                        .isInPolygon(sceneMeshes[0].mesh.shape.getVertices()))
-                .listen(mouse -> System.out.println("Right mouse button Pressed "
-                        + screenToWorldSpace(mouse.b.position)));
+                .map(mouse -> new Click(screenToWorldSpace(mouse.b.position))
+                        .isInPolygon(sceneMeshes[0].mesh.shape))
+                .map(hitShape -> {
+                    if(hitShape) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                })
+                .accum(0, (curScore, lastScore) -> curScore + lastScore);
 
+        scoreListener = score
+                .updates()
+                .listen(System.out::println);
+
+
+        //Just some thoughts on how to better implement the time loops.
+        //While(shouldStillPlayGame){
+        //  sleepOrFreeThread(forSmallestTimeTillNextUpdate);//For example sleep for 1/30 of a second.
+        //  processNextActionRequired();//Not sure how this will work for simultaneous actions.
+        //}
         while(!FRPDisplay.shouldWindowClose()) {
             if(pollTimer.shouldGetFrame(120)) {
                 glfwPollEvents();
@@ -80,7 +98,7 @@ public class Demo4 {
                 frameStream.send(Time.THIRTY_PER_SECOND);
             }
         }
-        tempJunkListener.unlisten();
+        scoreListener.unlisten();
     }
 
     public static void drawDemo3() {

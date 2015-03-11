@@ -1,5 +1,6 @@
 package org.FRPengine.Physics.collision;
 
+import org.FRPengine.Physics.Manafolds.Shape;
 import org.FRPengine.maths.Vector2f;
 import org.FRPengine.rendering.Vertex;
 
@@ -10,12 +11,13 @@ public class Click {
 
     Vector2f point;
 
-    public Click(Vector2f point){
+    public Click(Vector2f point) {
         this.point = point;
     }
 
-    public boolean isInPolygon(Vertex[] vertices) {
+    public boolean isInPolygon(Shape shape) {
         //vertices must be in clockwise order.
+        Vertex[] vertices = shape.getVertices();
         int vertCount = vertices.length;
         int low = 0, high = vertCount;
         do {
