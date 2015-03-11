@@ -12,7 +12,7 @@ public class Square implements Shape {
     private Vertex[] vertices;
 
     public Square() {
-        this(0.05f);
+        this(0.1f);
     }
 
     public Square(float size) {

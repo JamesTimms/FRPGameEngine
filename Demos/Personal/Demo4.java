@@ -2,7 +2,6 @@ package Personal;
 
 import org.FRPengine.Physics.collision.Click;
 import org.FRPengine.core.*;
-import org.FRPengine.maths.Vector2f;
 import org.FRPengine.maths.Vector3f;
 import org.FRPengine.rendering.MeshUtil;
 import org.FRPengine.rendering.SimpleRenderer;
@@ -10,7 +9,10 @@ import org.FRPengine.rendering.shaders.BasicShader;
 import org.FRPengine.rendering.shaders.Shader;
 import sodium.Listener;
 import sodium.StreamSink;
+import sodium.Tuple2;
 
+import static org.FRPengine.core.FRPMouse.cursorPosStream;
+import static org.FRPengine.core.FRPMouse.screenToWorldSpace;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
@@ -60,10 +62,14 @@ public class Demo4 {
         };
 
         tempJunkListener = FRPMouse.clickStream
+//        Optional<FRPMouse.Mouse>
                 .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT)
                 .filter(mouse -> mouse.action == GLFW_PRESS)
-                .filter(mouse -> new Click(Vector2f.ZERO).isInPolygon(sceneMeshes[0].mesh.dummySquare.getVertices()))
-                .listen(mouse -> System.out.println("Right mouse button Pressed " + mouse));
+                .snapshot(cursorPosStream.hold(null), (a, b) -> new Tuple2<>(a, b))
+                .filter(mouse -> new Click(screenToWorldSpace(mouse.b.position))
+                        .isInPolygon(sceneMeshes[0].mesh.dummySquare.getVertices()))
+                .listen(mouse -> System.out.println("Right mouse button Pressed "
+                        + screenToWorldSpace(mouse.b.position)));
 
         while(!FRPDisplay.shouldWindowClose()) {
             if(pollTimer.shouldGetFrame(120)) {

@@ -1,5 +1,6 @@
 package org.FRPengine.core;
 
+import org.FRPengine.maths.MathUtil;
 import org.FRPengine.maths.Vector2f;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
@@ -35,6 +36,15 @@ public class FRPMouse {
                 cursorPosStream.send(new Cursor(window, posX, posY));
             }
         });
+    }
+
+    public static Vector2f screenToWorldSpace(Vector2f screenSpace) {
+        Vector2f windowSize = FRPDisplay.windowSize.sample();
+        Vector2f newVector = new Vector2f(
+                MathUtil.RangeConvert(0, windowSize.getX(), -1.0f, 1.0f, screenSpace.getX()),
+                MathUtil.RangeConvert(0, windowSize.getY(), -1.0f, 1.0f, screenSpace.getY())
+        );
+        return newVector;
     }
 
     public static void destroy() {
