@@ -13,19 +13,19 @@ import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
  */
 public class FRPMouse {
 
-    public final static StreamSink<Mouse> keyStream = new StreamSink<>();
+    public final static StreamSink<Mouse> clickStream = new StreamSink<>();
     public final static StreamSink<Cursor> cursorPosStream = new StreamSink<>();
 
     private static GLFWMouseButtonCallback mouseCallback;
     private static GLFWCursorPosCallback cursorCallback;
 
-    public static void Create() {
+    public static void create() {
 //        glfwCreateCursor(null, 0, 0);
 
         glfwSetMouseButtonCallback(FRPDisplay.getWindow(), mouseCallback = new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {
-                keyStream.send(new Mouse(window, button, action, mods));
+                clickStream.send(new Mouse(window, button, action, mods));
             }
         });
 
@@ -37,7 +37,7 @@ public class FRPMouse {
         });
     }
 
-    public static void Destroy() {
+    public static void destroy() {
         mouseCallback.release();
         cursorCallback.release();
     }

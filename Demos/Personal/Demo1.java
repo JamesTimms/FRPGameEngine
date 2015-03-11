@@ -27,7 +27,7 @@ public class Demo1 {
         ErrorHandling.Create();
         FRPDisplay.create();
         FRPKeyboard.create();
-        FRPMouse.Create();
+        FRPMouse.create();
 
         setupCloseWindow();
         printKeyDown();
@@ -51,7 +51,7 @@ public class Demo1 {
     }
 
     public static void Cleanup() {
-        FRPMouse.Destroy();
+        FRPMouse.destroy();
         FRPKeyboard.Destroy();
         FRPDisplay.destroy();
         ErrorHandling.Destroy();
@@ -96,7 +96,7 @@ public class Demo1 {
     }
 
     public static void printMousePress() {
-        allListeners.add(FRPMouse.keyStream
+        allListeners.add(FRPMouse.clickStream
                 .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_RIGHT)
                 .listen(mouse -> System.out.println("Right mouse button Pressed " + mouse.button)));
     }

@@ -1,5 +1,6 @@
 package org.FRPengine.rendering;
 
+import org.FRPengine.Physics.Manafolds.Square;
 import org.FRPengine.maths.Vector3f;
 
 import java.io.BufferedReader;
@@ -18,6 +19,8 @@ public class Mesh {
     public int indexBO;
     public int indicesLength;
     public int vertexLength;
+
+    public Square dummySquare = new Square();
 
 	public Mesh( String filename ) {
 		initMeshData( );

@@ -30,7 +30,7 @@ public class Square implements Shape {
         return vertices;
     }
 
-    public static Vertex[] orderClockwise(Vertex[] vertices) {
+    private static Vertex[] orderClockwise(Vertex[] vertices) {
         MergeSort<Vertex> merge = new MergeSort<>();
         return merge.mergeSort(vertices);
     }
