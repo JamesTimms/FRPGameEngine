@@ -1,5 +1,7 @@
 package org.FRPengine.rendering;
 
+import org.FRPengine.Physics.Manafolds.Square;
+import org.FRPengine.Physics.Manafolds.Triangle;
 import org.FRPengine.maths.Vector2f;
 import org.FRPengine.maths.Vector3f;
 
@@ -138,25 +140,10 @@ public class MeshUtil {
     }
 
     public static Mesh BuildTriangle() {
-        final float SIZE = 0.5f;
-        return new Mesh(
-                new Vertex[] {
-                        new Vertex(new Vector3f(-SIZE, -SIZE, 0.0f)),
-                        new Vertex(new Vector3f(SIZE, -SIZE, 0.0f)),
-                        new Vertex(new Vector3f(0, SIZE, 0.0f))
-                }, new int[] {0, 1, 2}
-        );
+        return new Mesh(new Triangle());
     }
 
     public static Mesh BuildSquare() {
-        final float SIZE = 0.05f;
-        return new Mesh(
-                new Vertex[] {
-                        new Vertex(new Vector3f(-SIZE, -SIZE, 0.0f)),//bottom left
-                        new Vertex(new Vector3f(SIZE, -SIZE, 0.0f)),//bottom right
-                        new Vertex(new Vector3f(-SIZE, SIZE, 0.0f)),//top left
-                        new Vertex(new Vector3f(SIZE, SIZE, 0.0f))//top right
-                }, new int[] {0, 1, 2, 1, 3, 2}
-        );
+        return new Mesh(new Square());
     }
 }

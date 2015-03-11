@@ -9,4 +9,6 @@ public interface Shape {
 
     public Vertex[] getVertices();
 
+    public int[] getIndices();
+
 }

@@ -10,6 +10,7 @@ import org.FRPengine.rendering.Vertex;
 public class Square implements Shape {
 
     private Vertex[] vertices;
+    private int[] drawOrder = new int[] {0, 1, 3, 1, 2, 3};
 
     public Square() {
         this(0.1f);
@@ -30,9 +31,11 @@ public class Square implements Shape {
         return vertices;
     }
 
-    private static Vertex[] orderClockwise(Vertex[] vertices) {
-        MergeSort<Vertex> merge = new MergeSort<>();
-        return merge.mergeSort(vertices);
+    public int[] getIndices() {
+        return drawOrder;
     }
 
+    private static Vertex[] orderClockwise(Vertex[] vertices) {
+        return new MergeSort<Vertex>().mergeSort(vertices);
+    }
 }

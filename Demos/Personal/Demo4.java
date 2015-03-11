@@ -63,11 +63,11 @@ public class Demo4 {
 
         tempJunkListener = FRPMouse.clickStream
 //        Optional<FRPMouse.Mouse>
-                .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT)
-                .filter(mouse -> mouse.action == GLFW_PRESS)
-                .snapshot(cursorPosStream.hold(null), (a, b) -> new Tuple2<>(a, b))
+                .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT &&
+                        mouse.action == GLFW_PRESS)
+                .snapshot(cursorPosStream.hold(null), (click, cursor) -> new Tuple2<>(click, cursor))
                 .filter(mouse -> new Click(screenToWorldSpace(mouse.b.position))
-                        .isInPolygon(sceneMeshes[0].mesh.dummySquare.getVertices()))
+                        .isInPolygon(sceneMeshes[0].mesh.shape.getVertices()))
                 .listen(mouse -> System.out.println("Right mouse button Pressed "
                         + screenToWorldSpace(mouse.b.position)));
 
