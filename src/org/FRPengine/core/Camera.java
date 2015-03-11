@@ -17,9 +17,9 @@ public class Camera {
     public float height;
     public float fieldOfView;
 
-    private Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
-    private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
-    private Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
+    public Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
+    public Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
+    public Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
     public Cell<Vector3f> translation;
     private Vector3f rotation;
     private Vector3f scale;

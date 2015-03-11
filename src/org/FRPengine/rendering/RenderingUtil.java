@@ -27,9 +27,9 @@ public class RenderingUtil {
 		FloatBuffer buffer = createFloatBuffer( vertices.length * Vertex.SIZE );
 
 		for( int i = 0; i < vertices.length; i++ ) {
-			buffer.put( vertices[ i ].getPosition( ).getX( ) );
-			buffer.put( vertices[ i ].getPosition( ).getY( ) );
-			buffer.put( vertices[ i ].getPosition( ).getZ( ) );
+			buffer.put( vertices[ i ].getPos().getX( ) );
+			buffer.put( vertices[ i ].getPos().getY( ) );
+			buffer.put( vertices[ i ].getPos().getZ( ) );
 			buffer.put( vertices[ i ].getTexCoord( ).getX( ) );
 			buffer.put( vertices[ i ].getTexCoord( ).getY( ) );
 			buffer.put( vertices[ i ].getNormal( ).getX( ) );

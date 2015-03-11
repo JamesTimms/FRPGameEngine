@@ -34,10 +34,6 @@ public class Vector2f {
 		return new Vector2f( x / length, y / length );
 	}
 
-	public float cross( Vector2f vector ) {
-		return x * vector.getY( ) - y * vector.getX( );
-	}
-
 	public Vector2f lerp( Vector2f vector, float lerpFactor ) {
 		return vector.sub( this ).mul( lerpFactor ).add( this );
 	}

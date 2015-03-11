@@ -1,5 +1,6 @@
 package org.FRPengine.Physics;
 
+import org.FRPengine.Physics.Manafolds.Shape;
 import org.FRPengine.maths.Vector2f;
 
 /**
