@@ -1,7 +1,7 @@
 package spikeWork;
 
-import org.FRPengine.core.FRPDisplay;
-import org.FRPengine.core.FRPKeyboard;
+import org.engineFRP.core.FRPDisplay;
+import org.engineFRP.core.FRPKeyboard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,7 @@
 package spikeWork;
 
-import org.FRPengine.Physics.collision.AABB;
-import org.FRPengine.maths.Vector3f;
+import org.engineFRP.Physics.collision.AABB;
+import org.engineFRP.maths.Vector3f;
 import org.junit.After;
 import org.testng.annotations.Test;
 import sodium.Stream;

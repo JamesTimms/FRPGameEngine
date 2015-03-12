@@ -1,8 +1,8 @@
 package Personal;
 
-import org.FRPengine.core.*;
-import org.FRPengine.maths.Vector3f;
-import org.FRPengine.rendering.SimpleRenderer;
+import org.engineFRP.core.*;
+import org.engineFRP.maths.Vector3f;
+import org.engineFRP.rendering.SimpleRenderer;
 
 import static org.lwjgl.glfw.GLFW.*;
 

@@ -1,6 +1,6 @@
 package Personal;
 
-import org.FRPengine.core.*;
+import org.engineFRP.core.*;
 import org.lwjgl.opengl.GLContext;
 import sodium.Listener;
 

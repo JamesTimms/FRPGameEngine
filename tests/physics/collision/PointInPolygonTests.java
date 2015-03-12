@@ -1,11 +1,11 @@
 package physics.collision;
 
-import org.FRPengine.Physics.Manafolds.Shape;
-import org.FRPengine.Physics.Manafolds.Square;
-import org.FRPengine.Physics.collision.Click;
-import org.FRPengine.maths.Vector2f;
+import org.engineFRP.Physics.Manafolds.Shape;
+import org.engineFRP.Physics.Manafolds.Square;
+import org.engineFRP.Physics.collision.Click;
+import org.engineFRP.maths.Vector2f;
 import org.junit.After;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;

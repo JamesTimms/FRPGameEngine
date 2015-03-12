@@ -1,7 +1,7 @@
 package spikeWork;
 
-import org.FRPengine.core.Transform;
-import org.FRPengine.maths.Vector3f;
+import org.engineFRP.core.Transform;
+import org.engineFRP.maths.Vector3f;
 import org.junit.After;
 import org.testng.annotations.Test;
 import sodium.StreamSink;

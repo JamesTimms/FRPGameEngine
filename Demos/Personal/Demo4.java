@@ -1,19 +1,17 @@
 package Personal;
 
-import org.FRPengine.Physics.collision.Click;
-import org.FRPengine.core.*;
-import org.FRPengine.maths.Vector3f;
-import org.FRPengine.rendering.MeshUtil;
-import org.FRPengine.rendering.SimpleRenderer;
-import org.FRPengine.rendering.shaders.BasicShader;
-import org.FRPengine.rendering.shaders.Shader;
-import sodium.Cell;
-import sodium.Listener;
-import sodium.StreamSink;
-import sodium.Tuple2;
+import org.engineFRP.Physics.collision.Click;
+import org.engineFRP.core.*;
+import org.engineFRP.core.Transform;
+import org.engineFRP.maths.Vector3f;
+import org.engineFRP.rendering.MeshUtil;
+import org.engineFRP.rendering.SimpleRenderer;
+import org.engineFRP.rendering.shaders.BasicShader;
+import org.engineFRP.rendering.shaders.Shader;
+import sodium.*;
 
-import static org.FRPengine.core.FRPMouse.cursorPosStream;
-import static org.FRPengine.core.FRPMouse.screenToWorldSpace;
+import static org.engineFRP.core.FRPMouse.cursorPosStream;
+import static org.engineFRP.core.FRPMouse.screenToWorldSpace;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
@@ -43,17 +41,18 @@ public class Demo4 {
         loop();
     }
 
-//    public void setupScene() {
-//        for(Transform transform : sceneMeshes) {
-//            transform.mergeIntoCellAndAccum(movements());
-//        }
-//    }
-//
-//    public static Stream<Vector3f> movements() {
-//        return Time.deltaOf(frameStream)
-//                .map(deltaTime -> Vector3f.ZERO)
-//                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
-//    }
+    public void setupScene() {
+        for(Transform transform : sceneMeshes) {
+            transform.mergeIntoCellAndAccum(movements());
+        }
+    }
+
+    //
+    public static Stream<Vector3f> movements() {
+        return Time.deltaOf(frameStream)
+                .map(deltaTime -> Vector3f.ZERO)
+                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
+    }
 
     Listener scoreListener;
 
@@ -62,14 +61,17 @@ public class Demo4 {
         sceneMeshes = new Transform[] {
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare())
         };
+        setupScene();
 
         score = FRPMouse.clickStream
+                //TODO: Make square move back and forth.
+                //TODO: Add a game timer.
 //        Optional<FRPMouse.Mouse>
                 .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT &&
                         mouse.action == GLFW_PRESS)
                 .snapshot(cursorPosStream.hold(null), (click, cursor) -> new Tuple2<>(click, cursor))
                 .map(mouse -> new Click(screenToWorldSpace(mouse.b.position))
-                        .isInPolygon(sceneMeshes[0].mesh.shape))
+                        .isInPolygon(sceneMeshes[0].mesh.shape, sceneMeshes[0]))//FIXME: need to make this work better.
                 .map(hitShape -> {
                     if(hitShape) {
                         return 1;
