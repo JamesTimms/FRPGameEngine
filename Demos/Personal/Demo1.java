@@ -29,7 +29,6 @@ public class Demo1 {
         FRPKeyboard.create();
         FRPMouse.create();
 
-        setupCloseWindow();
         printKeyDown();
         printKeyUp();
         setupTimeIncreaseKeys();
@@ -59,12 +58,6 @@ public class Demo1 {
             allListeners.get(i).unlisten();
             allListeners.set(i, null);
         }
-    }
-
-    public static void setupCloseWindow() {
-        allListeners.add(FRPKeyboard.keyEvent
-                .filter(key -> key.key == GLFW_KEY_ESCAPE && key.action == GLFW_RELEASE)
-                .listen(key -> glfwSetWindowShouldClose(key.window, GL_TRUE)));
     }
 
     public static void printKeyDown() {

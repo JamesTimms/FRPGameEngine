@@ -8,6 +8,7 @@ import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import sodium.Cell;
+import sodium.Listener;
 import sodium.Stream;
 import sodium.StreamSink;
 
@@ -32,6 +33,7 @@ public final class FRPDisplay {
     private static GLFWWindowSizeCallback newCallback;
 
     private static Long window;//This is an object so it can be null when window fails to load or isn't yet loaded.
+    private static Listener exitWindow;
 
     private static void init() {
         if(glfwInit() != GL_TRUE)
@@ -53,6 +55,7 @@ public final class FRPDisplay {
         System.out.println(glfwGetVersionString());
         glfwSwapInterval(1);
         centreScreen();
+        setupCloseWindow();
 
         glfwSetWindowSizeCallback(FRPDisplay.getWindow(), newCallback = new GLFWWindowSizeCallback() {
             @Override
@@ -93,6 +96,12 @@ public final class FRPDisplay {
                 new Stream<Vector3f>().hold(new Vector3f(-0.6f, -0.6f, 0.0f)),
                 new Stream<Vector3f>().hold(new Vector3f(0.6f, 0.6f, 0.0f))
         );
+    }
+
+    public static void setupCloseWindow() {
+        exitWindow = FRPKeyboard.keyEvent
+                .filter(key -> key.key == GLFW_KEY_ESCAPE && key.action == GLFW_RELEASE)
+                .listen(key -> glfwSetWindowShouldClose(key.window, GL_TRUE));
     }
 
     public static void destroy() {

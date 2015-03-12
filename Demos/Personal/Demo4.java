@@ -47,7 +47,6 @@ public class Demo4 {
         }
     }
 
-    //
     public static Stream<Vector3f> movements() {
         return Time.deltaOf(frameStream)
                 .map(deltaTime -> Vector3f.ZERO)
