@@ -29,7 +29,7 @@ public class MergeSort<A extends Sortable> {
         i = li = ri = 0;
         while(i < totElem) {
             if((li < l.length) && (ri < r.length)) {
-                if(l[li].isHighOrderThan(r[ri])) {
+                if(l[li].isGreaterThan(r[ri])) {
                     a[i] = l[li];
                     i++;
                     li++;

@@ -57,7 +57,7 @@ public class Vertex implements Sortable<Vertex> {
         this.normal = normal;
     }
 
-    public boolean isHighOrderThan(Vertex o) {
+    public boolean isGreaterThan(Vertex o) {
         float cross = this.getPos().cross(o.getPos()).dot(Camera.mainCamera.forward);
         return (cross > 0);
     }

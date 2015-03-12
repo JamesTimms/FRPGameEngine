@@ -5,5 +5,5 @@ package org.engineFRP.Util;
  */
 public interface Sortable<A> {
 
-    public boolean isHighOrderThan(A o);
+    public boolean isGreaterThan(A o);
 }
