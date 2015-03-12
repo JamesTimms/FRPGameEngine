@@ -2,7 +2,6 @@ package Personal;
 
 import org.engineFRP.Physics.collision.Click;
 import org.engineFRP.core.*;
-import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.SimpleRenderer;
@@ -49,8 +48,8 @@ public class Demo4 {
 
     public static Stream<Vector3f> movements() {
         return Time.deltaOf(frameStream)
-                .map(deltaTime -> Vector3f.ZERO)
-                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
+                .map(deltaTime -> new Vector3f((float)Math.sin(deltaTime) / 20.0f, (float)Math.sin(deltaTime) / 20.0f, 0.0f));
+//                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
     }
 
     Listener scoreListener;

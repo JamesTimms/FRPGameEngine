@@ -26,10 +26,10 @@ public class FRPTransformTests {
 
         testTransform.mergeIntoCellAndAccum(moveStream);
         moveStream.send(Vector3f.ONE);
-        assertTrue(Vector3f.ONE.equals(testTransform.translation.sample()));
+        assertTrue(Vector3f.ONE.equals(testTransform.getTranslation()));
 
         moveStream.send(Vector3f.ONE);
-        assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(testTransform.translation.sample()));
+        assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(testTransform.getTranslation()));
     }
 
     @Test
@@ -42,11 +42,11 @@ public class FRPTransformTests {
         testTransform.mergeIntoCellAndAccum(moveStream2);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
-        Vector3f eads= testTransform.translation.sample();
+        Vector3f eads= testTransform.getTranslation();
         assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(eads));
 
         moveStream.send(Vector3f.ONE);
-        eads= testTransform.translation.sample();
+        eads= testTransform.getTranslation();
         assertTrue(new Vector3f(3.0f, 3.0f, 3.0f).equals(eads));
 
         moveStream.send(Vector3f.ONE);
@@ -54,7 +54,7 @@ public class FRPTransformTests {
         moveStream2.send(Vector3f.ONE);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
-        eads= testTransform.translation.sample();
+        eads= testTransform.getTranslation();
         assertTrue(new Vector3f(8.0f, 8.0f, 8.0f).equals(eads));
     }
 }

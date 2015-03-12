@@ -5,7 +5,6 @@ import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
 import sodium.Cell;
-import sodium.Listener;
 import sodium.Stream;
 import sodium.StreamSink;
 
@@ -18,8 +17,8 @@ public class Transform {
     public Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
     public Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
 
-    public Cell<Vector3f> translation;
-    private StreamSink<Vector3f> updateTo = new StreamSink<>();
+    private Cell<Vector3f> translation;
+    public StreamSink<Vector3f> updateTo = new StreamSink<>();
 
     public AABB collider;
     //TODO: Figure out way of combining this stream implicitly with translation.
@@ -59,7 +58,7 @@ public class Transform {
                                 , Vector3f::add)
         );
     }
-    Listener junkListenerTemp;
+
     public void mergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
         this.updateTo = (StreamSink<Vector3f>) updateTo
                 .merge(otherStream);
