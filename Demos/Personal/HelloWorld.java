@@ -19,7 +19,7 @@ public class HelloWorld {
 
     // We need to strongly reference callback instances.
     private GLFWErrorCallback errorCallback;
-    private GLFWKeyCallback   keyCallback;
+    private GLFWKeyCallback keyCallback;
 
     // The window handle
     private long window;
@@ -47,7 +47,7 @@ public class HelloWorld {
         glfwSetErrorCallback(errorCallback = errorCallbackPrint(System.err));
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
-        if ( glfwInit() != GL11.GL_TRUE )
+        if (glfwInit() != GL11.GL_TRUE)
             throw new IllegalStateException("Unable to initialize GLFW");
 
         // Configure our window
@@ -60,7 +60,7 @@ public class HelloWorld {
 
         // create the window
         window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
-        if ( window == NULL )
+        if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
@@ -68,7 +68,7 @@ public class HelloWorld {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
                 System.out.println(key);
-                if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+                if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                     glfwSetWindowShouldClose(window, GL_TRUE); // We will detect this in our rendering loop
             }
         });
@@ -104,7 +104,7 @@ public class HelloWorld {
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-        while ( glfwWindowShouldClose(window) == GL_FALSE ) {
+        while (glfwWindowShouldClose(window) == GL_FALSE) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
             glfwSwapBuffers(window); // swap the color buffers

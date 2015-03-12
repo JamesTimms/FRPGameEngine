@@ -14,7 +14,7 @@ public class Demo2 {
     public static void main(String[] args) {
         new Demo2();
     }
-    
+
     public Demo2() {
         FRPDisplay.create();
         FRPKeyboard.create();
@@ -28,12 +28,12 @@ public class Demo2 {
 
         Time renderTimer = new Time();
         Time frameTimer = new Time();
-        while(!FRPDisplay.shouldWindowClose()) {
-            if(frameTimer.shouldGetFrame(120)) {
+        while (!FRPDisplay.shouldWindowClose()) {
+            if (frameTimer.shouldGetFrame(120)) {
                 glfwPollEvents();
             }
 
-            if(renderTimer.shouldGetFrame(60)) {
+            if (renderTimer.shouldGetFrame(60)) {
                 SimpleRenderer.Render();
             }
         }

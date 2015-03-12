@@ -40,7 +40,7 @@ public class Demo1 {
     }
 
     public static void loop() {
-        while(!FRPDisplay.shouldWindowClose()) {
+        while (!FRPDisplay.shouldWindowClose()) {
             GLContext.createFromCurrent();
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -54,7 +54,7 @@ public class Demo1 {
         FRPKeyboard.Destroy();
         FRPDisplay.destroy();
         ErrorHandling.Destroy();
-        for(int i = 0; i < allListeners.size(); i++) {
+        for (int i = 0; i < allListeners.size(); i++) {
             allListeners.get(i).unlisten();
             allListeners.set(i, null);
         }

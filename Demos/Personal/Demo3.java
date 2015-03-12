@@ -44,7 +44,7 @@ public class Demo3 {
 
     public void setupScene() {
         background = FRPDisplay.setupScreenCollider();
-        for(Transform transform : sceneMeshes) {
+        for (Transform transform : sceneMeshes) {
             transform.mergeIntoCellAndAccum(movements());
             transform.mergeIntoCellAndAccum(mapCollision(transform));
         }
@@ -70,7 +70,7 @@ public class Demo3 {
     public void loop() {
         colliderStream = new StreamSink<>();
         shader2 = new BasicShader();
-        sceneMeshes = new Transform[] {
+        sceneMeshes = new Transform[]{
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
                 new Transform(new Vector3f(-0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
                 new Transform(new Vector3f(0.1f, 0.4f, -1.0f), MeshUtil.BuildSquare()),
@@ -78,11 +78,11 @@ public class Demo3 {
         };
         setupScene();
 
-        while(!FRPDisplay.shouldWindowClose()) {
-            if(pollTimer.shouldGetFrame(120)) {
+        while (!FRPDisplay.shouldWindowClose()) {
+            if (pollTimer.shouldGetFrame(120)) {
                 glfwPollEvents();
                 checkCollisions();
-                if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
+                if (renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                     renderDemo3();
                 }
                 frameStream.send(Time.THIRTY_PER_SECOND);//Sent arbitrarily and doesn't matter when it's sent just as long as it
@@ -92,7 +92,7 @@ public class Demo3 {
     }
 
     public static void drawDemo3() {
-        for(Transform transform : sceneMeshes) {
+        for (Transform transform : sceneMeshes) {
             shader2.draw(transform);
         }
     }

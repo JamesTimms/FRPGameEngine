@@ -41,14 +41,17 @@ public class Demo4 {
     }
 
     public void setupScene() {
-        for(Transform transform : sceneMeshes) {
+        for (Transform transform : sceneMeshes) {
             transform.mergeIntoCellAndAccum(movements());
         }
     }
 
     public static Stream<Vector3f> movements() {
         return Time.deltaOf(frameStream)
-                .map(deltaTime -> new Vector3f((float)Math.sin(deltaTime) / 20.0f, (float)Math.sin(deltaTime) / 20.0f, 0.0f));
+                .map(deltaTime -> {
+                    double curTime = Time.getTime() / Time.SECOND;
+                    return new Vector3f((float) Math.sin(curTime) / 80.0f, (float) Math.sin(curTime) / 80.0f, 0.0f);
+                });
 //                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
     }
 
@@ -56,7 +59,7 @@ public class Demo4 {
 
     public void loop() {
         shader2 = new BasicShader();
-        sceneMeshes = new Transform[] {
+        sceneMeshes = new Transform[]{
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare())
         };
         setupScene();
@@ -71,7 +74,7 @@ public class Demo4 {
                 .map(mouse -> new Click(screenToWorldSpace(mouse.b.position))
                         .isInPolygon(sceneMeshes[0].mesh.shape, sceneMeshes[0]))//FIXME: need to make this work better.
                 .map(hitShape -> {
-                    if(hitShape) {
+                    if (hitShape) {
                         return 1;
                     } else {
                         return -1;
@@ -89,10 +92,10 @@ public class Demo4 {
         //  sleepOrFreeThread(forSmallestTimeTillNextUpdate);//For example sleep for 1/30 of a second.
         //  processNextActionRequired();//Not sure how this will work for simultaneous actions.
         //}
-        while(!FRPDisplay.shouldWindowClose()) {
-            if(pollTimer.shouldGetFrame(120)) {
+        while (!FRPDisplay.shouldWindowClose()) {
+            if (pollTimer.shouldGetFrame(120)) {
                 glfwPollEvents();
-                if(renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
+                if (renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
                     renderDemo3();
                 }
                 frameStream.send(Time.THIRTY_PER_SECOND);
@@ -102,7 +105,7 @@ public class Demo4 {
     }
 
     public static void drawDemo3() {
-        for(Transform transform : sceneMeshes) {
+        for (Transform transform : sceneMeshes) {
             shader2.draw(transform);
         }
     }
