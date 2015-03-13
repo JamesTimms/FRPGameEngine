@@ -10,7 +10,7 @@ import org.engineFRP.rendering.Vertex;
 public class Square extends Shape {
 
     public Square() {
-        this(0.1f);
+        this(0.4f);
     }
 
     public Square(float size) {

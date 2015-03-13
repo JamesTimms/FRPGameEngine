@@ -1,6 +1,7 @@
 package org.engineFRP.core;
 
 import sodium.Cell;
+import sodium.Lambda2;
 import sodium.Stream;
 import sodium.Tuple2;
 
@@ -61,6 +62,14 @@ public class Time {
     public static Stream<Time> stream(Stream<Integer> frameRateStream) {
         return frameRateStream
                 .snapshot(Time.stream(), (Integer x, Time z) -> new Tuple2<>(x, z))
+                .filter(tuple -> tuple.b.shouldGetFrame(tuple.a))
+                .map(timeTuple -> timeTuple.b);
+    }
+
+//    (Integer x, Time z) -> new Tuple2<>(x, z)
+    public static Stream<Time> stream2(Stream<Integer> frameRateStream, Lambda2<Integer, Time, Tuple2<Integer, Time>> lamda) {
+        return frameRateStream
+                .snapshot(Time.stream(), lamda)
                 .filter(tuple -> tuple.b.shouldGetFrame(tuple.a))
                 .map(timeTuple -> timeTuple.b);
     }

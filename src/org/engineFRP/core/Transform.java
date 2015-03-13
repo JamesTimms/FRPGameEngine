@@ -62,9 +62,13 @@ public class Transform {
     public void mergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
         this.updateTo = (StreamSink<Vector3f>) updateTo
                 .merge(otherStream);
-        this.translation = updateTo
-                .accum(this.translation.sample(), (newVector, total) -> total.add(newVector));
-        this.collider = updateABBA();
+        Replay(updateTo);
+//        this.collider = updateABBA();
+    }
+
+    public void Replay(Stream<Vector3f> newStream){
+        this.translation = newStream
+                .accum(this.getTranslation(), (newVector, total) -> total.add(newVector));
     }
 
     public Matrix4f getTransformMatrix() {
