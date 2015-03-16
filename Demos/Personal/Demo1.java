@@ -1,6 +1,10 @@
 package Personal;
 
-import org.engineFRP.core.*;
+import org.engineFRP.FRP.Time;
+import org.engineFRP.core.ErrorHandling;
+import org.engineFRP.core.FRPDisplay;
+import org.engineFRP.core.FRPKeyboard;
+import org.engineFRP.core.FRPMouse;
 import org.lwjgl.opengl.GLContext;
 import sodium.Listener;
 
@@ -8,16 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 
 /**
  * Created by TekMaTek on 17/02/2015.
  */
 public class Demo1 {
 
-    public static List<Listener> allListeners = new ArrayList<>();
-    //TODO: Think of better way of storing listeners. These are only here for clean up and so Java GC doesn't remove them.
-    public static int rate_of_update = Time.ONE_PER_SECOND;
+    private static List<Listener> allListeners = new ArrayList<>();
+    private static Time frameTimer;
 
     public static void main(String[] args) {
         new Demo1();
@@ -40,7 +44,7 @@ public class Demo1 {
     }
 
     public static void loop() {
-        while (!FRPDisplay.shouldWindowClose()) {
+        while(!FRPDisplay.shouldWindowClose()) {
             GLContext.createFromCurrent();
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -54,7 +58,7 @@ public class Demo1 {
         FRPKeyboard.Destroy();
         FRPDisplay.destroy();
         ErrorHandling.Destroy();
-        for (int i = 0; i < allListeners.size(); i++) {
+        for(int i = 0; i < allListeners.size(); i++) {
             allListeners.get(i).unlisten();
             allListeners.set(i, null);
         }
@@ -77,14 +81,15 @@ public class Demo1 {
         allListeners.add(FRPKeyboard.keyEvent
                 .filter(key -> key.key == GLFW_KEY_UP)
                 .listen(key -> {
-                    System.out.println(rate_of_update);
-                    rate_of_update += 1;
+                    frameTimer.frameRate += 1;
+                    System.out.println(frameTimer.frameRate);
                 }));
         allListeners.add(FRPKeyboard.keyEvent
                 .filter(key -> key.key == GLFW_KEY_DOWN)
                 .listen(key -> {
-                    System.out.println(rate_of_update);
-                    rate_of_update -= 1;
+                    ;
+                    frameTimer.frameRate -= 1;
+                    System.out.println(frameTimer.frameRate);
                 }));
     }
 
@@ -95,9 +100,9 @@ public class Demo1 {
     }
 
     public static void printCursorPosition() {
-        Time frameTimer = new Time();
+        frameTimer = new Time(Time.ONE_PER_SECOND);
         allListeners.add(FRPMouse.cursorPosStream
-                .filter(x -> frameTimer.shouldGetFrame(rate_of_update))
+                .filter(x -> frameTimer.shouldGetFrame())
                 .listen(cursor -> System.out.println(cursor.position.toString())));
     }
 }

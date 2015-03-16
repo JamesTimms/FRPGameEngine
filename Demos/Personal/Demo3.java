@@ -1,7 +1,11 @@
 package Personal;
 
-import org.engineFRP.core.*;
+import org.engineFRP.FRP.FRPTime;
+import org.engineFRP.FRP.Time;
 import org.engineFRP.Physics.collision.AABB;
+import org.engineFRP.core.FRPDisplay;
+import org.engineFRP.core.FRPKeyboard;
+import org.engineFRP.core.FRPUtil;
 import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
@@ -26,9 +30,8 @@ public class Demo3 {
         new Demo3();
     }
 
-    static Time renderTimer = new Time();
-    static Time pollTimer = new Time();
-    static StreamSink<Integer> frameStream = new StreamSink<>();
+    static Time renderTimer = new Time(Time.THIRTY_PER_SECOND);
+    static Time pollTimer = new Time(120);
     static StreamSink<Tuple2<AABB, AABB>> colliderStream;
 
     static Shader shader2;
@@ -44,14 +47,14 @@ public class Demo3 {
 
     public void setupScene() {
         background = FRPDisplay.setupScreenCollider();
-        for (Transform transform : sceneMeshes) {
+        for(Transform transform : sceneMeshes) {
             transform.mergeIntoCellAndAccum(movements());
             transform.mergeIntoCellAndAccum(mapCollision(transform));
         }
     }
 
     public static Stream<Vector3f> movements() {
-        return Time.deltaOf(frameStream)
+        return FRPTime.streamDelta(Time.THIRTY_PER_SECOND)
                 .map(deltaTime -> new Vector3f(0.1f * deltaTime, 0.0f, 0.0f))
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
     }
@@ -70,29 +73,28 @@ public class Demo3 {
     public void loop() {
         colliderStream = new StreamSink<>();
         shader2 = new BasicShader();
-        sceneMeshes = new Transform[]{
+        sceneMeshes = new Transform[] {
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(-0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(0.1f, 0.4f, -1.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(0.3f, 0.0f, -1.0f), MeshUtil.BuildSquare())
+                new Transform(new Vector3f(-0.6f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(0.2f, 0.8f, -1.0f), MeshUtil.BuildSquare()),
+                new Transform(new Vector3f(0.6f, 0.0f, -1.0f), MeshUtil.BuildSquare())
         };
         setupScene();
 
-        while (!FRPDisplay.shouldWindowClose()) {
-            if (pollTimer.shouldGetFrame(120)) {
+        while(!FRPDisplay.shouldWindowClose()) {
+            if(pollTimer.shouldGetFrame()) {
                 glfwPollEvents();
                 checkCollisions();
-                if (renderTimer.shouldGetFrame(Time.THIRTY_PER_SECOND)) {
+                if(renderTimer.shouldGetFrame()) {
                     renderDemo3();
                 }
-                frameStream.send(Time.THIRTY_PER_SECOND);//Sent arbitrarily and doesn't matter when it's sent just as long as it
-                //isn't infrequently enough to cause a frame to be missed.
+                FRPTime.pollStreams();
             }
         }
     }
 
     public static void drawDemo3() {
-        for (Transform transform : sceneMeshes) {
+        for(Transform transform : sceneMeshes) {
             shader2.draw(transform);
         }
     }

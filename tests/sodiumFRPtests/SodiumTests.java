@@ -78,4 +78,13 @@ public class SodiumTests {
         posStream.send(new Position(1, 2));
         assertTrue(new Position(1, 2).equals(pos.sample()));
     }
+
+    @Test
+    public void testShittStuff() {
+        StreamSink<Position> posStream = (StreamSink<Position>) new StreamSink<Position>()
+                .filter(position -> position.a != 1);//By casting to StreamSink the filter is lost.
+        Cell<Position> pos = posStream.hold(null);
+        posStream.send(new Position(1, 2));
+        assertTrue(new Position(1, 2).equals(pos.sample()));//This should be null.
+    }
 }
