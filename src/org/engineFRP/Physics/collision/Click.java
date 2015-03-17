@@ -18,7 +18,7 @@ public class Click {
 
     public boolean isInPolygon(Shape shape, Transform transform) {
         //vertices must be in clockwise order.
-        Vertex[] vertices = shape.adjustToTransform(transform);
+        Vertex[] vertices = shape.flipVerticesY(transform);
         int vertCount = vertices.length;
         int low = 0, high = vertCount;
         do {

@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL15.*;
 /**
  * Created by TekMaTek on 27/10/2014.
  */
-public class Mesh{
+public class Mesh {
 
     public int vertexBO;
     public int indexBO;
@@ -23,18 +23,16 @@ public class Mesh{
 
     public Mesh(Vertex[] paramVertices, int[] indices, boolean shouldCalNormals) {
         this(new Shape() {
+            @Override
+            public Vertex[] getVertices() {
+                return paramVertices;
+            }
 
-                 @Override
-                 public Vertex[] getVertices() {
-                     return paramVertices;
-                 }
-
-                 @Override
-                 public int[] getIndices() {
-                     return indices;
-                 }
-             },
-                shouldCalNormals);
+            @Override
+            public int[] getIndices() {
+                return indices;
+            }
+        }, shouldCalNormals);
     }
 
     public Mesh(Shape shape) {
@@ -76,6 +74,11 @@ public class Mesh{
         indexBO = glGenBuffers();
         indicesLength = 0;
         vertexLength = 0;
+    }
+
+    public void resize(float resizeFactor) {
+        this.shape.resize(resizeFactor);
+        this.addVertices(shape.getVertices());
     }
 
     private void loadMesh(String filename) {

@@ -68,9 +68,6 @@ public class Demo4 {
         setupScene();
 
         Cell<Integer> score = FRPMouse.clickStream
-                //TODO: Make square move back and forth.
-                //TODO: Add a game timer.
-//        Optional<FRPMouse.Mouse>
                 .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT &&
                         mouse.action == GLFW_PRESS)
                 .snapshot(cursorPosStream.hold(null), (click, cursor) -> new Tuple2<>(click, cursor))
@@ -78,8 +75,10 @@ public class Demo4 {
                         .isInPolygon(sceneMeshes[0].mesh.shape, sceneMeshes[0]))//FIXME: need to make this work better.
                 .map(hitShape -> {
                     if(hitShape) {
+                        sceneMeshes[0].mesh.resize(0.80f);
                         return 1;
                     } else {
+                        sceneMeshes[0].mesh.resize(1.25f);
                         return -1;
                     }
                 })

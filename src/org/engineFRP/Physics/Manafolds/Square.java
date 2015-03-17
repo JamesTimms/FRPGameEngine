@@ -25,14 +25,6 @@ public class Square extends Shape {
         vertices = orderClockwise(vertices);//This is here for point in shape collision stuff.
     }
 
-    public Vertex[] getVertices() {
-        return vertices;
-    }
-
-    public int[] getIndices() {
-        return drawOrder;
-    }
-
     private static Vertex[] orderClockwise(Vertex[] vertices) {
         return new MergeSort<Vertex>().mergeSort(vertices);
     }

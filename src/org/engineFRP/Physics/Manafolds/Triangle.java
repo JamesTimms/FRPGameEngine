@@ -23,14 +23,6 @@ public class Triangle extends Shape {
         orderClockwise(vertices);
     }
 
-    public Vertex[] getVertices() {
-        return vertices;
-    }
-
-    public int[] getIndices() {
-        return drawOrder;
-    }
-
     private static Vertex[] orderClockwise(Vertex[] vertices) {
         return new MergeSort<Vertex>().mergeSort(vertices);
     }

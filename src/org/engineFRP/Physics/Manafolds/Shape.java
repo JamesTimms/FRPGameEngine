@@ -7,16 +7,32 @@ import org.engineFRP.rendering.Vertex;
 /**
  * Created by james on 3/10/15.
  */
-public abstract class Shape {
+public class Shape {
 
     protected Vertex[] vertices;
     protected int[] drawOrder;
 
-    public abstract Vertex[] getVertices();
+    public Vertex[] getVertices() {
+        return vertices;
+    }
 
-    public abstract int[] getIndices();
+    public Vertex[] setVertices(Vertex[] vertices) {
+        this.vertices = vertices;
+        return this.vertices;
+    }
 
-    public Vertex[] adjustToTransform(Transform transform) {
+    public Vertex[] resize(float resizeFactor) {
+        for(int i = 0; i < this.vertices.length; i++) {
+            this.vertices[i].setPosition(this.vertices[i].getPos().mul(resizeFactor));
+        }
+        return this.vertices;
+    }
+
+    public int[] getIndices() {
+        return drawOrder;
+    }
+
+    public Vertex[] flipVerticesY(Transform transform) {
         Vertex[] existingVerts = this.getVertices();
         Vertex[] newVerts = new Vertex[existingVerts.length];
         for(int i = 0; i < existingVerts.length; i++) {
@@ -26,5 +42,4 @@ public abstract class Shape {
         }
         return newVerts;
     }
-
 }
