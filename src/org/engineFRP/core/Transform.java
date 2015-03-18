@@ -44,7 +44,7 @@ public class Transform {
         this.collider = updateABBA();
     }
 
-    public Vertex[] addTransformPosAndFlipY() {
+    public Vertex[] addPosAndFlipY() {
         Vertex[] existingVerts = this.mesh.shape.getVertices();
         Vertex[] newVerts = new Vertex[existingVerts.length];
         for(int i = 0; i < existingVerts.length; i++) {

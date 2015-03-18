@@ -11,10 +11,11 @@ import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.SimpleRenderer;
 import org.engineFRP.rendering.shaders.BasicShader;
 import org.engineFRP.rendering.shaders.Shader;
-import sodium.Cell;
-import sodium.Listener;
-import sodium.Stream;
-import sodium.Tuple2;
+import sodium.*;
+
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import static org.engineFRP.core.FRPMouse.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -45,6 +46,10 @@ public class Demo4 {
     }
 
     public void setupScene() {
+        shader2 = new BasicShader();
+        sceneTransforms = new Transform[] {
+                new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare())
+        };
         for(Transform transform : sceneTransforms) {
             transform.mergeIntoCellAndAccum(movements());
         }
@@ -61,37 +66,36 @@ public class Demo4 {
 
     Listener scoreListener;
 
-    public static boolean anyShapesClicked(Tuple2<Mouse, Cursor> mouse) {
-        boolean hasClicked = false;
-        for(Transform transform : sceneTransforms) {
-            hasClicked = hasClicked
-                    || Click.isInPolygon(transform.addTransformPosAndFlipY(), screenToWorldSpace(mouse.b.position));
+    public static Dictionary<Transform, Boolean> shapesClicked(Tuple2<Mouse, Cursor> mouse) {
+        Dictionary<Transform, Boolean> hits = new Hashtable<>();
+        for(Transform t : sceneTransforms) {
+            hits.put(t,
+                    Click.isInPolygon(t.addPosAndFlipY(), mouse.b.position));
         }
-        return hasClicked;
+        return hits;
     }
 
+    public static final Lambda1<Dictionary<Transform, Boolean>, Integer> dealWithScore =
+            hitShape -> {
+                int scoreThisClick = 0;
+                Enumeration<Transform> keys = hitShape.keys();
+                while(keys.hasMoreElements()) {
+                    Transform t = keys.nextElement();
+                    if(hitShape.get(t)) {
+                        t.mesh.resize(0.80f);
+                        scoreThisClick++;
+                    } else {
+                        t.mesh.resize(1.25f);
+                        scoreThisClick--;
+                    }
+                }
+                return scoreThisClick;
+            };
+
     public void loop() {
-        shader2 = new BasicShader();
-        sceneTransforms = new Transform[] {
-                new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare())
-        };
         setupScene();
 
-        Cell<Integer> score = clickStream
-                .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT &&
-                        mouse.action == GLFW_PRESS)
-                .snapshot(cursorPosStream.hold(null), (click, cursor) -> new Tuple2<>(click, cursor))
-                .map(Demo4::anyShapesClicked)
-                .map(hitShape -> {
-                    if(hitShape) {
-                        sceneTransforms[0].mesh.resize(0.80f);
-                        return 1;
-                    } else {
-                        sceneTransforms[0].mesh.resize(1.25f);
-                        return -1;
-                    }
-                })
-                .accum(0, (curScore, lastScore) -> curScore + lastScore);
+        Cell<Integer> score = shapeClickStream();
 
         scoreListener = score
                 .updates()
@@ -113,6 +117,16 @@ public class Demo4 {
             }
         }
         scoreListener.unlisten();
+    }
+
+    private Cell<Integer> shapeClickStream() {
+        return clickStream
+                .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT &&
+                        mouse.action == GLFW_PRESS)
+                .snapshot(cursorPosStream.hold(null), (click, cursor) -> new Tuple2<>(click, cursor))
+                .map(Demo4::shapesClicked)
+                .map(dealWithScore::apply)
+                .accum(0, (curScore, lastScore) -> curScore + lastScore);
     }
 
     public static void drawDemo3() {

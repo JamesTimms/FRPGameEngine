@@ -1,5 +1,6 @@
 package org.engineFRP.Physics.collision;
 
+import org.engineFRP.core.FRPMouse;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.rendering.Vertex;
 
@@ -8,14 +9,15 @@ import org.engineFRP.rendering.Vertex;
  */
 public class Click {
 
-    public static boolean isInPolygon(Vertex[] vertices, Vector2f point) {
+    public static boolean isInPolygon(Vertex[] vertices, Vector2f screenPoint) {
         //vertices must be in clockwise order.
 //        Vertex[] vertices = shape.getVertices();
         int vertCount = vertices.length;
+        Vector2f worldPoint = FRPMouse.screenToWorldSpace(screenPoint);
         int low = 0, high = vertCount;
         do {
             int mid = (low + high) / 2;
-            if(isPointLeftOfLine(vertices[0].getPos().getXY(), vertices[mid].getPos().getXY(), point)) {
+            if(isPointLeftOfLine(vertices[0].getPos().getXY(), vertices[mid].getPos().getXY(), worldPoint)) {
                 low = mid;
             } else {
                 high = mid;
@@ -25,7 +27,7 @@ public class Click {
         if(low == 0 || high == vertCount) {
             return false;
         }
-        return isPointLeftOfLine(vertices[low].getPos().getXY(), vertices[high].getPos().getXY(), point);
+        return isPointLeftOfLine(vertices[low].getPos().getXY(), vertices[high].getPos().getXY(), worldPoint);
     }
 
     private static boolean isPointLeftOfLine(Vector2f a, Vector2f b, Vector2f point) {
