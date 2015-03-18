@@ -71,11 +71,12 @@ public class Transform {
         );
     }
 
-    public void mergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
+    public Transform mergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
         this.updateTo = (StreamSink<Vector3f>) updateTo
                 .merge(otherStream);
         Replay(updateTo);
 //        this.collider = updateABBA();
+        return this;
     }
 
     public void Replay(Stream<Vector3f> newStream){

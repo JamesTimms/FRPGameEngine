@@ -49,10 +49,8 @@ public class Demo4 {
         shader2 = new BasicShader();
         sceneTransforms = new Transform[] {
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare())
+                        .mergeIntoCellAndAccum(movements())
         };
-        for(Transform transform : sceneTransforms) {
-            transform.mergeIntoCellAndAccum(movements());
-        }
     }
 
     public static Stream<Vector3f> movements() {
@@ -61,19 +59,19 @@ public class Demo4 {
                     double curTime = Time.getTime() / Time.SECOND;
                     return new Vector3f((float) Math.sin(curTime) / 80.0f, (float) Math.sin(curTime) / 80.0f, 0.0f);
                 });
-//                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
     }
 
     Listener scoreListener;
 
-    public static Dictionary<Transform, Boolean> shapesClicked(Tuple2<Mouse, Cursor> mouse) {
-        Dictionary<Transform, Boolean> hits = new Hashtable<>();
-        for(Transform t : sceneTransforms) {
-            hits.put(t,
-                    Click.isInPolygon(t.addPosAndFlipY(), mouse.b.position));
-        }
-        return hits;
-    }
+    public static final Lambda1<Tuple2<Mouse, Cursor>, Dictionary<Transform, Boolean>> shapesClicked =
+            mouse -> {
+                Dictionary<Transform, Boolean> hits = new Hashtable<>();
+                for(Transform t : sceneTransforms) {
+                    hits.put(t,
+                            Click.isInPolygon(t.addPosAndFlipY(), mouse.b.position));
+                }
+                return hits;
+            };
 
     public static final Lambda1<Dictionary<Transform, Boolean>, Integer> dealWithScore =
             hitShape -> {
@@ -94,7 +92,6 @@ public class Demo4 {
 
     public void loop() {
         setupScene();
-
         Cell<Integer> score = shapeClickStream();
 
         scoreListener = score
@@ -124,7 +121,7 @@ public class Demo4 {
                 .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT &&
                         mouse.action == GLFW_PRESS)
                 .snapshot(cursorPosStream.hold(null), (click, cursor) -> new Tuple2<>(click, cursor))
-                .map(Demo4::shapesClicked)
+                .map(shapesClicked::apply)
                 .map(dealWithScore::apply)
                 .accum(0, (curScore, lastScore) -> curScore + lastScore);
     }
