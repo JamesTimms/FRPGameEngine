@@ -1,7 +1,5 @@
 package org.engineFRP.Physics.collision;
 
-import org.engineFRP.Physics.Manafolds.Shape;
-import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.rendering.Vertex;
 
@@ -10,15 +8,9 @@ import org.engineFRP.rendering.Vertex;
  */
 public class Click {
 
-    private Vector2f point;
-
-    public Click(Vector2f point) {
-        this.point = point;
-    }
-
-    public boolean isInPolygon(Shape shape, Transform transform) {
+    public static boolean isInPolygon(Vertex[] vertices, Vector2f point) {
         //vertices must be in clockwise order.
-        Vertex[] vertices = shape.flipVerticesY(transform);
+//        Vertex[] vertices = shape.getVertices();
         int vertCount = vertices.length;
         int low = 0, high = vertCount;
         do {
@@ -36,7 +28,7 @@ public class Click {
         return isPointLeftOfLine(vertices[low].getPos().getXY(), vertices[high].getPos().getXY(), point);
     }
 
-    private boolean isPointLeftOfLine(Vector2f a, Vector2f b, Vector2f point) {
+    private static boolean isPointLeftOfLine(Vector2f a, Vector2f b, Vector2f point) {
         float result = ((b.getX() - a.getX()) * (point.getY() - a.getY())
                 - (b.getY() - a.getY()) * (point.getX() - a.getX()));
         return result > 0;

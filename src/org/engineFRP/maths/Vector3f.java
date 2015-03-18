@@ -131,6 +131,10 @@ public class Vector3f {
         return new Vector2f(x, y);
     }
 
+    public Vector2f getX_YFlipped() {
+        return new Vector2f(x, -y);
+    }
+
     public Vector2f getYZ() {
         return new Vector2f(y, z);
     }

@@ -20,7 +20,7 @@ public class FRPKeyboardTests {
         FRPDisplay.createForTesting();
         FRPKeyboard.create();
     }
-    
+
     @After
     public void destroyDisplayAndKeyboard() throws Exception {
         FRPKeyboard.Destroy();

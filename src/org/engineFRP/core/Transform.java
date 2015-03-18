@@ -4,6 +4,7 @@ import org.engineFRP.Physics.collision.AABB;
 import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
+import org.engineFRP.rendering.Vertex;
 import sodium.Cell;
 import sodium.Stream;
 import sodium.StreamSink;
@@ -41,6 +42,17 @@ public class Transform {
         this.scale = scale;
         this.mesh = mesh;
         this.collider = updateABBA();
+    }
+
+    public Vertex[] addTransformPosAndFlipY() {
+        Vertex[] existingVerts = this.mesh.shape.getVertices();
+        Vertex[] newVerts = new Vertex[existingVerts.length];
+        for(int i = 0; i < existingVerts.length; i++) {
+            Vector3f copyOfTrans = this.getTranslation().clone();
+            copyOfTrans.setY(-copyOfTrans.getY());
+            newVerts[i] = new Vertex(existingVerts[i].getPos().add(copyOfTrans));
+        }
+        return newVerts;
     }
 
     private Cell<Vector3f> initPosStream(Vector3f pos) {

@@ -32,14 +32,4 @@ public class Shape {
         return drawOrder;
     }
 
-    public Vertex[] flipVerticesY(Transform transform) {
-        Vertex[] existingVerts = this.getVertices();
-        Vertex[] newVerts = new Vertex[existingVerts.length];
-        for(int i = 0; i < existingVerts.length; i++) {
-            Vector3f copyOfTrans = transform.getTranslation().clone();
-            copyOfTrans.setY(-copyOfTrans.getY());
-            newVerts[i] = new Vertex(existingVerts[i].getPos().add(copyOfTrans));
-        }
-        return newVerts;
-    }
 }

@@ -12,7 +12,10 @@ import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.SimpleRenderer;
 import org.engineFRP.rendering.shaders.BasicShader;
 import org.engineFRP.rendering.shaders.Shader;
-import sodium.*;
+import sodium.Cell;
+import sodium.Listener;
+import sodium.Stream;
+import sodium.Tuple2;
 
 import static org.engineFRP.core.FRPMouse.cursorPosStream;
 import static org.engineFRP.core.FRPMouse.screenToWorldSpace;
@@ -71,8 +74,8 @@ public class Demo4 {
                 .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT &&
                         mouse.action == GLFW_PRESS)
                 .snapshot(cursorPosStream.hold(null), (click, cursor) -> new Tuple2<>(click, cursor))
-                .map(mouse -> new Click(screenToWorldSpace(mouse.b.position))
-                        .isInPolygon(sceneMeshes[0].mesh.shape, sceneMeshes[0]))//FIXME: need to make this work better.
+                .map(mouse -> Click
+                        .isInPolygon(sceneMeshes[0].addTransformPosAndFlipY(), screenToWorldSpace(mouse.b.position)))
                 .map(hitShape -> {
                     if(hitShape) {
                         sceneMeshes[0].mesh.resize(0.80f);
