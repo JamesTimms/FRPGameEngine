@@ -28,7 +28,7 @@ public class Demo2 {
 
     public static void loop() {
         Camera.mainCamera.translation = FRPUtil.mapArrowKeysToMovementOf(0.5f)
-                .accum(new Vector3f(0.0f, 0.0f, -10.0f), Vector3f::add);
+                .accum(new Vector3f(0.0f, 0.0f, -10.0f), (curValue, newValue) -> Vector3f.add(curValue, newValue));
 
         Time renderTimer = new Time(60);
         Time frameTimer = new Time(120);

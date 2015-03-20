@@ -41,8 +41,8 @@ public class FRPMouse {
     public static Vector2f screenToWorldSpace(Vector2f screenSpace) {
         Vector2f windowSize = FRPDisplay.windowSize.sample();
         return new Vector2f(
-                MathUtil.RangeConvert(0, windowSize.getX(), -1.0f, 1.0f, screenSpace.getX()),
-                MathUtil.RangeConvert(0, windowSize.getY(), -1.0f, 1.0f, screenSpace.getY())
+                MathUtil.RangeConvert(0, windowSize.x, -1.0f, 1.0f, screenSpace.x),
+                MathUtil.RangeConvert(0, windowSize.y, -1.0f, 1.0f, screenSpace.y)
         );
     }
 

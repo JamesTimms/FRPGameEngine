@@ -8,8 +8,8 @@ public class Vector2f {
 
 	public static final Vector2f ONE = new Vector2f( 1.0f, 1.0f );
 	public static final Vector2f ZERO = new Vector2f( 0.0f, 0.0f );
-	protected float x;
-	protected float y;
+	public float x;
+    public float y;
 
 	public Vector2f( float x, float y ) {
 		this.x = x;
@@ -25,7 +25,7 @@ public class Vector2f {
 	}
 
 	public float dot( Vector2f vector ) {
-		return x * vector.getX( ) + y * vector.getY( );
+		return x * vector.x + y * vector.y;
 	}
 
 	public Vector2f normalized( ) {
@@ -47,7 +47,7 @@ public class Vector2f {
 	}
 
 	public Vector2f add( Vector2f vector ) {
-		return new Vector2f( x + vector.getX( ), y + vector.getY( ) );
+		return new Vector2f( x + vector.x, y + vector.y );
 	}
 
 	public Vector2f add( float vector ) {
@@ -55,7 +55,7 @@ public class Vector2f {
 	}
 
 	public Vector2f sub( Vector2f vector ) {
-		return new Vector2f( x - vector.getX( ), y - vector.getY( ) );
+		return new Vector2f( x - vector.x, y - vector.y );
 	}
 
 	public Vector2f sub( float vector ) {
@@ -63,7 +63,7 @@ public class Vector2f {
 	}
 
 	public Vector2f mul( Vector2f vector ) {
-		return new Vector2f( x * vector.getX( ), y * vector.getY( ) );
+		return new Vector2f( x * vector.x, y * vector.y );
 	}
 
 	public Vector2f mul( float vector ) {
@@ -71,7 +71,7 @@ public class Vector2f {
 	}
 
 	public Vector2f div( Vector2f vector ) {
-		return new Vector2f( x / vector.getX( ), y / vector.getY( ) );
+		return new Vector2f( x / vector.x, y / vector.y );
 	}
 
 	public Vector2f div( float vector ) {
@@ -93,27 +93,11 @@ public class Vector2f {
 	}
 
 	public Vector2f set( Vector2f vector ) {
-		set( vector.getX( ), vector.getY( ) );
+		set( vector.x, vector.y );
 		return this;
 	}
 
-	public float getX( ) {
-		return x;
-	}
-
-	public void setX( float x ) {
-		this.x = x;
-	}
-
-	public float getY( ) {
-		return y;
-	}
-
-	public void setY( float y ) {
-		this.y = y;
-	}
-
 	public boolean equals( Vector2f vector ) {
-		return x == vector.getX( ) && y == vector.getY( );
+		return x == vector.x && y == vector.y;
 	}
 }

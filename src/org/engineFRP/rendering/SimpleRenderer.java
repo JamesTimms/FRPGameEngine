@@ -3,7 +3,7 @@ package org.engineFRP.rendering;
 import org.engineFRP.core.FRPDisplay;
 import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
-import org.engineFRP.rendering.shaders.ComplicatedShader;
+import org.engineFRP.rendering.shaders.CubeShader;
 import org.engineFRP.rendering.shaders.Shader;
 
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
@@ -18,7 +18,7 @@ public class SimpleRenderer {
     static Shader shader;
 
     public static void Render() {
-        shader = new ComplicatedShader();
+        shader = new CubeShader();
         glClear(GL_COLOR_BUFFER_BIT);
         draw();
         glfwSwapBuffers(FRPDisplay.getWindow());

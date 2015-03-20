@@ -27,14 +27,14 @@ public class RenderingUtil {
 		FloatBuffer buffer = createFloatBuffer( vertices.length * Vertex.SIZE );
 
 		for( int i = 0; i < vertices.length; i++ ) {
-			buffer.put( vertices[ i ].getPos().getX( ) );
-			buffer.put( vertices[ i ].getPos().getY( ) );
-			buffer.put( vertices[ i ].getPos().getZ( ) );
-			buffer.put( vertices[ i ].getTexCoord( ).getX( ) );
-			buffer.put( vertices[ i ].getTexCoord( ).getY( ) );
-			buffer.put( vertices[ i ].getNormal( ).getX( ) );
-			buffer.put( vertices[ i ].getNormal( ).getY( ) );
-			buffer.put( vertices[ i ].getNormal( ).getZ( ) );
+			buffer.put( vertices[ i ].getPos().x );
+			buffer.put( vertices[ i ].getPos().y );
+			buffer.put( vertices[ i ].getPos().z );
+			buffer.put( vertices[ i ].getTexCoord( ).x );
+			buffer.put( vertices[ i ].getTexCoord( ).y );
+			buffer.put( vertices[ i ].getNormal( ).x );
+			buffer.put( vertices[ i ].getNormal( ).y );
+			buffer.put( vertices[ i ].getNormal( ).z );
 		}
 
 		buffer.flip( );
@@ -49,7 +49,7 @@ public class RenderingUtil {
 	}
 
 	public static void setClearColor( Vector3f colour ) {
-		glClearColor( colour.getX( ), colour.getY( ), colour.getZ( ), 1.0f );
+		glClearColor( colour.x, colour.y, colour.z, 1.0f );
 	}
 
 	public static void setTexture( boolean enabled ) {

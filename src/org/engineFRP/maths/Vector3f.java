@@ -14,14 +14,14 @@ public class Vector3f {
 
     public static final Vector3f ZERO = new Vector3f(0.0f, 0.0f, 0.0f);
     public static final Vector3f ONE = new Vector3f(1.0f, 1.0f, 1.0f);
-    protected float x;
-    protected float y;
-    protected float z;
+    public float x;
+    public float y;
+    public float z;
 
     public Vector3f(float x, float y, float z) {
-        setX(x);
-        setY(y);
-        setZ(z);
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     //The limit that the components can sum to is 1 / 3 ( root( float.max ) ).
@@ -42,21 +42,21 @@ public class Vector3f {
     }
 
     public float dot(Vector3f vector) {
-        return x * vector.getX() + y * vector.getY() + z * vector.getZ();
+        return x * vector.x + y * vector.y + z * vector.z;
     }
 
     public Vector3f cross(Vector3f vector) {
-        float x_ = y * vector.getZ() - z * vector.getY();
-        float y_ = z * vector.getX() - x * vector.getZ();
-        float z_ = x * vector.getY() - y * vector.getX();
+        float x_ = y * vector.z - z * vector.y;
+        float y_ = z * vector.x - x * vector.z;
+        float z_ = x * vector.y - y * vector.x;
 
         return new Vector3f(x_, y_, z_);
     }
 
     public Vector3f crossLargeFloat(Vector3f vector) {
-        double x_ = y * vector.getZ() - z * vector.getY();
-        double y_ = z * vector.getX() - x * vector.getZ();
-        double z_ = x * vector.getY() - y * vector.getX();
+        double x_ = y * vector.z - z * vector.y;
+        double y_ = z * vector.x - x * vector.z;
+        double z_ = x * vector.y - y * vector.x;
 
         return new Vector3f((float) x_, (float) y_, (float) z_);
     }
@@ -80,7 +80,7 @@ public class Vector3f {
 
         Quaternion w = rotation.mul(this).mul(conjugate);
 
-        return new Vector3f(w.getX(), w.getY(), w.getZ());
+        return new Vector3f(w.x, w.y, w.z);
     }
 
     public Vector3f lerp(Vector3f dest, float lerpFactor) {
@@ -88,7 +88,11 @@ public class Vector3f {
     }
 
     public Vector3f add(Vector3f vector) {
-        return new Vector3f(x + vector.getX(), y + vector.getY(), z + vector.getZ());
+        return new Vector3f(x + vector.x, y + vector.y, z + vector.z);
+    }
+
+    public static Vector3f add(Vector3f v, Vector3f v2) {
+        return new Vector3f(v.x + v2.x, v.y + v2.y, v.z + v2.z);
     }
 
     public Vector3f add(float vector) {
@@ -96,7 +100,7 @@ public class Vector3f {
     }
 
     public Vector3f sub(Vector3f vector) {
-        return new Vector3f(x - vector.getX(), y - vector.getY(), z - vector.getZ());
+        return new Vector3f(x - vector.x, y - vector.y, z - vector.z);
     }
 
     public Vector3f sub(float vector) {
@@ -104,7 +108,7 @@ public class Vector3f {
     }
 
     public Vector3f mul(Vector3f vector) {
-        return new Vector3f(x * vector.getX(), y * vector.getY(), z * vector.getZ());
+        return new Vector3f(x * vector.x, y * vector.y, z * vector.z);
     }
 
     public Vector3f mul(float vector) {
@@ -112,7 +116,7 @@ public class Vector3f {
     }
 
     public Vector3f div(Vector3f vector) {
-        return new Vector3f(x / vector.getX(), y / vector.getY(), z / vector.getZ());
+        return new Vector3f(x / vector.x, y / vector.y, z / vector.z);
     }
 
     public Vector3f div(float vector) {
@@ -163,36 +167,12 @@ public class Vector3f {
     }
 
     public Vector3f set(Vector3f vector) {
-        set(vector.getX(), vector.getY(), vector.getZ());
+        set(vector.x, vector.y, vector.z);
         return this;
     }
 
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public float getZ() {
-        return z;
-    }
-
-    public void setZ(float z) {
-        this.z = z;
-    }
-
     public boolean equals(Vector3f vector) {
-        return x == vector.getX() && y == vector.getY() && z == vector.getZ();
+        return x == vector.x && y == vector.y && z == vector.z;
     }
 
     public Vector3f clone() {

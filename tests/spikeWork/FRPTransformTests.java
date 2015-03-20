@@ -24,7 +24,7 @@ public class FRPTransformTests {
         Transform testTransform = new Transform();
         StreamSink<Vector3f> moveStream = new StreamSink<>();
 
-        testTransform.mergeIntoCellAndAccum(moveStream);
+        testTransform.mergeIntoExistingStream(moveStream);
         moveStream.send(Vector3f.ONE);
         assertTrue(Vector3f.ONE.equals(testTransform.getTranslation()));
 
@@ -38,8 +38,8 @@ public class FRPTransformTests {
         StreamSink<Vector3f> moveStream = new StreamSink<>();
         StreamSink<Vector3f> moveStream2 = new StreamSink<>();
 
-        testTransform.mergeIntoCellAndAccum(moveStream);
-        testTransform.mergeIntoCellAndAccum(moveStream2);
+        testTransform.mergeIntoExistingStream(moveStream);
+        testTransform.mergeIntoExistingStream(moveStream2);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
         Vector3f eads= testTransform.getTranslation();

@@ -11,9 +11,9 @@ import static org.lwjgl.opengl.GL20.*;
 /**
  * Created by TekMaTek on 01/03/2015.
  */
-public class ComplicatedShader extends Shader {
+public class CubeShader extends Shader {
 
-    public ComplicatedShader() {
+    public CubeShader() {
         super();
 
         addVertextShader(LoadShader("basic3D/complicated.vertex"));
@@ -25,7 +25,7 @@ public class ComplicatedShader extends Shader {
     }
 
     public void updateUniforms(Material material) {
-        dealWithTexture(material);
+        dealWithTexture(material.texture);
         setUniform4m("transform", Camera.mainCamera.GetViewProjection());
         setUniform3f("color", material.color);
     }

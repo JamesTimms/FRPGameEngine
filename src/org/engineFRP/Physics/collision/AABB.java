@@ -19,9 +19,9 @@ public class AABB {//TODO: Finish implementing the solution for Z in 3D collisio
 
     public boolean isCollidingWith(AABB c) {
 //        counter++;//DEBUG
-        if(max.sample().getX() < c.min.sample().getX() || min.sample().getX() > c.max.sample().getX()) return false;
-        if(max.sample().getY() < c.min.sample().getY() || min.sample().getY() > c.max.sample().getY()) return false;
-//        if(max.sample().getZ() < c.min.sample().getZ() || min.sample().getZ() > c.max.sample().getZ()) return false;
+        if(max.sample().x < c.min.sample().x || min.sample().x > c.max.sample().x) return false;
+        if(max.sample().y < c.min.sample().y || min.sample().y > c.max.sample().y) return false;
+//        if(max.sample().z < c.min.sample().z || min.sample().z > c.max.sample().z) return false;
         return true;
     }
 
@@ -30,24 +30,24 @@ public class AABB {//TODO: Finish implementing the solution for Z in 3D collisio
     }
 
     public Vector3f resolveCollision(AABB otherC) {
-        float minX = this.min.sample().getX() > otherC.min.sample().getX()
-                ? this.min.sample().getX() : otherC.min.sample().getX();
-        float maxX = this.max.sample().getX() < otherC.max.sample().getX()
-                ? this.max.sample().getX() : otherC.max.sample().getX();
-        float minY = this.min.sample().getY() > otherC.min.sample().getY()
-                ? this.min.sample().getY() : otherC.min.sample().getY();
-        float maxY = this.max.sample().getY() < otherC.max.sample().getY()
-                ? this.max.sample().getY() : otherC.max.sample().getY();
+        float minX = this.min.sample().x > otherC.min.sample().x
+                ? this.min.sample().x : otherC.min.sample().x;
+        float maxX = this.max.sample().x < otherC.max.sample().x
+                ? this.max.sample().x : otherC.max.sample().x;
+        float minY = this.min.sample().y > otherC.min.sample().y
+                ? this.min.sample().y : otherC.min.sample().y;
+        float maxY = this.max.sample().y < otherC.max.sample().y
+                ? this.max.sample().y : otherC.max.sample().y;
 
 
-        float cminX = this.min.sample().getX() < otherC.min.sample().getX()
-                ? this.min.sample().getX() : otherC.min.sample().getX();
-        float cmaxX = this.max.sample().getX() > otherC.max.sample().getX()
-                ? this.max.sample().getX() : otherC.max.sample().getX();
-        float cminY = this.min.sample().getY() < otherC.min.sample().getY()
-                ? this.min.sample().getY() : otherC.min.sample().getY();
-        float cmaxY = this.max.sample().getY() > otherC.max.sample().getY()
-                ? this.max.sample().getY() : otherC.max.sample().getY();
+        float cminX = this.min.sample().x < otherC.min.sample().x
+                ? this.min.sample().x : otherC.min.sample().x;
+        float cmaxX = this.max.sample().x > otherC.max.sample().x
+                ? this.max.sample().x : otherC.max.sample().x;
+        float cminY = this.min.sample().y < otherC.min.sample().y
+                ? this.min.sample().y : otherC.min.sample().y;
+        float cmaxY = this.max.sample().y > otherC.max.sample().y
+                ? this.max.sample().y : otherC.max.sample().y;
 
         float innerXCentre = (Math.abs(maxX) + Math.abs(minX)) / 2.0f;
         float innerYCentre = (Math.abs(maxY) + Math.abs(minY)) / 2.0f;

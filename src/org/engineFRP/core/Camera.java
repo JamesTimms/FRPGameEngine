@@ -29,6 +29,7 @@ public class Camera {
             mainCamera = this;
         }
         this.setProjection(70.0f, FRPDisplay.DEFAULT_WIDTH, FRPDisplay.DEFAULT_HEIGHT, 0.1f, 1000.0f);
+        translation = new Cell<>(Vector3f.ZERO);
     }
 
     private Matrix4f cameraProjection() {
@@ -39,9 +40,7 @@ public class Camera {
     public Matrix4f GetViewProjection() {
         Matrix4f cameraRotation = new Matrix4f().initCamera(forward, up);
         Matrix4f cameraTranslation = new Matrix4f().initTranslation(
-                -translation.sample().getX(), -translation.sample().getY(),
-                -translation.sample().getZ());
-
+                -translation.sample().x, -translation.sample().y, -translation.sample().z);
         return cameraProjection().mul(cameraRotation.mul(cameraTranslation));
     }
 

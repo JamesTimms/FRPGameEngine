@@ -31,8 +31,8 @@ public class Click {
     }
 
     private static boolean isPointLeftOfLine(Vector2f a, Vector2f b, Vector2f point) {
-        float result = ((b.getX() - a.getX()) * (point.getY() - a.getY())
-                - (b.getY() - a.getY()) * (point.getX() - a.getX()));
+        float result = ((b.x - a.x) * (point.y - a.y)
+                - (b.y - a.y) * (point.x - a.x));
         return result > 0;
     }
 }

@@ -12,7 +12,7 @@ public class Circle {
     public boolean isCircleColliding(Circle otherCircle) {
         float r = this.radius + otherCircle.radius;
         r *= r;
-        return r < Math.pow(this.pos.getX() + otherCircle.pos.getX(), 2.0d)
-                + Math.pow(this.pos.getY() + otherCircle.pos.getY(), 2.0d);
+        return r < Math.pow(this.pos.x + otherCircle.pos.x, 2.0d)
+                + Math.pow(this.pos.y + otherCircle.pos.y, 2.0d);
     }
 }

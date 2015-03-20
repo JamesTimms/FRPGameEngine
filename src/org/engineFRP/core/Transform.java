@@ -7,7 +7,6 @@ import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.Vertex;
 import sodium.Cell;
 import sodium.Stream;
-import sodium.StreamSink;
 
 /**
  * Created by TekMaTek on 26/01/2015.
@@ -19,7 +18,7 @@ public class Transform {
     public Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
 
     private Cell<Vector3f> translation;
-    public StreamSink<Vector3f> updateTo = new StreamSink<>();
+    public Stream<Vector3f> updateTo = new Stream<>();
 
     public AABB collider;
     //TODO: Figure out way of combining this stream implicitly with translation.
@@ -37,11 +36,12 @@ public class Transform {
     }
 
     private Transform(Vector3f position, Vector3f rotation, Vector3f scale, Mesh mesh) {
-        this.translation = initPosStream(position);
+        this.translation = updateTo
+                .accum(position, (curValue, newValue) -> curValue.add(newValue));
         this.rotation = rotation;
         this.scale = scale;
         this.mesh = mesh;
-        this.collider = updateABBA();
+//        this.collider = updateABBA();
     }
 
     public Vertex[] addPosAndFlipY() {
@@ -49,37 +49,32 @@ public class Transform {
         Vertex[] newVerts = new Vertex[existingVerts.length];
         for(int i = 0; i < existingVerts.length; i++) {
             Vector3f copyOfTrans = this.getTranslation().clone();
-            copyOfTrans.setY(-copyOfTrans.getY());
+            copyOfTrans.y = -copyOfTrans.y;
             newVerts[i] = new Vertex(existingVerts[i].getPos().add(copyOfTrans));
         }
         return newVerts;
     }
 
-    private Cell<Vector3f> initPosStream(Vector3f pos) {
-        return updateTo
-                .accum(pos, (newVector, total) -> total.add(newVector));
-    }
+//    private AABB updateABBA() {
+//        return new AABB(
+//                updateTo
+//                        .accum(this.translation.sample().add(new Vector3f(-0.05f, -0.05f, 0.0f))
+//                                , Vector3f::add),
+//                updateTo
+//                        .accum(this.translation.sample().add(new Vector3f(0.05f, 0.05f, 0.0f))
+//                                , Vector3f::add)
+//        );
+//    }
 
-    private AABB updateABBA() {
-        return new AABB(
-                updateTo
-                        .accum(this.translation.sample().add(new Vector3f(-0.05f, -0.05f, 0.0f))
-                                , Vector3f::add),
-                updateTo
-                        .accum(this.translation.sample().add(new Vector3f(0.05f, 0.05f, 0.0f))
-                                , Vector3f::add)
-        );
-    }
-
-    public Transform mergeIntoCellAndAccum(Stream<Vector3f> otherStream) {
-        this.updateTo = (StreamSink<Vector3f>) updateTo
+    public Transform mergeIntoExistingStream(Stream<Vector3f> otherStream) {
+        this.updateTo = updateTo
                 .merge(otherStream);
         Replay(updateTo);
 //        this.collider = updateABBA();
         return this;
     }
 
-    public void Replay(Stream<Vector3f> newStream){
+    public void Replay(Stream<Vector3f> newStream) {
         this.translation = newStream
                 .accum(this.getTranslation(), (newVector, total) -> total.add(newVector));
     }
@@ -87,16 +82,16 @@ public class Transform {
     public Matrix4f getTransformMatrix() {
         Matrix4f translationMat =
                 new Matrix4f().initTranslation(
-                        translation.sample().getX(), translation.sample().getY(), translation.sample().getZ());
+                        translation.sample().x, translation.sample().y, translation.sample().z);
         Matrix4f rotationMat =
-                new Matrix4f().initRotation(rotation.getX(), rotation.getY(), rotation.getZ());
+                new Matrix4f().initRotation(rotation.x, rotation.y, rotation.z);
         Matrix4f scaleMat =
-                new Matrix4f().initScale(scale.getX(), scale.getY(), scale.getZ());
+                new Matrix4f().initScale(scale.x, scale.y, scale.z);
 
         return translationMat.mul(rotationMat.mul(scaleMat));
     }
 
-    public Matrix4f getProjectedTransformation(Camera camera) {//Camera stuff needs to be moved out.
+    public Matrix4f getProjectedTransformation(Camera camera) {
         return camera.GetViewProjection().mul(getTransformMatrix());
     }
 
@@ -104,14 +99,14 @@ public class Transform {
         return translation.sample();
     }
 
-    public void setTranslation(Vector3f translation) {
-        this.updateTo.send(translation);
-    }
+//    public void setTranslation(Vector3f translation) {
+//        this.updateTo.send(translation);
+//    }
 
-    public void move(Vector3f direction, float amount) {
-        Vector3f newPosition = translation.sample().add(direction.mul(amount));
-        this.setTranslation(newPosition);
-    }
+//    public void move(Vector3f direction, float amount) {
+//        Vector3f newPosition = translation.sample().add(direction.mul(amount));
+//        this.setTranslation(newPosition);
+//    }
 
     public Vector3f getLeft() {
         Vector3f left = forward.cross(up);
@@ -140,10 +135,10 @@ public class Transform {
 
         up = forward.cross(hAxis).normalized();
     }
-
-    public void setTranslation(float x, float y, float z) {
-        this.updateTo.send(new Vector3f(x, y, z));
-    }
+//
+//    public void setTranslation(float x, float y, float z) {
+//        this.updateTo.send(new Vector3f(x, y, z));
+//    }
 
     public Vector3f getRotation() {
         return rotation;

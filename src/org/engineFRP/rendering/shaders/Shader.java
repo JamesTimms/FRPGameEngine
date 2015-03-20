@@ -4,6 +4,7 @@ import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.RenderingUtil;
+import org.engineFRP.rendering.Texture;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -84,9 +85,9 @@ public abstract class Shader {
 		glUseProgram( program );
 	}
     
-    protected void dealWithTexture( Material material ) {
-        if( material.texture != null ) {
-            material.texture.bind( );
+    protected void dealWithTexture( Texture texture ) {
+        if( texture != null ) {
+            texture.bind( );
         } else {
             RenderingUtil.unbindTextures( );
         }
@@ -132,7 +133,7 @@ public abstract class Shader {
 	}
 
 	public void setUniform3f( String uniformName, Vector3f vector ) {
-		glUniform3f( uniforms.get( uniformName ), vector.getX( ), vector.getY( ), vector.getZ( ) );
+		glUniform3f( uniforms.get( uniformName ), vector.x, vector.y, vector.z );
 	}
 
 	public void setUniform4m( String uniformName, Matrix4f matrix ) {

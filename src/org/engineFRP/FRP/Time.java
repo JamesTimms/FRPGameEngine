@@ -12,8 +12,12 @@ public class Time {
             THIRTY_PER_SECOND = 30;
     public static final long SECOND = 1000000000L;
 
-    public static long getTime() {
+    public static long getNanoTime() {
         return System.nanoTime();
+    }
+
+    public static long getTime() {
+        return getNanoTime() / Time.SECOND;
     }
 
     public int frameRate;
@@ -24,11 +28,11 @@ public class Time {
 
     public Time(int frameRate) {
         this.frameRate = frameRate;
-        lastDeltaTime = getTime();
+        lastDeltaTime = getNanoTime();
     }
 
     public boolean shouldGetFrame() {
-        Long timeNow = getTime();
+        Long timeNow = getNanoTime();
         Long lastTime = timeNow - timeDiff;
         timeDiff = timeNow;
         long _frameRate = (frameRate > FRAME_CAP) ? FRAME_CAP : frameRate;

@@ -20,8 +20,9 @@ public class Mesh {
     public int indicesLength;
     public int vertexLength;
     public Shape shape;
+    public Texture texture;
 
-    public Mesh(Vertex[] paramVertices, int[] indices, boolean shouldCalNormals) {
+    public Mesh(Vertex[] paramVertices, int[] indices, Texture texture, boolean shouldCalNormals) {
         this(new Shape() {
             @Override
             public Vertex[] getVertices() {
@@ -32,16 +33,21 @@ public class Mesh {
             public int[] getIndices() {
                 return indices;
             }
-        }, shouldCalNormals);
+        }, texture, shouldCalNormals);
     }
 
     public Mesh(Shape shape) {
-        this(shape, false);
+        this(shape, null, false);
     }
 
-    public Mesh(Shape shape, boolean shouldCalcNormals) {
+    public Mesh(Shape shape, Texture texture) {
+        this(shape, texture, false);
+    }
+
+    public Mesh(Shape shape, Texture texture, boolean shouldCalcNormals) {
         this.shape = shape;
         initMeshData();
+        this.texture = texture;
         addVertices(shape.getVertices(), shape.getIndices(), shouldCalcNormals);
     }
 

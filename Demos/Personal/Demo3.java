@@ -10,7 +10,7 @@ import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.SimpleRenderer;
-import org.engineFRP.rendering.shaders.BasicShader;
+import org.engineFRP.rendering.shaders.SquareShader;
 import org.engineFRP.rendering.shaders.Shader;
 import sodium.Stream;
 import sodium.StreamSink;
@@ -48,8 +48,8 @@ public class Demo3 {
     public void setupScene() {
         background = FRPDisplay.setupScreenCollider();
         for(Transform transform : sceneMeshes) {
-            transform.mergeIntoCellAndAccum(movements());
-            transform.mergeIntoCellAndAccum(mapCollision(transform));
+            transform.mergeIntoExistingStream(movements());
+            transform.mergeIntoExistingStream(mapCollision(transform));
         }
     }
 
@@ -72,7 +72,7 @@ public class Demo3 {
 
     public void loop() {
         colliderStream = new StreamSink<>();
-        shader2 = new BasicShader();
+        shader2 = new SquareShader();
         sceneMeshes = new Transform[] {
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
                 new Transform(new Vector3f(-0.6f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
