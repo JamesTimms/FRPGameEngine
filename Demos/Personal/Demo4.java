@@ -30,6 +30,10 @@ import static org.lwjgl.opengl.GL11.glClear;
 public class Demo4 {
 
     public static void main(String[] args) {
+        FRPDisplay.create();
+        FRPKeyboard.create();
+        FRPMouse.create();
+        SimpleRenderer.init();
         new Demo4();
     }
 
@@ -37,14 +41,11 @@ public class Demo4 {
     private static Time pollTimer = new Time(120);
 
     private static Shader shader2;
+    private final static String TEXT_FILE = "./res/textures/grids.png";
     private static Transform[] sceneTransforms;
 
 
     public Demo4() {
-        FRPDisplay.create();
-        FRPKeyboard.create();
-        FRPMouse.create();
-        SimpleRenderer.init();
         setupScene();
 
         Cell<Integer> score = shapeClickStream();
@@ -58,7 +59,6 @@ public class Demo4 {
     }
 
     public void setupScene() {
-        final String TEXT_FILE = "./res/textures/grids.png";
         shader2 = new SquareShader();
         sceneTransforms = new Transform[] {
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(TEXT_FILE))
@@ -92,7 +92,7 @@ public class Demo4 {
         }
     }
 
-    private Cell<Integer> shapeClickStream() {
+    private static Cell<Integer> shapeClickStream() {
         return clickStream
                 .filter(mouse -> mouse.button == GLFW_MOUSE_BUTTON_LEFT &&
                         mouse.action == GLFW_PRESS)
