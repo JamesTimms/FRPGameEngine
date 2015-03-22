@@ -1,36 +1,39 @@
 package org.engineFRP.FRP;
 
-import sodium.Cell;
-import sodium.Lambda2;
-import sodium.Stream;
+import sodium.*;
 
 /**
  * Created by TekMaTek on 21/03/2015.
  */
-public final class CellUpdater<A, B> {
+public class CellUpdater<A> {
 
-    private final Lambda2<Cell<B>, Stream<A>, Cell<B>> resolver;
+    private final Lambda2<Cell<A>, Stream<A>, Cell<A>> resolver;
     //TODO: Consider using Optionals here to avoid having to init the Cell.
-    private Cell<B> value;
+    private Cell<A> value;
     private Stream<A> stream = new Stream<>();
 
-    public CellUpdater(final Lambda2<Cell<B>, Stream<A>, Cell<B>> resolver, final B initValue) {
+    public CellUpdater(final Lambda2<Cell<A>, Stream<A>, Cell<A>> resolver, final A initValue) {
         this.resolver = resolver;
         value = replay(new Cell<>(initValue));
     }
 
-    private Cell<B> replay(final Cell<B> cell) {
+    private Cell<A> replay(final Cell<A> cell) {
         return resolver.apply(cell, stream);
     }
 
-    public CellUpdater<A, B> merge(final Stream<A> otherStream) {
+    public CellUpdater<A> merge(final Stream<A> otherStream) {
         this.stream = stream.merge(otherStream);
         this.value = replay(value);
         return this;
     }
 
-    public B sample() {
+    public A sample() {
         return value.sample();
     }
+
+//    //TODO: need to refactor the entire code base into a push based system like this instead of sample().
+//    public Listener listener(final Handler<A> action) {
+//        return this.value.value().listen(action);
+//    }
 
 }

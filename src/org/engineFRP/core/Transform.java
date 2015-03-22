@@ -1,6 +1,7 @@
 package org.engineFRP.core;
 
 import org.engineFRP.FRP.CellUpdater;
+import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
@@ -13,27 +14,23 @@ import sodium.Stream;
 public final class Transform {
 
     public static final Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
+    private final CellUpdater<Vector3f> translation;
 
-    private final CellUpdater<Vector3f, Vector3f> translation;
-
+    private final CellUpdater<Vector3f> rotation;
+    private final CellUpdater<Vector3f> scale;
     public Mesh mesh;
+
     private Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
     private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
-    private Vector3f rotation;
-    private Vector3f scale;
 
     public Transform() {
         this(Vector3f.ZERO, Vector3f.ZERO, Vector3f.ZERO, null);
     }
 
     private Transform(final Vector3f position, final Vector3f rotation, final Vector3f scale, final Mesh mesh) {
-        translation = new CellUpdater<>(
-                (cell, stream) -> stream
-                        .accum(cell.sample(), (a, b) -> a.add(b))
-                , position
-        );
-        this.rotation = rotation;
-        this.scale = scale;
+        translation = new CellUpdater<>(FRPUtil.addVectors, position);
+        this.rotation = new CellUpdater<>(FRPUtil.addVectors, rotation);
+        this.scale = new CellUpdater<>(FRPUtil.addVectors, scale);
         this.mesh = mesh;
     }
 
@@ -57,13 +54,15 @@ public final class Transform {
     }
 
     public Matrix4f getTransformMatrix() {
+        final Vector3f _rotation = this.rotation.sample();
+        final Vector3f _scale = this.scale.sample();
         Matrix4f translationMat =
                 new Matrix4f().initTranslation(
                         translation.sample().x, translation.sample().y, translation.sample().z);
         Matrix4f rotationMat =
-                new Matrix4f().initRotation(rotation.x, rotation.y, rotation.z);
+                new Matrix4f().initRotation(_rotation.x, _rotation.y, _rotation.z);
         Matrix4f scaleMat =
-                new Matrix4f().initScale(scale.x, scale.y, scale.z);
+                new Matrix4f().initScale(_scale.x, _scale.y, _scale.z);
 
         return translationMat.mul(rotationMat.mul(scaleMat));
     }
@@ -103,29 +102,5 @@ public final class Transform {
         forward = forward.rotate(yAxis, angle).normalized();
 
         up = forward.cross(hAxis).normalized();
-    }
-
-    public Vector3f getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(final Vector3f rotation) {
-        this.rotation = rotation;
-    }
-
-    public void setRotation(final float x, final float y, final float z) {
-        this.rotation = new Vector3f(x, y, z);
-    }
-
-    public Vector3f getScale() {
-        return scale;
-    }
-
-    public void setScale(final Vector3f scale) {
-        this.scale = scale;
-    }
-
-    public void setScale(final float x, final float y, final float z) {
-        this.scale = new Vector3f(x, y, z);
     }
 }

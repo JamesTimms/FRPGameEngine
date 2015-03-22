@@ -5,7 +5,7 @@ import org.engineFRP.FRP.Time;
 import org.engineFRP.Physics.collision.AABB;
 import org.engineFRP.core.FRPDisplay;
 import org.engineFRP.core.FRPKeyboard;
-import org.engineFRP.core.FRPUtil;
+import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;

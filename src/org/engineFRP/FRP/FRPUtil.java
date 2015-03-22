@@ -1,6 +1,9 @@
-package org.engineFRP.core;
+package org.engineFRP.FRP;
 
+import org.engineFRP.core.FRPKeyboard;
 import org.engineFRP.maths.Vector3f;
+import sodium.Cell;
+import sodium.Lambda2;
 import sodium.Stream;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -10,7 +13,11 @@ import static org.lwjgl.glfw.GLFW.*;
  */
 public class FRPUtil {
 
-    public static Stream<Vector3f> mapArrowKeysToMovementOf(float moveAmount) {
+    public static final Lambda2<Cell<Vector3f>, Stream<Vector3f>, Cell<Vector3f>> addVectors =
+            (cell, stream) -> stream
+                    .accum(cell.sample(), (a, b) -> a.add(b));
+
+    public static final Stream<Vector3f> mapArrowKeysToMovementOf(float moveAmount) {
         return FRPKeyboard.keyEvent
                 .filter(key -> key.action != GLFW_RELEASE
                         && FRPKeyboard.isArrowKeyPressed(key.key))

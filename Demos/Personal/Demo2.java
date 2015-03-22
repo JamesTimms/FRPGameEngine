@@ -4,7 +4,7 @@ import org.engineFRP.FRP.Time;
 import org.engineFRP.core.Camera;
 import org.engineFRP.core.FRPDisplay;
 import org.engineFRP.core.FRPKeyboard;
-import org.engineFRP.core.FRPUtil;
+import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.SimpleRenderer;
 
