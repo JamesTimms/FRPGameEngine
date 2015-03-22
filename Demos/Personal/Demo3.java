@@ -10,8 +10,8 @@ import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.SimpleRenderer;
-import org.engineFRP.rendering.shaders.SquareShader;
 import org.engineFRP.rendering.shaders.Shader;
+import org.engineFRP.rendering.shaders.SquareShader;
 import sodium.Stream;
 import sodium.StreamSink;
 import sodium.Tuple2;
@@ -48,8 +48,8 @@ public class Demo3 {
     public void setupScene() {
         background = FRPDisplay.setupScreenCollider();
         for(Transform transform : sceneMeshes) {
-            transform.mergeIntoExistingStream(movements());
-            transform.mergeIntoExistingStream(mapCollision(transform));
+            transform.mergeTranslation(movements());
+            transform.mergeTranslation(mapCollision(transform));
         }
     }
 
@@ -61,13 +61,13 @@ public class Demo3 {
 
     public static Stream<Vector3f> mapCollision(Transform transform) {
         return colliderStream
-                .filter(thing -> (thing.a == transform.collider) || (thing.b == transform.collider))
-                .filter(colliders -> colliders.a.isOutsideOf(colliders.b))
+//                .filter(thing -> (thing.a == transform.collider) || (thing.b == transform.collider))
+//                .filter(colliders -> colliders.a.isOutsideOf(colliders.b))
                 .map(colliders -> (colliders.a.resolveCollision(colliders.b)).mul(-1.0f));
     }
 
     public static void checkCollisions() {
-        colliderStream.send(new Tuple2<>(background, sceneMeshes[1].collider));
+//        colliderStream.send(new Tuple2<>(background, sceneMeshes[1].collider));
     }
 
     public void loop() {

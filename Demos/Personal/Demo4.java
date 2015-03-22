@@ -29,21 +29,12 @@ import static org.lwjgl.opengl.GL11.glClear;
  */
 public class Demo4 {
 
-    public static void main(String[] args) {
-        FRPDisplay.create();
-        FRPKeyboard.create();
-        FRPMouse.create();
-        SimpleRenderer.init();
-        new Demo4();
-    }
-
+    private final static String TEXT_FILE = "./res/textures/grids.png";
     private static Time renderTimer = new Time(Time.THIRTY_PER_SECOND);
     private static Time pollTimer = new Time(120);
 
     private static Shader shader2;
-    private final static String TEXT_FILE = "./res/textures/grids.png";
     private static Transform[] sceneTransforms;
-
 
     public Demo4() {
         setupScene();
@@ -62,34 +53,9 @@ public class Demo4 {
         shader2 = new SquareShader();
         sceneTransforms = new Transform[] {
                 new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(TEXT_FILE))
-                        .mergeIntoExistingStream(movements())
-                        .mergeIntoExistingStream(FRPUtil.mapArrowKeysToMovementOf(-0.1f))
+                        .mergeTranslation(movements())
+                        .mergeTranslation(FRPUtil.mapArrowKeysToMovementOf(-0.1f))
         };
-    }
-
-    public static Stream<Vector3f> movements() {
-        return FRPTime.streamDelta(Time.THIRTY_PER_SECOND)
-                .map(deltaTime -> {
-                    double curTime = Time.getTime();
-                    return new Vector3f((float) Math.sin(curTime) / 80.0f, (float) Math.sin(curTime) / 80.0f, 0.0f);
-                });
-    }
-
-    public void gameLoop() {
-        //Just some thoughts on how to better implement the time loops.
-        //While(shouldStillPlayGame){
-        //  sleepOrFreeThread(forSmallestTimeTillNextUpdate);//For example sleep for 1/30 of a second.
-        //  processNextActionRequired();//Not sure how this will work for simultaneous actions.
-        //}
-        while(!FRPDisplay.shouldWindowClose()) {
-            if(pollTimer.shouldGetFrame()) {
-                glfwPollEvents();
-                if(renderTimer.shouldGetFrame()) {
-                    renderDemo3();
-                }
-                FRPTime.pollStreams();
-            }
-        }
     }
 
     private static Cell<Integer> shapeClickStream() {
@@ -123,15 +89,48 @@ public class Demo4 {
                 .accum(0, (curScore, lastScore) -> curScore + lastScore);
     }
 
-    public static void drawDemo3() {
-        for(Transform transform : sceneTransforms) {
-            shader2.draw(transform);
+    public void gameLoop() {
+        //Just some thoughts on how to better implement the time loops.
+        //While(shouldStillPlayGame){
+        //  sleepOrFreeThread(forSmallestTimeTillNextUpdate);//For example sleep for 1/30 of a second.
+        //  processNextActionRequired();//Not sure how this will work for simultaneous actions.
+        //}
+        while(!FRPDisplay.shouldWindowClose()) {
+            if(pollTimer.shouldGetFrame()) {
+                glfwPollEvents();
+                if(renderTimer.shouldGetFrame()) {
+                    renderDemo3();
+                }
+                FRPTime.pollStreams();
+            }
         }
+    }
+
+    public static Stream<Vector3f> movements() {
+        return FRPTime.streamDelta(Time.THIRTY_PER_SECOND)
+                .map(deltaTime -> {
+                    double curTime = Time.getTime();
+                    return new Vector3f((float) Math.sin(curTime) / 80.0f, (float) Math.sin(curTime) / 80.0f, 0.0f);
+                });
     }
 
     public void renderDemo3() {
         glClear(GL_COLOR_BUFFER_BIT);
         drawDemo3();
         glfwSwapBuffers(FRPDisplay.getWindow());
+    }
+
+    public static void drawDemo3() {
+        for(Transform transform : sceneTransforms) {
+            shader2.draw(transform);
+        }
+    }
+
+    public static void main(String[] args) {
+        FRPDisplay.create();
+        FRPKeyboard.create();
+        FRPMouse.create();
+        SimpleRenderer.init();
+        new Demo4();
     }
 }

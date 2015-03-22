@@ -24,12 +24,12 @@ public class FRPTransformTests {
         Transform testTransform = new Transform();
         StreamSink<Vector3f> moveStream = new StreamSink<>();
 
-        testTransform.mergeIntoExistingStream(moveStream);
+        testTransform.mergeTranslation(moveStream);
         moveStream.send(Vector3f.ONE);
-        assertTrue(Vector3f.ONE.equals(testTransform.getTranslation()));
+        assertTrue(Vector3f.ONE.equals(testTransform.translation()));
 
         moveStream.send(Vector3f.ONE);
-        assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(testTransform.getTranslation()));
+        assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(testTransform.translation()));
     }
 
     @Test
@@ -38,15 +38,15 @@ public class FRPTransformTests {
         StreamSink<Vector3f> moveStream = new StreamSink<>();
         StreamSink<Vector3f> moveStream2 = new StreamSink<>();
 
-        testTransform.mergeIntoExistingStream(moveStream);
-        testTransform.mergeIntoExistingStream(moveStream2);
+        testTransform.mergeTranslation(moveStream);
+        testTransform.mergeTranslation(moveStream2);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
-        Vector3f eads= testTransform.getTranslation();
+        Vector3f eads = testTransform.translation();
         assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(eads));
 
         moveStream.send(Vector3f.ONE);
-        eads= testTransform.getTranslation();
+        eads = testTransform.translation();
         assertTrue(new Vector3f(3.0f, 3.0f, 3.0f).equals(eads));
 
         moveStream.send(Vector3f.ONE);
@@ -54,7 +54,7 @@ public class FRPTransformTests {
         moveStream2.send(Vector3f.ONE);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
-        eads= testTransform.getTranslation();
+        eads = testTransform.translation();
         assertTrue(new Vector3f(8.0f, 8.0f, 8.0f).equals(eads));
     }
 }
