@@ -4,7 +4,10 @@ import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.FRP.Time;
 import org.engineFRP.Physics.collision.Click;
-import org.engineFRP.core.*;
+import org.engineFRP.core.FRPDisplay;
+import org.engineFRP.core.FRPKeyboard;
+import org.engineFRP.core.FRPMouse;
+import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.SimpleRenderer;
@@ -30,12 +33,13 @@ import static org.lwjgl.opengl.GL11.glClear;
  */
 public class Demo4 {
 
-    private final static String TEXT_FILE = "./res/textures/grids.png";
+    private static final String TEXT_FILE = "./res/textures/grad.png";
+
+    private static Transform[] sceneTransforms;
     private static Time renderTimer = new Time(Time.THIRTY_PER_SECOND);
     private static Time pollTimer = new Time(120);
-
     private static Shader shader2;
-    private static Transform[] sceneTransforms;
+
 
     public Demo4() {
         setupScene();
@@ -46,7 +50,6 @@ public class Demo4 {
                 .listen(System.out::println);
 
         gameLoop();
-
         scoreListener.unlisten();
     }
 

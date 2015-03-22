@@ -55,7 +55,7 @@ public class TextureLoader {
         //Send texel data to OpenGL
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 
-//        glBindTexture(GL_TEXTURE_2D, 0); //Bind no texture so our texture isn't overridden.
+        glBindTexture(GL_TEXTURE_2D, 0); //Bind no texture so our texture isn't overridden.
         return textureID;
     }
 
