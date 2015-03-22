@@ -13,6 +13,12 @@ public class FRPTime extends Time {
 
     private static final Lambda1<FRPTime, Float> toDelta = Time::getDeltaTime;
     private static ArrayList<FRPTime> allTime = new ArrayList<>();
+    private StreamSink<FRPTime> timeStream = new StreamSink<>();
+
+    private FRPTime(int frameRate) {
+        super(frameRate);
+        allTime.add(this);
+    }
 
     public static long getTime() {
         return System.nanoTime();
@@ -24,20 +30,13 @@ public class FRPTime extends Time {
         }
     }
 
-    public static Stream<FRPTime> stream(int frameRate) {
-        return new FRPTime(frameRate).timeStream
-                .filter(Time::shouldGetFrame);
-    }
-
     public static Stream<Float> streamDelta(int frameRate) {
         return stream(frameRate)
                 .map(toDelta);
     }
 
-    private StreamSink<FRPTime> timeStream = new StreamSink<>();
-
-    private FRPTime(int frameRate) {
-        super(frameRate);
-        allTime.add(this);
+    public static Stream<FRPTime> stream(int frameRate) {
+        return new FRPTime(frameRate).timeStream
+                .filter(Time::shouldGetFrame);
     }
 }
