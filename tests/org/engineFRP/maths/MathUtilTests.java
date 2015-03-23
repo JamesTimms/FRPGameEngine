@@ -1,6 +1,5 @@
-package maths;
+package org.engineFRP.maths;
 
-import org.engineFRP.maths.MathUtil;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;

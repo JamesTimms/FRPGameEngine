@@ -1,42 +1,55 @@
 package org.engineFRP.core;
 
 import org.engineFRP.FRP.FRPTime;
+import org.engineFRP.FRP.Time;
 import org.engineFRP.rendering.SimpleRenderer;
+
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 
 /**
  * Created by TekMaTek on 22/03/2015.
  */
 public class Engine {
 
-    private static Engine gameEngine;
+    private static final Engine gameEngine = new Engine();
+    private static Time renderTimer = new Time(Time.THIRTY_PER_SECOND);
+    private static Time pollTimer = new Time(120);
+    private static Scene scene;
 
-    private Engine(Game game) {
-        FRPDisplay.create();
+    private Engine() {
         FRPKeyboard.create();
         FRPMouse.create();
         SimpleRenderer.init();
-        runGame(game);
     }
 
-    private static void runGame(Game game) {
+    public static void runGame(Game game) {
         //Just some thoughts on how to better implement the time loops.
         //While(shouldStillPlayGame){
         //  sleepOrFreeThread(forSmallestTimeTillNextUpdate);//For example sleep for 1/30 of a second.
         //  processNextActionRequired();//Not sure how this will work for simultaneous actions.
         //}
-        game.setupScene();
+        scene = game.setupScene();
         while(!FRPDisplay.shouldWindowClose()) {
-            game.input();
+            input();
             FRPTime.pollStreams();
-            game.render();
+            render();
         }
     }
 
-    public static final void StartEngine(Game game) throws Exception {
-        if(gameEngine == null) {
-            gameEngine = new Engine(game);
-        } else {
-            throw new Exception("Can't start multiple games with this game engine.");
+    private static void input() {
+        if(pollTimer.shouldGetFrame()) {
+            glfwPollEvents();
+        }
+    }
+
+    private static void render() {
+        if(renderTimer.shouldGetFrame()) {
+            glClear(GL_COLOR_BUFFER_BIT);
+            scene.drawScene();
+            glfwSwapBuffers(FRPDisplay.getWindow());
         }
     }
 }

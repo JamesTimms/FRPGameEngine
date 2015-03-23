@@ -5,8 +5,8 @@ package org.engineFRP.core;
  */
 public interface Game {
 
-    public void setupScene();
-    public void input();
-    public void render();
+    public Scene setupScene();
+//    public void input();
+//    public void render();
 
 }

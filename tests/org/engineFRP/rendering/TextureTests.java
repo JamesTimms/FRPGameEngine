@@ -9,7 +9,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.lwjgl.opengl.GL11.*;
 
-public class TextureTest {
+public class TextureTests {
 
     private static final String RES_PATH = "./res/textures/";
     private static final String TEXTURE_FILE = "checkers.png";

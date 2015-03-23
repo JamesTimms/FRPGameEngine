@@ -1,4 +1,4 @@
-package physics.collision;
+package org.engineFRP.collision;
 
 import org.junit.After;
 
