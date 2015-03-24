@@ -11,8 +11,9 @@ public abstract class Tree<A> {
         this.rootNode = rootNode;
     }
 
-    public Node<A> add(final Node<A> node) {
-        return rootNode.addChild(node);
+    public Tree<A> add(final Node<A> node) {
+        rootNode.addChild(node);
+        return this;
     }
 
     public abstract Node<A> find(final String nodeName);

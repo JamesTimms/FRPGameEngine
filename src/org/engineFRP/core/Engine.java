@@ -20,6 +20,7 @@ public class Engine {
     private static Scene scene;
 
     private Engine() {
+        FRPDisplay.create();
         FRPKeyboard.create();
         FRPMouse.create();
         SimpleRenderer.init();
