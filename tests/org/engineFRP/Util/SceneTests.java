@@ -22,8 +22,8 @@ public class SceneTests {
                 Node.newNode(new Transform(), "a")
                         .addChild(Node.newNode(new Transform(), "b")
                                 .addChild(searchNode))
-                        .addChild(Node.newNode(new Transform(), "d")))
-                .addChild(Node.newNode(new Transform(), "e"));
+                        .addChild(Node.newNode(new Transform(), "d"))
+                .addChild(Node.newNode(new Transform(), "e")));
 
 //        System.out.println(Scene.graph.toString());
         assertEquals(searchNode.nodeName, Scene.graph.find("c").nodeName);
