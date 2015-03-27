@@ -20,12 +20,6 @@ public class Demo5 implements Game {
     private static final String TEXT_FILE = "./res/textures/grad.png";
 
     public static void main(String[] args) {
-//        try {
-//            Engine.StartEngine(new Demo5());
-//        } catch(Exception e) {
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//        }
         Engine.runGame(new Demo5());
     }
 

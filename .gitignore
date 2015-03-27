@@ -228,3 +228,5 @@ target/
 /libraries
 /.idea
 /natives
+/*.iml
+/*.log
