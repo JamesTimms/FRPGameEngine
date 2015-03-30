@@ -1,5 +1,6 @@
 package org.engineFRP.core;
 
+import org.engineFRP.FRP.FRPWinSize;
 import org.engineFRP.Physics.collision.AABB;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.maths.Vector3f;
@@ -10,7 +11,6 @@ import org.lwjgl.opengl.GLContext;
 import sodium.Cell;
 import sodium.Listener;
 import sodium.Stream;
-import sodium.StreamSink;
 
 import java.nio.ByteBuffer;
 
@@ -26,13 +26,13 @@ public final class FRPDisplay {
 
     public static final int DEFAULT_WIDTH = 800;
     public static final int DEFAULT_HEIGHT = 600;
-    public static final StreamSink<WinSize> winResizeStream = new StreamSink<>();
-    public static Cell<Vector2f> windowSize;
-
+    public static final FRPWinSize winResizeStream = new FRPWinSize();
     private static final String DEFAULT_TITLE = "FRP Game Engine";
+    public static Cell<Vector2f> windowSize;
     private static GLFWWindowSizeCallback newCallback;
 
     private static Long window;//This is an object so it can be null when window fails to load or isn't yet loaded.
+    private static Long window2;
     private static Listener exitWindow;
 
     private static void init() {
@@ -44,9 +44,14 @@ public final class FRPDisplay {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         window = glfwCreateWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE, NULL, NULL);
+//        window2 = glfwCreateWindow(1800, 1400, DEFAULT_TITLE, NULL, NULL);
         if(window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
         windowSize = winResizeStream
+                .map(winSize -> {//TODO: move this function into FRPWinSize.
+                    GL11.glViewport(0, 0, winSize.width, winSize.height);
+                    return winSize;
+                })
                 .map(winSize -> new Vector2f(winSize.width, winSize.height))
                 .hold(new Vector2f(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
@@ -60,7 +65,7 @@ public final class FRPDisplay {
         glfwSetWindowSizeCallback(FRPDisplay.getWindow(), newCallback = new GLFWWindowSizeCallback() {
             @Override
             public void invoke(long window, int width, int height) {
-                winResizeStream.send(new WinSize(window, width, height));
+                winResizeStream.send(new FRPWinSize.Resize(window, width, height));
             }
         });
     }
@@ -110,18 +115,5 @@ public final class FRPDisplay {
 
     public static boolean shouldWindowClose() {
         return glfwWindowShouldClose(FRPDisplay.window) == GL11.GL_TRUE;
-    }
-
-
-    public static class WinSize {
-        public long window;
-        public int width;
-        public int height;
-
-        public WinSize(long window, int width, int height) {
-            this.window = window;
-            this.width = width;
-            this.height = height;
-        }
     }
 }

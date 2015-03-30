@@ -1,8 +1,6 @@
 package org.engineFRP.rendering;
 
 import org.engineFRP.core.FRPDisplay;
-import org.engineFRP.core.Transform;
-import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.shaders.CubeShader;
 import org.engineFRP.rendering.shaders.Shader;
 
@@ -14,7 +12,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class SimpleRenderer {
 
-    private static Transform cube = new Transform(Vector3f.ZERO, MeshUtil.BuildSimpleCube());
+//    private static Transform cube = new Transform(Vector3f.ZERO, MeshUtil.BuildSimpleCube());
     static Shader shader;
 
     public static void Render() {
@@ -30,6 +28,6 @@ public class SimpleRenderer {
     }
 
     public static void draw() {
-        shader.draw(cube);
+//        shader.draw(cube);
     }
 }

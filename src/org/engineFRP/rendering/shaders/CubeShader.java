@@ -25,14 +25,14 @@ public class CubeShader extends Shader {
     }
 
     public void updateUniforms(Material material) {
-        dealWithTexture(material.texture);
+//        dealWithTexture(material.texture);
         setUniform4m("transform", Camera.mainCamera.GetViewProjection());
         setUniform3f("color", material.color);
     }
 
     public void draw(Transform transform) {
         Bind();
-        updateUniforms(Material.WhiteNoTexture());
+        updateUniforms(Material.White());
 
         final int POSITION = 0;
         final int TEXTURE_COORDS = 1;

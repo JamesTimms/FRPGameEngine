@@ -1,5 +1,6 @@
 package org.engineFRP.core;
 
+import org.engineFRP.FRP.FRPWinSize;
 import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import sodium.Cell;
@@ -13,8 +14,8 @@ public class Camera {
 
     public float zNear;
     public float zFar;
-    public float width;
-    public float height;
+    public Cell<Integer> width;
+    public Cell<Integer> height;
     public float fieldOfView;
 
     public Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
@@ -28,13 +29,16 @@ public class Camera {
         if(mainCamera == null) {
             mainCamera = this;
         }
-        this.setProjection(70.0f, FRPDisplay.DEFAULT_WIDTH, FRPDisplay.DEFAULT_HEIGHT, 0.1f, 1000.0f);
+        this.setProjection(70.0f, FRPDisplay.winResizeStream, 0.1f, 1000.0f);
         translation = new Cell<>(Vector3f.ZERO);
     }
 
-    private Matrix4f cameraProjection() {
-        return new Matrix4f().initPerspective(
-                this.fieldOfView, this.height / this.width, this.zNear, this.zFar);
+    public void setProjection(float fieldOfView, FRPWinSize winSize, float zNear, float zFar) {
+        this.fieldOfView = (fieldOfView > 1) ? fieldOfView : 1;
+        this.width = winSize.width();
+        this.height = winSize.height();
+        this.zNear = (zNear > 0) ? zNear : 0;
+        this.zFar = (zFar > zNear) ? zFar : zFar + 1.0f;
     }
 
     public Matrix4f GetViewProjection() {
@@ -44,11 +48,8 @@ public class Camera {
         return cameraProjection().mul(cameraRotation.mul(cameraTranslation));
     }
 
-    public void setProjection(float fieldOfView, float width, float height, float zNear, float zFar) {
-        this.fieldOfView = (fieldOfView > 1) ? fieldOfView : 1;
-        this.width = width;
-        this.height = height;
-        this.zNear = (zNear > 0) ? zNear : 0;
-        this.zFar = (zFar > zNear) ? zFar : zFar + 1.0f;
+    private Matrix4f cameraProjection() {
+        return new Matrix4f().initPerspective(
+                this.fieldOfView, height.sample() / width.sample(), this.zNear, this.zFar);
     }
 }

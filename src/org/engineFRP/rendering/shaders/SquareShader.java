@@ -31,12 +31,13 @@ public class SquareShader extends Shader {
 
     public void draw(Transform transform) {
         Bind();
-        updateUniforms(transform, Material.WhiteNoTexture());
+        updateUniforms(transform, Material.White());
 
         final int POSITION = 0;
         final int TEXTURE_COORDS = 1;
         final int SIZE_OF_BYTE = 4;
         glEnableVertexAttribArray(POSITION);
+        glEnableVertexAttribArray(TEXTURE_COORDS);
 
         glBindBuffer(GL_ARRAY_BUFFER, transform.mesh.vertexBO);
 

@@ -135,7 +135,6 @@ public class MeshUtil {
                 20, 21, 22,
                 20, 22, 23
         };
-
         return new Mesh(vertices, indices, null, true);
     }
 
@@ -149,5 +148,9 @@ public class MeshUtil {
 
     public static Mesh BuildSquareWithTexture(String filename) {
         return new Mesh(new Square(), Texture.loadTexture(filename));
+    }
+
+    public static Mesh BuildSquareWithTexture(String filename, float size) {
+        return new Mesh(new Square(size), Texture.loadTexture(filename));
     }
 }
