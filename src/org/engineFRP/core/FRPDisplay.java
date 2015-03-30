@@ -33,7 +33,6 @@ public final class FRPDisplay {
     private static GLFWWindowSizeCallback newCallback;
 
     private static Long window;//This is an object so it can be null when window fails to load or isn't yet loaded.
-    private static Long window2;
     private static Listener exitWindow;
 
     private static void init() {
@@ -45,12 +44,13 @@ public final class FRPDisplay {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         window = glfwCreateWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE, NULL, NULL);
-//        window2 = glfwCreateWindow(1800, 1400, DEFAULT_TITLE, NULL, NULL);
         if(window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
         windowSize = winResizeStream
-                .map(winSize -> {//TODO: move this function into FRPWinSize.
-                    GL11.glViewport(0, 0, winSize.width, winSize.height);
+                .map(winSize -> {
+                    //want to have a 1:1 openGL context.
+                    int aspect = winSize.width < winSize.height ? winSize.width : winSize.height;
+                    GL11.glViewport(0, 0, aspect, aspect);
                     return winSize;
                 })
                 .map(winSize -> new Vector2f(winSize.width, winSize.height))
