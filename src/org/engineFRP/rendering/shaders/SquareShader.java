@@ -20,18 +20,13 @@ public class SquareShader extends Shader {
         CompileShader();
 
         addUniform("color");
+        addUniform("balance");
         addUniform("transform");
-    }
-
-    public void updateUniforms(Transform transform, Material material) {
-        dealWithTexture(transform.mesh.texture);
-        setUniform3f("color", material.color);
-        setUniform4m("transform", transform.getTransformMatrix());
     }
 
     public void draw(Transform transform) {
         Bind();
-        updateUniforms(transform, Material.White());
+        updateUniforms(transform, transform.material);
 
         final int POSITION = 0;
         final int TEXTURE_COORDS = 1;
@@ -49,5 +44,12 @@ public class SquareShader extends Shader {
 
         glDisableVertexAttribArray(POSITION);
         glDisableVertexAttribArray(TEXTURE_COORDS);
+    }
+
+    public void updateUniforms(Transform transform, Material material) {
+        dealWithTexture(transform.mesh.texture);
+        setUniform3f("color", material.color);
+        setUniformf("balance", material.balance);
+        setUniform4m("transform", transform.getTransformMatrix());
     }
 }

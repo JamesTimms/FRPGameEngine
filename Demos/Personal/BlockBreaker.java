@@ -3,6 +3,7 @@ package Personal;
 import org.engineFRP.core.*;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
+import org.engineFRP.rendering.shaders.Material;
 import sodium.Stream;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -25,12 +26,12 @@ public class BlockBreaker implements Game {
         for(int i = -1; i < 2; i++) {
             for(int j = -1; j < 2; j++) {
                 Scene.graph.add(
-                        new Transform(new Vector3f(0.37f * i, (0.13f * j) + offsetY, -1.0f), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.4f))
+                        new Transform(new Vector3f(0.37f * i, (0.13f * j) + offsetY, -1.0f), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.4f), Material.blue)
                 );
             }
         }
         Scene.graph.add(
-                new Transform(new Vector3f(0.0f, -0.8f, -1.0f), MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.05f, 0.4f))
+                new Transform(new Vector3f(0.0f, -0.8f, -1.0f), MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.05f, 0.4f), Material.white)
                         .mergeTranslation(paddleMovement(-0.1f))
         );
         return Scene.graph;

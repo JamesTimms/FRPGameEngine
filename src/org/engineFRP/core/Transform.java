@@ -6,6 +6,7 @@ import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.Vertex;
+import org.engineFRP.rendering.shaders.Material;
 import sodium.Stream;
 
 /**
@@ -13,21 +14,24 @@ import sodium.Stream;
  */
 public final class Transform {
 
+    //TODO: clean up the constructors in this class.
     public static final Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
     private final CellUpdater<Vector3f> translation;
 
     private final CellUpdater<Vector3f> rotation;
     private final CellUpdater<Vector3f> scale;
     public Mesh mesh;
+    public Material material;
 
     private Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
     private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
 
     public Transform() {
-        this(Vector3f.ZERO, Vector3f.ZERO, Vector3f.ZERO, null);
+        this(Vector3f.ZERO, Vector3f.ZERO, Vector3f.ZERO, null, Material.BuildMaterial(Vector3f.ZERO, 0.5f, 0.2f, 1.0f));
     }
 
-    private Transform(final Vector3f position, final Vector3f rotation, final Vector3f scale, final Mesh mesh) {
+    private Transform(final Vector3f position, final Vector3f rotation, final Vector3f scale, final Mesh mesh, final Material mat) {
+        this.material = mat;
         translation = new CellUpdater<>(FRPUtil.addVectors, position);
         this.rotation = new CellUpdater<>(FRPUtil.addVectors, rotation);
         this.scale = new CellUpdater<>(FRPUtil.addVectors, scale);
@@ -35,7 +39,11 @@ public final class Transform {
     }
 
     public Transform(final Vector3f translation, final Mesh mesh) {
-        this(translation, Vector3f.ZERO, Vector3f.ONE, mesh);
+        this(translation, Vector3f.ZERO, Vector3f.ONE, mesh, Material.BuildMaterial(Vector3f.ZERO, 0.5f, 0.2f, 1.0f));
+    }
+
+    public Transform(final Vector3f translation, final Mesh mesh, final Material mat) {
+        this(translation, Vector3f.ZERO, Vector3f.ONE, mesh, mat);
     }
 
     public Vertex[] addPosAndFlipY() {//FIXME: Make this method cleaner

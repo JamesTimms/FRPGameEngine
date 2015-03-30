@@ -31,6 +31,7 @@ public class Scene extends Tree<Transform> {
      */
     private void drawScene(Node<Transform> trans) {
         for(Node<Transform> transform : trans.getChildren()) {
+            shader2.updateUniforms(transform.value, transform.value.material);//TODO: Clean this up.
             shader2.draw(transform.value);
             drawScene(transform);
         }

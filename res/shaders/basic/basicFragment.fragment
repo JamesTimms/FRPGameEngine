@@ -3,12 +3,12 @@
 in vec2 texCoord0;
 
 uniform vec3 color;
+uniform float balance;
 uniform sampler2D sampler;
 
 out vec4 fragColour;
 
 void main() {
     vec4 sample = texture2D( sampler, texCoord0 );
-    float transparency = sample.a;
-    fragColour = sample * vec4( color, transparency );
+    fragColour = sample * vec4( color, 1 ) * balance;
 }
