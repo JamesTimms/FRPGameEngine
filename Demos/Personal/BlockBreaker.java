@@ -20,8 +20,13 @@ public class BlockBreaker implements Game {
 
     @Override
     public Scene setupScene() {
-        return Scene.graph.add(
-                new Transform(Vector3f.ZERO, MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.1f, 0.2f))
-        );
+        for(int i = -1; i < 2; i++) {
+            for(int j = -1; j < 2; j++) {
+                Scene.graph.add(
+                        new Transform(new Vector3f(0.36f * i, 0.13f * j, -1.0f), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.4f))
+                );
+            }
+        }
+        return Scene.graph;
     }
 }
