@@ -12,7 +12,7 @@ import org.engineFRP.rendering.MeshUtil;
  */
 public class BlockBreaker implements Game {
 
-    private static final String BLOCK_TEXTURE = "./res/textures/checkers.png";
+    private static final String BLOCK_TEXTURE = "./res/textures/block.png";
 
     public static void main(String[] args) {
         Engine.runGame(new BlockBreaker());
@@ -21,7 +21,7 @@ public class BlockBreaker implements Game {
     @Override
     public Scene setupScene() {
         return Scene.graph.add(
-                new Transform(Vector3f.ZERO, MeshUtil.BuildSquareWithTexture(BLOCK_TEXTURE, 5.0f))
+                new Transform(Vector3f.ZERO, MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.1f, 0.2f))
         );
     }
 }

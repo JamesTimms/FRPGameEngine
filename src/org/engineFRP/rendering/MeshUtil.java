@@ -1,6 +1,6 @@
 package org.engineFRP.rendering;
 
-import org.engineFRP.Physics.Manafolds.Square;
+import org.engineFRP.Physics.Manafolds.Rect;
 import org.engineFRP.Physics.Manafolds.Triangle;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.maths.Vector3f;
@@ -143,14 +143,18 @@ public class MeshUtil {
     }
 
     public static Mesh BuildSquare() {
-        return new Mesh(new Square());
+        return new Mesh(new Rect());
     }
 
     public static Mesh BuildSquareWithTexture(String filename) {
-        return new Mesh(new Square(), Texture.loadTexture(filename));
+        return new Mesh(new Rect(), Texture.loadTexture(filename));
     }
 
     public static Mesh BuildSquareWithTexture(String filename, float size) {
-        return new Mesh(new Square(size), Texture.loadTexture(filename));
+        return new Mesh(new Rect(size), Texture.loadTexture(filename));
+    }
+
+    public static Mesh BuildRectWithTexture(String filename, float height, float width) {
+        return new Mesh(new Rect(height, width), Texture.loadTexture(filename));
     }
 }

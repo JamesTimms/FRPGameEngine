@@ -24,7 +24,8 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  */
 public final class FRPDisplay {
 
-    public static final int DEFAULT_WIDTH = 800;
+    //TODO: The height width ratio is distorting the glContext.
+    public static final int DEFAULT_WIDTH = 600;
     public static final int DEFAULT_HEIGHT = 600;
     public static final FRPWinSize winResizeStream = new FRPWinSize();
     private static final String DEFAULT_TITLE = "FRP Game Engine";
