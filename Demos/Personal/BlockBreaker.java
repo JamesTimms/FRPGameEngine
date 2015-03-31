@@ -34,6 +34,10 @@ public class BlockBreaker implements Game {
                 new Transform(new Vector3f(0.0f, -0.8f, -1.0f), MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.05f, 0.4f), Material.white)
                         .mergeTranslation(paddleMovement(-0.1f))
         );
+        Scene.graph.add(
+                new Transform(new Vector3f(0.0f, -0.6f, -1.0f), MeshUtil.BuildCircle(0.4f), Material.white)
+                        .mergeTranslation(paddleMovement(-0.1f))
+        );
         return Scene.graph;
     }
 

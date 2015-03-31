@@ -15,89 +15,89 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class RenderingUtil {
 
-    public static FloatBuffer createFlippedBuffer(Vertex[] vertices) {
-        FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.SIZE);
+	protected static FloatBuffer createFloatBuffer( int size ) {
+		return BufferUtils.createFloatBuffer(size);
+	}
 
-        for(int i = 0; i < vertices.length; i++) {
-            buffer.put(vertices[i].getPos().x);
-            buffer.put(vertices[i].getPos().y);
-            buffer.put(vertices[i].getPos().z);
-            buffer.put(vertices[i].getTexCoord().x);
-            buffer.put(vertices[i].getTexCoord().y);
-            buffer.put(vertices[i].getNormal().x);
-            buffer.put(vertices[i].getNormal().y);
-            buffer.put(vertices[i].getNormal().z);
-        }
+	protected static IntBuffer createIntBuffer( int size ) {
+		return BufferUtils.createIntBuffer(size);
+	}
 
-        buffer.flip();
-        return buffer;
-    }
+	public static FloatBuffer createFlippedBuffer( Vertex[] vertices ) {
+		FloatBuffer buffer = createFloatBuffer( vertices.length * Vertex.SIZE );
 
-    protected static FloatBuffer createFloatBuffer(int size) {
-        return BufferUtils.createFloatBuffer(size);
-    }
+		for( int i = 0; i < vertices.length; i++ ) {
+			buffer.put( vertices[ i ].getPos().x );
+			buffer.put( vertices[ i ].getPos().y );
+			buffer.put( vertices[ i ].getPos().z );
+			buffer.put( vertices[ i ].getTexCoord( ).x );
+			buffer.put( vertices[ i ].getTexCoord( ).y );
+			buffer.put( vertices[ i ].getNormal( ).x );
+			buffer.put( vertices[ i ].getNormal( ).y );
+			buffer.put( vertices[ i ].getNormal( ).z );
+		}
 
-    public static IntBuffer createFlippedBuffer(int... values) {
-        IntBuffer buffer = createIntBuffer(values.length);
-        buffer.put(values);
-        buffer.flip();
-        return buffer;
-    }
+		buffer.flip( );
+		return buffer;
+	}
 
-    protected static IntBuffer createIntBuffer(int size) {
-        return BufferUtils.createIntBuffer(size);
-    }
+	public static IntBuffer createFlippedBuffer( int... values ) {
+		IntBuffer buffer = createIntBuffer( values.length );
+		buffer.put( values );
+		buffer.flip( );
+		return buffer;
+	}
 
-    public static void setClearColor(Vector3f colour) {
-        glClearColor(colour.x, colour.y, colour.z, 1.0f);
-    }
+	public static void setClearColor( Vector3f colour ) {
+		glClearColor( colour.x, colour.y, colour.z, 1.0f );
+	}
 
-    public static void setTexture(boolean enabled) {
-        if(enabled) {
-            glEnable(GL_TEXTURE_2D);
-        } else {
-            glDisable(GL_TEXTURE_2D);
-        }
-    }
+	public static void setTexture( boolean enabled ) {
+		if( enabled ) {
+			glEnable( GL_TEXTURE_2D );
+		} else {
+			glDisable( GL_TEXTURE_2D );
+		}
+	}
 
-    public static FloatBuffer createFlippedBuffer(Matrix4f matrix) {
-        FloatBuffer buffer = createFloatBuffer(4 * 4);
+	public static FloatBuffer createFlippedBuffer( Matrix4f matrix ) {
+		FloatBuffer buffer = createFloatBuffer( 4 * 4 );
 
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < 4; j++) {
-                buffer.put(matrix.get(i, j));
-            }
-        }
-        buffer.flip();
-        return buffer;
-    }
+		for( int i = 0; i < 4; i++ ) {
+			for( int j = 0; j < 4; j++ ) {
+				buffer.put( matrix.get( i, j ) );
+			}
+		}
+		buffer.flip( );
+		return buffer;
+	}
 
-    public static String GetOpenGLVersion() {
-        return "OpenGL Version: " + glGetString(GL_VERSION);
-    }
+	public static String GetOpenGLVersion( ) {
+		return "OpenGL Version: " + glGetString( GL_VERSION );
+	}
 
-    public static String[] removeEmptyString(String[] tokens) {
-        ArrayList<String> result = new ArrayList<String>();
+	public static String[] removeEmptyString( String[] tokens ) {
+		ArrayList< String > result = new ArrayList< String >( );
 
-        for(String token : tokens) {
-            if(!token.equals(""))
-                result.add(token);
-        }
+		for( int i = 0; i < tokens.length; i++ ) {
+			if( !tokens[ i ].equals( "" ) )
+				result.add( tokens[ i ] );
+		}
 
-        String[] res = new String[result.size()];
-        result.toArray(res);
-        return res;
-    }
+		String[] res = new String[ result.size( ) ];
+		result.toArray( res );
+		return res;
+	}
 
-    public static int[] toIntArray(Integer[] indices) {
-        int[] result = new int[indices.length];
-        for(int i = 0; i < indices.length; i++) {
-            result[i] = indices[i];
-        }
-        return result;
-    }
+	public static int[] toIntArray( Integer[] indices ) {
+		int[] result = new int[ indices.length ];
+		for( int i = 0; i < indices.length; i++ ) {
+			result[ i ] = indices[ i ].intValue( );
+		}
+		return result;
+	}
 
-    public static void unbindTextures() {
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
+	public static void unbindTextures( ) {
+		glBindTexture( GL_TEXTURE_2D, 0 );
+	}
 }

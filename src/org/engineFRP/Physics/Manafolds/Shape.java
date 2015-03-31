@@ -1,7 +1,5 @@
 package org.engineFRP.Physics.Manafolds;
 
-import org.engineFRP.core.Transform;
-import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Vertex;
 
 /**

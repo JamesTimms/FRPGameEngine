@@ -100,7 +100,7 @@ public class Mesh {
         ArrayList<Vertex> vertices = new ArrayList<Vertex>();
         ArrayList<Integer> indices = new ArrayList<Integer>();
 
-        BufferedReader meshReader;
+        BufferedReader meshReader = null;
         try {
             meshReader = new BufferedReader(new FileReader("./resource/models/" + filename));
             String line;
@@ -156,8 +156,8 @@ public class Mesh {
             vertices[i2].setNormal(vertices[i2].getNormal().add(normal));
         }
 
-        for(Vertex vertex : vertices) {
-            vertex.setNormal(vertex.getNormal().normalized());
+        for(int i = 0; i < vertices.length; i++) {
+            vertices[i].setNormal(vertices[i].getNormal().normalized());
         }
     }
 }

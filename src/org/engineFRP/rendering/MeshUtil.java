@@ -1,5 +1,6 @@
 package org.engineFRP.rendering;
 
+import org.engineFRP.Physics.Manafolds.Circle;
 import org.engineFRP.Physics.Manafolds.Rect;
 import org.engineFRP.Physics.Manafolds.Triangle;
 import org.engineFRP.maths.Vector2f;
@@ -156,5 +157,9 @@ public class MeshUtil {
 
     public static Mesh BuildRectWithTexture(String filename, float height, float width) {
         return new Mesh(new Rect(height, width), Texture.loadTexture(filename));
+    }
+
+    public static Mesh BuildCircle(float radius) {
+        return new Mesh(new Circle(radius), Texture.NoTexture());
     }
 }
