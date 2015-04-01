@@ -1,5 +1,6 @@
 package org.engineFRP.Physics.Manafolds;
 
+import org.engineFRP.Util.MergeSort;
 import org.engineFRP.rendering.Vertex;
 
 /**
@@ -9,6 +10,10 @@ public class Shape {
 
     protected Vertex[] vertices;
     protected int[] drawOrder;
+
+    protected static Vertex[] orderClockwise(Vertex[] vertices) {
+        return new MergeSort<Vertex>().mergeSort(vertices);
+    }
 
     public Vertex[] getVertices() {
         return vertices;
@@ -29,5 +34,4 @@ public class Shape {
     public int[] getIndices() {
         return drawOrder;
     }
-
 }

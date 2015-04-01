@@ -2,8 +2,6 @@ package org.engineFRP.core;
 
 import org.engineFRP.Util.Node;
 import org.engineFRP.Util.Tree;
-import org.engineFRP.rendering.shaders.Shader;
-import org.engineFRP.rendering.shaders.SquareShader;
 
 import java.util.Objects;
 
@@ -13,11 +11,9 @@ import java.util.Objects;
 public class Scene extends Tree<Transform> {
 
     public static final Scene graph = new Scene();
-    private static Shader shader2;
 
     private Scene() {
         super(new Node<>(new Transform(), "root"));
-        shader2 = new SquareShader();
     }
 
     public void drawScene() {
@@ -31,8 +27,8 @@ public class Scene extends Tree<Transform> {
      */
     private void drawScene(Node<Transform> trans) {
         for(Node<Transform> transform : trans.getChildren()) {
-            shader2.updateUniforms(transform.value, transform.value.material);//TODO: Clean this up.
-            shader2.draw(transform.value);
+            transform.value.mesh.shader.updateUniforms(transform.value, transform.value.material);//TODO: Clean this up.
+            transform.value.mesh.shader.draw(transform.value);
             drawScene(transform);
         }
     }

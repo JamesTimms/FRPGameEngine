@@ -5,6 +5,9 @@ import org.engineFRP.Physics.Manafolds.Rect;
 import org.engineFRP.Physics.Manafolds.Triangle;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.maths.Vector3f;
+import org.engineFRP.rendering.shaders.CircleShader;
+import org.engineFRP.rendering.shaders.CubeShader;
+import org.engineFRP.rendering.shaders.SquareShader;
 
 
 /**
@@ -136,7 +139,7 @@ public class MeshUtil {
                 20, 21, 22,
                 20, 22, 23
         };
-        return new Mesh(vertices, indices, null, true);
+        return new Mesh(vertices, indices, null, true, new CubeShader());
     }
 
     public static Mesh BuildTriangle() {
@@ -148,18 +151,18 @@ public class MeshUtil {
     }
 
     public static Mesh BuildSquareWithTexture(String filename) {
-        return new Mesh(new Rect(), Texture.loadTexture(filename));
+        return new Mesh(new Rect(), Texture.loadTexture(filename), new SquareShader());
     }
 
     public static Mesh BuildSquareWithTexture(String filename, float size) {
-        return new Mesh(new Rect(size), Texture.loadTexture(filename));
+        return new Mesh(new Rect(size), Texture.loadTexture(filename), new SquareShader());
     }
 
     public static Mesh BuildRectWithTexture(String filename, float height, float width) {
-        return new Mesh(new Rect(height, width), Texture.loadTexture(filename));
+        return new Mesh(new Rect(height, width), Texture.loadTexture(filename), new SquareShader());
     }
 
-    public static Mesh BuildCircle(float radius) {
-        return new Mesh(new Circle(radius), Texture.NoTexture());
+    public static Mesh BuildCircleWithTexture(String filename, float radius) {
+        return new Mesh(new Circle(radius), Texture.loadTexture(filename), new CircleShader());
     }
 }

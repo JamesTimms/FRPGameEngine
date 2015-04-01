@@ -2,6 +2,8 @@ package org.engineFRP.rendering;
 
 import org.engineFRP.Physics.Manafolds.Shape;
 import org.engineFRP.maths.Vector3f;
+import org.engineFRP.rendering.shaders.Shader;
+import org.engineFRP.rendering.shaders.SquareShader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,8 +23,9 @@ public class Mesh {
     public int vertexLength;
     public Shape shape;
     public Texture texture;
+    public Shader shader;//?
 
-    public Mesh(Vertex[] paramVertices, int[] indices, Texture texture, boolean shouldCalNormals) {
+    public Mesh(Vertex[] paramVertices, int[] indices, Texture texture, boolean shouldCalNormals, Shader shader) {
         this(new Shape() {
             @Override
             public Vertex[] getVertices() {
@@ -33,33 +36,22 @@ public class Mesh {
             public int[] getIndices() {
                 return indices;
             }
-        }, texture, shouldCalNormals);
+        }, texture, shouldCalNormals, shader);
     }
 
-    public Mesh(Shape shape) {
-        this(shape, null, false);
-    }
-
-    public Mesh(Shape shape, Texture texture) {
-        this(shape, texture, false);
-    }
-
-    public Mesh(Shape shape, Texture texture, boolean shouldCalcNormals) {
+    public Mesh(Shape shape, Texture texture, boolean shouldCalcNormals, Shader shader) {
         this.shape = shape;
         initMeshData();
         this.texture = texture;
+        this.shader = shader;
         addVertices(shape.getVertices(), shape.getIndices(), shouldCalcNormals);
     }
 
-    public void addVertices(Vertex[] vertices) {
-        indicesLength = vertices.length * Vertex.SIZE;
-        vertexLength = vertices.length;
-        glBindBuffer(GL_ARRAY_BUFFER, vertexBO);
-        glBufferData(GL_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer(vertices), GL_STATIC_DRAW);
-    }
-
-    private void addVertices(Vertex[] vertices, int[] indices) {
-        addVertices(vertices, indices, false);
+    private void initMeshData() {
+        vertexBO = glGenBuffers();
+        indexBO = glGenBuffers();
+        indicesLength = 0;
+        vertexLength = 0;
     }
 
     private void addVertices(Vertex[] vertices, int[] indices, boolean shouldCalcNormals) {
@@ -75,16 +67,45 @@ public class Mesh {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer(indices), GL_STATIC_DRAW);
     }
 
-    private void initMeshData() {
-        vertexBO = glGenBuffers();
-        indexBO = glGenBuffers();
-        indicesLength = 0;
-        vertexLength = 0;
+    private void calcNormals(Vertex[] vertices, int[] indices) {
+        for(int i = 0; i < indices.length; i += 3) {
+            int i0 = indices[i];
+            int i1 = indices[i + 1];
+            int i2 = indices[i + 2];
+
+            Vector3f v1 = vertices[i1].getPos().sub(vertices[i0].getPos());
+            Vector3f v2 = vertices[i2].getPos().sub(vertices[i0].getPos());
+
+            Vector3f normal = v1.cross(v2).normalized();
+            System.out.println(normal);
+            vertices[i0].setNormal(vertices[i0].getNormal().add(normal));
+            vertices[i1].setNormal(vertices[i1].getNormal().add(normal));
+            vertices[i2].setNormal(vertices[i2].getNormal().add(normal));
+        }
+
+        for(int i = 0; i < vertices.length; i++) {
+            vertices[i].setNormal(vertices[i].getNormal().normalized());
+        }
+    }
+
+    public Mesh(Shape shape) {
+        this(shape, null, false, new SquareShader());
+    }
+
+    public Mesh(Shape shape, Texture texture, Shader shader) {
+        this(shape, texture, false, shader);
     }
 
     public void resize(float resizeFactor) {
         this.shape.resize(resizeFactor);
         this.addVertices(shape.getVertices());
+    }
+
+    public void addVertices(Vertex[] vertices) {
+        indicesLength = vertices.length * Vertex.SIZE;
+        vertexLength = vertices.length;
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBO);
+        glBufferData(GL_ARRAY_BUFFER, RenderingUtil.createFlippedBuffer(vertices), GL_STATIC_DRAW);
     }
 
     private void loadMesh(String filename) {
@@ -140,24 +161,7 @@ public class Mesh {
         this.addVertices(vertexData, RenderingUtil.toIntArray(indexData));
     }
 
-    private void calcNormals(Vertex[] vertices, int[] indices) {
-        for(int i = 0; i < indices.length; i += 3) {
-            int i0 = indices[i];
-            int i1 = indices[i + 1];
-            int i2 = indices[i + 2];
-
-            Vector3f v1 = vertices[i1].getPos().sub(vertices[i0].getPos());
-            Vector3f v2 = vertices[i2].getPos().sub(vertices[i0].getPos());
-
-            Vector3f normal = v1.cross(v2).normalized();
-            System.out.println(normal);
-            vertices[i0].setNormal(vertices[i0].getNormal().add(normal));
-            vertices[i1].setNormal(vertices[i1].getNormal().add(normal));
-            vertices[i2].setNormal(vertices[i2].getNormal().add(normal));
-        }
-
-        for(int i = 0; i < vertices.length; i++) {
-            vertices[i].setNormal(vertices[i].getNormal().normalized());
-        }
+    private void addVertices(Vertex[] vertices, int[] indices) {
+        addVertices(vertices, indices, false);
     }
 }

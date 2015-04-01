@@ -1,6 +1,5 @@
 package org.engineFRP.Physics.Manafolds;
 
-import org.engineFRP.Util.MergeSort;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Vertex;
 
@@ -21,9 +20,5 @@ public class Triangle extends Shape {
         };
         drawOrder = new int[] {0, 1, 2};
         orderClockwise(vertices);
-    }
-
-    private static Vertex[] orderClockwise(Vertex[] vertices) {
-        return new MergeSort<Vertex>().mergeSort(vertices);
     }
 }

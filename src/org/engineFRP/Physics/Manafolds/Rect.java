@@ -1,6 +1,5 @@
 package org.engineFRP.Physics.Manafolds;
 
-import org.engineFRP.Util.MergeSort;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Vertex;
@@ -29,9 +28,5 @@ public class Rect extends Shape {
         };
         drawOrder = new int[] {0, 1, 3, 1, 2, 3};
         vertices = orderClockwise(vertices);//This is here for point in shape collision stuff.
-    }
-
-    private static Vertex[] orderClockwise(Vertex[] vertices) {
-        return new MergeSort<Vertex>().mergeSort(vertices);
     }
 }
