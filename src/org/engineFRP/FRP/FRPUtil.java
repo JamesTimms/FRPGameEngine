@@ -17,6 +17,10 @@ public class FRPUtil {
             (cell, stream) -> stream
                     .accum(cell.sample(), (a, b) -> a.add(b));
 
+    public static final Lambda2<Cell<Vector3f>, Stream<Vector3f>, Cell<Vector3f>> setVector =
+            (cell, stream) -> stream
+                    .hold(cell.sample());
+
     public static final Stream<Vector3f> mapArrowKeysToMovementOf(float moveAmount) {
         return FRPKeyboard.keyEvent
                 .filter(key -> key.action != GLFW_RELEASE

@@ -7,7 +7,7 @@ import sodium.*;
  */
 public class CellUpdater<A> {
 
-    private final Lambda2<Cell<A>, Stream<A>, Cell<A>> resolver;
+    private Lambda2<Cell<A>, Stream<A>, Cell<A>> resolver;
     //TODO: Consider using Optionals here to avoid having to init the Cell.
     private Cell<A> value;
     private Stream<A> stream = new Stream<>();
@@ -25,6 +25,11 @@ public class CellUpdater<A> {
         this.stream = stream.merge(otherStream);
         this.value = replay(value);
         return this;
+    }
+
+    public void changeResolver(Lambda2<Cell<A>, Stream<A>, Cell<A>> newResolver) {
+        this.resolver = newResolver;
+        this.value = replay(value);
     }
 
     public A sample() {

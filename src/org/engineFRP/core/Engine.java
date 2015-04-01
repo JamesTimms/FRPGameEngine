@@ -14,16 +14,22 @@ import static org.lwjgl.opengl.GL11.glClear;
  */
 public class Engine {
 
-    private static final Engine gameEngine = new Engine();
+    private static boolean hasBeenInitialized = false;
     private static Time renderTimer = new Time(Time.THIRTY_PER_SECOND);
     private static Time pollTimer = new Time(120);
     private static Scene scene;
 
     private Engine() {
-        FRPDisplay.create();
-        FRPKeyboard.create();
-        FRPMouse.create();
-        SimpleRenderer.init();
+    }
+
+    private static void init() {
+        if(!hasBeenInitialized) {
+            FRPDisplay.create();
+            FRPKeyboard.create();
+            FRPMouse.create();
+            SimpleRenderer.init();
+            hasBeenInitialized = true;
+        }
     }
 
     public static void runGame(Game game) {
@@ -32,10 +38,11 @@ public class Engine {
         //  sleepOrFreeThread(forSmallestTimeTillNextUpdate);//For example sleep for 1/30 of a second.
         //  processNextActionRequired();//Not sure how this will work for simultaneous actions.
         //}
+        init();
         scene = game.setupScene();
         while(!FRPDisplay.shouldWindowClose()) {
             input();
-            FRPTime.pollStreams();
+            FRPTime.pollStreams();//Trigger all FRP streams.
             render();
         }
     }

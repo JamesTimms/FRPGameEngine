@@ -7,6 +7,8 @@ import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.Vertex;
 import org.engineFRP.rendering.shaders.Material;
+import sodium.Cell;
+import sodium.Lambda2;
 import sodium.Stream;
 
 /**
@@ -17,7 +19,6 @@ public final class Transform {
     //TODO: clean up the constructors in this class.
     public static final Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
     private final CellUpdater<Vector3f> translation;
-
     private final CellUpdater<Vector3f> rotation;
     private final CellUpdater<Vector3f> scale;
     public Mesh mesh;
@@ -32,7 +33,7 @@ public final class Transform {
 
     private Transform(final Vector3f position, final Vector3f rotation, final Vector3f scale, final Mesh mesh, final Material mat) {
         this.material = mat;
-        translation = new CellUpdater<>(FRPUtil.addVectors, position);
+        this.translation = new CellUpdater<>(FRPUtil.addVectors, position);
         this.rotation = new CellUpdater<>(FRPUtil.addVectors, rotation);
         this.scale = new CellUpdater<>(FRPUtil.addVectors, scale);
         this.mesh = mesh;
@@ -77,6 +78,11 @@ public final class Transform {
 
     public Transform mergeTranslation(final Stream<Vector3f> stream) {
         this.translation.merge(stream);
+        return this;
+    }
+
+    public Transform changeTranslationType(Lambda2<Cell<Vector3f>, Stream<Vector3f>, Cell<Vector3f>> newType) {
+        translation.changeResolver(newType);
         return this;
     }
 
