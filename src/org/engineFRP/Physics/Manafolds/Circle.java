@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Circle extends Shape {
 
     public Circle() {
-        this(0.5f);
+        this(0.05f);
     }
 
     //improved Algorithm from http://slabode.exofire.net/circle_draw.shtml
