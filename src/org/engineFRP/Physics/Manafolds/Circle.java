@@ -36,7 +36,7 @@ public class Circle extends Shape {
 
             x += tx * tFactor;
             y += ty * tFactor;
-            
+
             x *= rFactor;
             y *= rFactor;
         }

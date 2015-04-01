@@ -1,5 +1,6 @@
 package Personal;
 
+import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.core.*;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
@@ -36,6 +37,8 @@ public class BlockBreaker implements Game {
         );
         Scene.graph.add(
                 new Transform(new Vector3f(0.0f, -0.65f, -1.0f), MeshUtil.BuildCircleWithTexture(PADDLE_TEXTURE, 0.03f), Material.white)
+                        .mergeTranslation(FRPTime.streamDelta(FRPTime.THIRTY_PER_SECOND)
+                                .map(delta -> new Vector3f(0.0f, -0.2f, 0.0f).mul(delta)))
         );
         return Scene.graph;
     }
