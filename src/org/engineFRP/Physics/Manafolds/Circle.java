@@ -15,18 +15,30 @@ public class Circle extends Shape {
         this(0.5f);
     }
 
+    //improved Algorithm from http://slabode.exofire.net/circle_draw.shtml
     public Circle(float radius) {
-        final int SEGMENTS = 40;
+        final float SEGMENTS = 100.0f;
+        float theta = 2.0f * 3.1415926f / SEGMENTS;
+        float tFactor = (float) Math.tan(theta);
+        float rFactor = (float) Math.cos(theta);
+
+        float x = radius;
+        float y = 0.0f;
+
         ArrayList<Vertex> verts = new ArrayList<>();
         ArrayList<Integer> index = new ArrayList<>();
         for(int ii = 0; ii < SEGMENTS; ii++) {
-            float theta = 2.0f * 3.1415926f * (float) ii / (float) SEGMENTS;//get the current angle
-
-            float x = radius * (float) Math.cos(theta);//calculate the x component
-            float y = radius * (float) Math.sin(theta);//calculate the y component
-
             verts.add(new Vertex(new Vector3f(x, y, 0.0f)));
             index.add(ii);
+
+            float tx = -y;
+            float ty = x;
+
+            x += tx * tFactor;
+            y += ty * tFactor;
+            
+            x *= rFactor;
+            y *= rFactor;
         }
         vertices = new Vertex[verts.size()];
         vertices = verts.toArray(vertices);
