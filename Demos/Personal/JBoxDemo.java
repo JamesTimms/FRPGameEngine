@@ -1,5 +1,6 @@
 package Personal;
 
+import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.Util.Node;
 import org.engineFRP.Util.Util;
@@ -21,6 +22,12 @@ import org.jbox2d.dynamics.*;
 import sodium.Cell;
 import sodium.StreamSink;
 
+import java.awt.*;
+
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
+
 /**
  * Created by TekMaTek on 01/03/2015.
  */
@@ -34,14 +41,6 @@ public class JBoxDemo implements Game {
 
     @Override
     public Scene setupScene() {
-        Transform block = new Transform(new Vector3f(0.0f, -0.90f, -1.0f), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.4f), Material.blue);
-        block.changeTranslationType(FRPUtil.setVector);
-        StreamSink<Vec2> updater = new StreamSink<>();
-        block.mergeTranslation(updater
-                        .map(Util::vec2ToScaledVector3f)
-        );
-        Scene.graph.add(new Node<>(block));
-
         Vec2 gravity = new Vec2(0.0f, -9.8f);
         World theWorld = new World(gravity);
 
@@ -55,13 +54,14 @@ public class JBoxDemo implements Game {
         Cell<Transform> trans = groundTrans
                 .once()
                 .map(Util::polyToVertexArray)
-                .map(verts -> new Mesh(verts, Util.genIndicies(verts.length), Texture.NoTexture(), false, new SquareShader()))
-                .map(mesh -> new Transform(Util.vec2ToScaledVector3f(groundBodyDef.position), mesh, Material.white))
+                .map(verts -> new Mesh(verts, Util.genIndicies(verts.length), Texture.loadTexture(BLOCK_TEXTURE), false, new SquareShader(GL_TRIANGLE_STRIP)))
+                .map(mesh -> new Transform(Util.vec2ToScaledVector3f(groundBodyDef.position), mesh, Material.green))
                 .hold(null);
         groundTrans.send(groundBox);
         Scene.graph.add(
                 trans.sample()
         );
+
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
@@ -70,24 +70,33 @@ public class JBoxDemo implements Game {
         Body body = theWorld.createBody(bodyDef);
         PolygonShape dynamicBox = new PolygonShape();
         dynamicBox.setAsBox(1.0f, 1.0f);
-
+        Transform block = new Transform(Util.vec2ToScaledVector3f(bodyDef.position), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.4f), Material.blue);
+        block.changeTranslationType(FRPUtil.setVector);
+        block.mergeTranslation(
+                FRPTime.streamDelta(60)
+                        .map(delta -> {
+                            theWorld.step(delta, 6, 2);
+                            return body.getPosition();
+                        })
+                        .map(Util::vec2ToScaledVector3f)
+        );
+        Scene.graph.add(new Node<>(block));
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = dynamicBox;
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.3f;
         body.createFixture(fixtureDef);
 
-        float timeStep = 1.0f / 60.0f;
-        int velocityIterations = 6;
-        int positionIterations = 2;
-
-        for(int i = 0; i < 60; i++) {
-            theWorld.step(timeStep, velocityIterations, positionIterations);
-            Vec2 position = body.getPosition();
-            updater.send(position);
-            float angle = body.getAngle();
-            System.out.println(position + " " + angle);
-        }
+//        float timeStep = 1.0f / 60.0f;
+//        int velocityIterations = 6;
+//        int positionIterations = 2;
+//
+//        for(int i = 0; i < 60; i++) {
+//            theWorld.step(timeStep, velocityIterations, positionIterations);
+//            Vec2 position = body.getPosition();
+//            float angle = body.getAngle();
+//            System.out.println(position + " " + angle);
+//        }
         return Scene.graph;
     }
 }

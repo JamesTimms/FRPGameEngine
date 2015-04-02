@@ -13,7 +13,11 @@ import static org.lwjgl.opengl.GL20.*;
 public class SquareShader extends Shader {
 
     public SquareShader() {
-        super();
+        this(GL_TRIANGLES);
+    }
+
+    public SquareShader(int indicesType) {
+        super(indicesType);
 
         addVertextShader(LoadShader("basic/basicVertex.vertex"));
         addFragmentShader(LoadShader("basic/basicFragment.fragment"));
@@ -40,7 +44,7 @@ public class SquareShader extends Shader {
         glVertexAttribPointer(TEXTURE_COORDS, 2, GL_FLOAT, false, Vertex.SIZE * 4, SIZE_OF_BYTE * 3);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, transform.mesh.indexBO);
-        glDrawElements(GL_TRIANGLES, transform.mesh.indicesLength, GL_UNSIGNED_INT, 0);
+        glDrawElements(indicesType, transform.mesh.indicesLength, GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(POSITION);
         glDisableVertexAttribArray(TEXTURE_COORDS);

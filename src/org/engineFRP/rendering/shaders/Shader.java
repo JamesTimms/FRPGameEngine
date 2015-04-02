@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;
 
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 
@@ -22,8 +23,14 @@ public abstract class Shader {
     public static Vector3f ambientLight = new Vector3f(0.2f, 0.2f, 0.2f);
     private int program;
     private HashMap<String, Integer> uniforms;
+    protected int indicesType = GL_TRIANGLES;
 
     public Shader() {
+        this(GL_TRIANGLES);
+    }
+
+    public Shader(int indicesType) {
+        this.indicesType = indicesType;
         program = glCreateProgram();
         uniforms = new HashMap<>();
         if(program == 0) {
