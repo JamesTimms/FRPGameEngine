@@ -19,7 +19,7 @@ public class NodeTests {
 
     @Test
     public void testLift() throws Exception {
-        Node<Integer> myNode = Node.lift(0);
+        Node<Integer> myNode = Node.newNode(0);
         assertTrue(myNode.getClass() == Node.class);
         assertTrue(Objects.equals(myNode.nodeName, Node.defaultNodeName));
         assertEquals(0, myNode.value.intValue());
@@ -73,7 +73,7 @@ public class NodeTests {
         Node<Integer> myNode =
                 Node.newNode(0)
                         .addChild(2)
-                        .addChild(Node.lift(3)
+                        .addChild(Node.newNode(3)
                                 .addChild(6))
                         .addChild(-2);
         assertEquals(0, myNode.value.intValue());
@@ -129,7 +129,7 @@ public class NodeTests {
         Node<Integer> myNode =
                 Node.newNode(0)
                         .addChild(2)
-                        .addChild(Node.lift(3)
+                        .addChild(Node.newNode(3)
                                 .addChild(6))
                         .addChild(-2);
         assertEquals(0, myNode.getDepth());

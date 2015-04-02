@@ -16,7 +16,7 @@ import org.engineFRP.rendering.shaders.SquareShader;
 public class MeshUtil {
 
     public static Mesh BuildSimpleCube() {
-        Vertex[] vertices = new Vertex[] {
+        Vertex[] vertices = new Vertex[]{
                 new Vertex(
                         new Vector3f(-1.0f, -1.0f, -1.0f),
                         new Vector2f(0.0f, 0.0f),
@@ -160,6 +160,10 @@ public class MeshUtil {
 
     public static Mesh BuildRectWithTexture(String filename, float height, float width) {
         return new Mesh(new Rect(height, width), Texture.loadTexture(filename), new SquareShader());
+    }
+
+    public static Mesh BuildRect(float height, float width) {
+        return new Mesh(new Rect(height, width), Texture.NoTexture(), new SquareShader());
     }
 
     public static Mesh BuildCircleWithTexture(String filename, float radius) {

@@ -1,5 +1,7 @@
 package org.engineFRP.Util;
 
+import sodium.Cell;
+
 import java.util.ArrayList;
 
 /**
@@ -23,17 +25,13 @@ public class Node<A> {
     }
 
     public static <B> Node<B> newNode(B b) {
-        return lift(b);
-    }
-
-    public static <B> Node<B> lift(B b) {
         return new Node<>(b);
     }
 
     public static <B> Node<B> newNode(B b, String nodeName) {
-        Node<B> lift = lift(b);
-        lift.nodeName = nodeName;
-        return lift;
+        Node<B> newNode = newNode(b);
+        newNode.nodeName = nodeName;
+        return newNode;
     }
 
     /**
@@ -71,7 +69,7 @@ public class Node<A> {
     }
 
     public Node<A> addChild(A trans) {
-        return addChild(lift(trans));
+        return addChild(newNode(trans));
     }
 
     public ArrayList<Node<A>> getSiblings() {
