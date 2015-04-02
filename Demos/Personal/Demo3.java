@@ -48,7 +48,7 @@ public class Demo3 {
     public void setupScene() {
         background = FRPDisplay.setupScreenCollider();
         for(Transform transform : sceneMeshes) {
-            transform.mergeTranslation(movements());
+            transform.mergeTranslation(movements().merge(movements(), (f, s) -> f.add(s)));
             transform.mergeTranslation(mapCollision(transform));
         }
     }

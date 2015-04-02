@@ -26,7 +26,7 @@ public class FRPTime extends Time {
 
     public static void pollStreams() {
         for(FRPTime time : allTime) {
-            time.timeStream.send(time);
+            time.timeStream.send(time);//Sort of a pulse for the time stream.
         }
     }
 

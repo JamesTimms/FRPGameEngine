@@ -2,18 +2,13 @@ package Personal;
 
 import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
-import org.engineFRP.Util.Node;
 import org.engineFRP.Util.Util;
 import org.engineFRP.core.Engine;
 import org.engineFRP.core.Game;
 import org.engineFRP.core.Scene;
 import org.engineFRP.core.Transform;
-import org.engineFRP.maths.Vector2f;
-import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
-import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.Texture;
-import org.engineFRP.rendering.Vertex;
 import org.engineFRP.rendering.shaders.Material;
 import org.engineFRP.rendering.shaders.SquareShader;
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -22,11 +17,7 @@ import org.jbox2d.dynamics.*;
 import sodium.Cell;
 import sodium.StreamSink;
 
-import java.awt.*;
-
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
-import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
 
 /**
  * Created by TekMaTek on 01/03/2015.
@@ -45,16 +36,16 @@ public class JBoxDemo implements Game {
         World theWorld = new World(gravity);
 
         BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(0.0f, -10.0f);
+        groundBodyDef.position.set(0.0f, -7.0f);
         Body groundBody = theWorld.createBody(groundBodyDef);
         PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(50.0f, 10.0f);
+        groundBox.setAsBox(5.0f, 1.0f);
         groundBody.createFixture(groundBox, 0.0f);
         StreamSink<PolygonShape> groundTrans = new StreamSink<>();
         Cell<Transform> trans = groundTrans
                 .once()
                 .map(Util::polyToVertexArray)
-                .map(verts -> new Mesh(verts, Util.genIndicies(verts.length), Texture.loadTexture(BLOCK_TEXTURE), false, new SquareShader(GL_TRIANGLE_STRIP)))
+                .map(verts -> new Mesh(verts, Util.genIndicies(verts.length), Texture.NoTexture(), false, new SquareShader(GL_TRIANGLE_FAN)))
                 .map(mesh -> new Transform(Util.vec2ToScaledVector3f(groundBodyDef.position), mesh, Material.green))
                 .hold(null);
         groundTrans.send(groundBox);
@@ -70,23 +61,42 @@ public class JBoxDemo implements Game {
         Body body = theWorld.createBody(bodyDef);
         PolygonShape dynamicBox = new PolygonShape();
         dynamicBox.setAsBox(1.0f, 1.0f);
-        Transform block = new Transform(Util.vec2ToScaledVector3f(bodyDef.position), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.4f), Material.blue);
-        block.changeTranslationType(FRPUtil.setVector);
-        block.mergeTranslation(
-                FRPTime.streamDelta(60)
-                        .map(delta -> {
-                            theWorld.step(delta, 6, 2);
-                            return body.getPosition();
-                        })
-                        .map(Util::vec2ToScaledVector3f)
-        );
-        Scene.graph.add(new Node<>(block));
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = dynamicBox;
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.3f;
         body.createFixture(fixtureDef);
 
+//        StreamSink<Body> bodyStream = new StreamSink<>();
+//        bodyStream
+//                .map(b -> {
+//                            Vertex[] verts = Util.polyToVertexArray(dynamicBox);
+//                            Mesh newMesh = new Mesh(verts, Util.genIndicies(verts.length), Texture.loadTexture(BLOCK_TEXTURE), false, new SquareShader(GL_TRIANGLE_STRIP));
+//                            return new Transform(Util.vec2ToScaledVector3f(b.getPosition())
+//                                    , newMesh);
+//                        }
+//                ).hold(null);
+
+        StreamSink<PolygonShape> dTrans = new StreamSink<>();
+        Cell<Transform> trans2 = dTrans
+                .once()
+                .map(Util::polyToVertexArray)
+                .map(verts -> new Mesh(verts, Util.genIndicies(verts.length), Texture.NoTexture(), false, new SquareShader(GL_TRIANGLE_FAN)))
+                .map(mesh -> new Transform(Util.vec2ToScaledVector3f(body.getPosition()), mesh, Material.blue))
+                .hold(null);
+        dTrans.send(dynamicBox);
+        Transform block = trans2.sample()
+                .changeTranslationType(FRPUtil.setVector)
+                .mergeTranslation(
+                        FRPTime.streamDelta(60)
+                                .map(delta -> {
+                                    theWorld.step(delta, 6, 2);
+//                            return null;
+                                    return body.getPosition();
+                                })
+                                .map(Util::vec2ToScaledVector3f)
+                );
+        Scene.graph.add(block);
 //        float timeStep = 1.0f / 60.0f;
 //        int velocityIterations = 6;
 //        int positionIterations = 2;

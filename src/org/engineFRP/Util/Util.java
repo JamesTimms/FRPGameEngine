@@ -32,20 +32,20 @@ public class Util {
     }
 
     public static Vertex[] polyToVertexArray(PolygonShape poly) {
-        Vertex[] verts = new Vertex[poly.getVertices().length];
-        for(int i = 0; i < poly.getVertices().length; i++) {
-            Vec2 p = poly.getVertices()[i];
-            Vec2 n = poly.getVertices()[i];
+        Vertex[] verts = new Vertex[poly.getVertexCount()];
+        for(int i = 0; i < poly.getVertexCount(); i++) {
+            Vec2 p = poly.getVertices()[i].mul(1.0f/10.0f);
+            Vec2 n = poly.getNormals()[i].mul(1.0f/10.0f);
             verts[i] = new Vertex(new Vector3f(p.x, p.y, 0.0f), new Vector2f(n.x, n.y));
         }
         return verts;
     }
 
-    public static Vector3f vec2ToVector3f(Vec2 vec2){
+    public static Vector3f vec2ToVector3f(Vec2 vec2) {
         return new Vector3f(vec2.x, vec2.y, 0.0f);
     }
 
-    public static Vector3f vec2ToScaledVector3f(Vec2 vec2){
+    public static Vector3f vec2ToScaledVector3f(Vec2 vec2) {
         return new Vector3f(vec2.x / 10.0f, vec2.y / 10.0f, 0.0f);
     }
 }
