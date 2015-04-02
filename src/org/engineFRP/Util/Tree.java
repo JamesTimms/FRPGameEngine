@@ -1,7 +1,5 @@
 package org.engineFRP.Util;
 
-import sodium.Cell;
-
 /**
  * Created by TekMaTek on 22/03/2015.
  */

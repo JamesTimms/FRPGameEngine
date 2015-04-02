@@ -1,5 +1,6 @@
 package spikeWork;
 
+import junit.framework.Assert;
 import org.engineFRP.core.FRPDisplay;
 import org.engineFRP.core.FRPKeyboard;
 import org.engineFRP.FRP.FRPUtil;
@@ -11,6 +12,7 @@ import sodium.Cell;
 import sodium.Stream;
 import sodium.StreamSink;
 
+import static junit.framework.Assert.assertTrue;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -115,10 +117,19 @@ public class FRPKeyboardTests {
 
         /* The stream being merged into another stream overrides the first stream
          * if the source of both streams is the same. This is undesirable behaviour!
-         */
+         *///The actual solution is below testDoubleKeyPressStream()
         sink.send(0.1f);
         assertEquals(0.1f, floatCell.sample());
         assertEquals("0.1 hi", stringCell.sample());
         assertEquals("0.1", stringCell2.sample());
+    }
+
+    @Test
+    public void testDoubleKeyPressStream() {
+        Cell<Vector3f> testCell = FRPUtil.mapArrowKeysToMovementOf(-0.1f)
+                .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f), (f, s) -> f.add(s))
+                .hold(Vector3f.ZERO);
+        FRPKeyboard.keyEvent.send(new FRPKeyboard.Key(GLFW_KEY_RIGHT, GLFW_PRESS));
+        assertTrue(new Vector3f(-0.2f, 0.0f, 0.0f).equals(testCell.sample()));
     }
 }

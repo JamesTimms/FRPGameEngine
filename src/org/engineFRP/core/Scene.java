@@ -45,6 +45,12 @@ public class Scene extends Tree<Transform> {
         return this;
     }
 
+//    @Override
+//    public Scene add(final Transform node) {
+//        rootNode.addChild(node);
+//        return this;
+//    }
+
     @Override
     public Node<Transform> find(final String nodeName) {//TODO: Use Optionals here.
         return search(this.rootNode, nodeName);
