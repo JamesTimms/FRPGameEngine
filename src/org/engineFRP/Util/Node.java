@@ -1,5 +1,7 @@
 package org.engineFRP.Util;
 
+import sodium.Cell;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 public class Node<A> {
 
     public static final String defaultNodeName = "newNode";
-    public A value;
+    public Cell<A> value;
     public String nodeName;
     private Node<A> parent;
     private ArrayList<Node<A>> children = new ArrayList<>();
@@ -18,6 +20,10 @@ public class Node<A> {
     }
 
     public Node(A a, String nodeName) {
+        this(new Cell<>(a), nodeName);
+    }
+
+    public Node(Cell<A> a, String nodeName) {
         value = a;
         this.nodeName = nodeName;
     }
@@ -52,6 +58,10 @@ public class Node<A> {
         return this;
     }
 
+    public Node<A> addChild(Cell<A> child) {//TODO: Make this use optionals.
+        return addChild(new Node<>(child, defaultNodeName));
+    }
+
     /**
      * These methods shouldn't cause heap pollution but are warned that they might.
      *
@@ -61,19 +71,23 @@ public class Node<A> {
     @SafeVarargs
     public final Node<A> addChildren(A... children) {
         for(A child : children) {
-            this.addChild(child);
+            this.addChild(new Node<>(child));
         }
         return this;
     }
 
-    public Node<A> addChild(A trans) {
-        return addChild(newNode(trans));
+    public Node<A> addChild(A child) {//TODO: Make this use optionals.
+        return addChild(new Node<>(child, defaultNodeName));
     }
 
     public ArrayList<Node<A>> getSiblings() {
         ArrayList<Node<A>> sib = (ArrayList<Node<A>>) getParent().getChildren().clone();
         sib.remove(this);
         return sib;
+    }
+
+    public A sample() {
+        return value.sample();
     }
 
     public ArrayList<Node<A>> getChildren() {

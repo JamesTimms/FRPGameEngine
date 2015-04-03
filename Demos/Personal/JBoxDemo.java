@@ -16,11 +16,6 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 import sodium.Cell;
 import sodium.StreamSink;
-import sun.net.www.content.text.Generic;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Optional;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
 
@@ -55,7 +50,7 @@ public class JBoxDemo implements Game {
                 .hold(null);
         groundTrans.send(groundBox);
         Scene.graph.add(
-                trans.sample()
+                trans
         );
 
 

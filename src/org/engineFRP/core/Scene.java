@@ -2,6 +2,7 @@ package org.engineFRP.core;
 
 import org.engineFRP.Util.Node;
 import org.engineFRP.Util.Tree;
+import sodium.Cell;
 
 import java.util.Objects;
 
@@ -27,8 +28,8 @@ public class Scene extends Tree<Transform> {
      */
     private void drawScene(Node<Transform> trans) {
         for(Node<Transform> transform : trans.getChildren()) {
-            transform.value.mesh.shader.updateUniforms(transform.value, transform.value.material);//TODO: Clean this up.
-            transform.value.mesh.shader.draw(transform.value);
+            transform.sample().mesh.shader.updateUniforms(transform.sample(), transform.sample().material);//TODO: Clean this up.
+            transform.sample().mesh.shader.draw(transform.sample());
             drawScene(transform);
         }
     }
@@ -39,17 +40,16 @@ public class Scene extends Tree<Transform> {
         return this;
     }
 
-    @Override
     public Scene add(final Transform node) {
-        rootNode.addChild(node);
+        rootNode.addChild(new Cell<>(node));
         return this;
     }
 
-//    @Override
-//    public Scene add(final Transform node) {
-//        rootNode.addChild(node);
-//        return this;
-//    }
+    @Override
+    public Scene add(final Cell<Transform> node) {
+        rootNode.addChild(node);
+        return this;
+    }
 
     @Override
     public Node<Transform> find(final String nodeName) {//TODO: Use Optionals here.

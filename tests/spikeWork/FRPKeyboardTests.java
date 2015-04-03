@@ -130,6 +130,7 @@ public class FRPKeyboardTests {
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f), (f, s) -> f.add(s))
                 .hold(Vector3f.ZERO);
         FRPKeyboard.keyEvent.send(new FRPKeyboard.Key(GLFW_KEY_RIGHT, GLFW_PRESS));
-        assertTrue(new Vector3f(-0.2f, 0.0f, 0.0f).equals(testCell.sample()));
+        Vector3f vec = testCell.sample();
+        assertTrue(new Vector3f(0.2f, 0.0f, 0.0f).equals(vec));
     }
 }

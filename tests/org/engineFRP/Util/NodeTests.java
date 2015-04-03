@@ -14,7 +14,7 @@ public class NodeTests {
         Node<Integer> myNode = Node.newNode(0);
         assertTrue(myNode.getClass() == Node.class);
         assertTrue(Objects.equals(myNode.nodeName, Node.defaultNodeName));
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
     }
 
     @Test
@@ -22,7 +22,7 @@ public class NodeTests {
         Node<Integer> myNode = Node.newNode(0);
         assertTrue(myNode.getClass() == Node.class);
         assertTrue(Objects.equals(myNode.nodeName, Node.defaultNodeName));
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
     }
 
     @Test
@@ -32,7 +32,7 @@ public class NodeTests {
         assertTrue(myNode.isRoot());
         assertTrue(myNode.isLeaf());
         assertTrue(Objects.equals(myNode.nodeName, "myAmazingNode"));
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
     }
 
     @Test
@@ -40,9 +40,9 @@ public class NodeTests {
         Node<Integer> myNode =
                 Node.newNode(0)
                         .addChildren(Node.newNode(2), Node.newNode(4), Node.newNode(5), Node.newNode(66));
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
         assertEquals(4, myNode.getChildren().size());
-        assertEquals(2, myNode.getChildren().get(0).value.intValue());
+        assertEquals(2, myNode.getChildren().get(0).sample().intValue());
     }
 
     @Test
@@ -53,9 +53,9 @@ public class NodeTests {
                         .addChild(Node.newNode(3)
                                 .addChild(Node.newNode(6)))
                         .addChild(Node.newNode(-2));
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
         assertEquals(3, myNode.getChildren().size());
-        assertEquals(6, myNode.getChildren().get(1).getChildren().get(0).value.intValue());
+        assertEquals(6, myNode.getChildren().get(1).getChildren().get(0).sample().intValue());
     }
 
     @Test
@@ -63,9 +63,9 @@ public class NodeTests {
         Node<Integer> myNode =
                 Node.newNode(0)
                         .addChildren(2, 4, 5, 66);
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
         assertEquals(4, myNode.getChildren().size());
-        assertEquals(2, myNode.getChildren().get(0).value.intValue());
+        assertEquals(2, myNode.getChildren().get(0).sample().intValue());
     }
 
     @Test
@@ -76,9 +76,9 @@ public class NodeTests {
                         .addChild(Node.newNode(3)
                                 .addChild(6))
                         .addChild(-2);
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
         assertEquals(3, myNode.getChildren().size());
-        assertEquals(6, myNode.getChildren().get(1).getChildren().get(0).value.intValue());
+        assertEquals(6, myNode.getChildren().get(1).getChildren().get(0).sample().intValue());
     }
 
     @Test
@@ -86,7 +86,7 @@ public class NodeTests {
         Node<Integer> myNode =
                 Node.newNode(0)
                         .addChildren(2, 4, 5, 66);
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
         assertEquals(3, myNode.getChildren().get(0).getSiblings().size());
         assertEquals(4, myNode.getChildren().size());
     }
@@ -96,7 +96,7 @@ public class NodeTests {
         Node<Integer> myNode =
                 Node.newNode(0)
                         .addChildren(2, 4, 5, 66);
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
         assertEquals(4, myNode.getChildren().size());
     }
 
@@ -113,7 +113,7 @@ public class NodeTests {
         Node<Integer> myNode = Node.newNode(0);
         assertTrue(myNode.isRoot());
         assertTrue(myNode.isLeaf());
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class NodeTests {
         Node<Integer> myNode = Node.newNode(0);
         assertTrue(myNode.isRoot());
         assertTrue(myNode.isLeaf());
-        assertEquals(0, myNode.value.intValue());
+        assertEquals(0, myNode.sample().intValue());
     }
 
     @Test
