@@ -11,8 +11,10 @@ public class CellUpdater<A> {
     //TODO: Consider using Optionals here to avoid having to init the Cell.
     private Cell<A> value;
     private Stream<A> stream = new Stream<>();
+    private StreamSink<A> direct = new StreamSink<>();
 
     public CellUpdater(final Lambda2<Cell<A>, Stream<A>, Cell<A>> resolver, final A initValue) {
+        this.stream = stream.merge(direct);//Set up direct accessor method.
         this.resolver = resolver;
         value = replay(new Cell<>(initValue));
     }
@@ -24,6 +26,11 @@ public class CellUpdater<A> {
     public CellUpdater<A> merge(final Stream<A> otherStream) {
         this.stream = stream.merge(otherStream);
         this.value = replay(value);
+        return this;
+    }
+
+    public CellUpdater<A> updateValue(A a) {
+        direct.send(a);
         return this;
     }
 

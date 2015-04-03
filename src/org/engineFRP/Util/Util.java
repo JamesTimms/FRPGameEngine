@@ -1,12 +1,19 @@
 package org.engineFRP.Util;
 
+import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.maths.Vector3f;
+import org.engineFRP.rendering.Mesh;
+import org.engineFRP.rendering.Texture;
 import org.engineFRP.rendering.Vertex;
+import org.engineFRP.rendering.shaders.Material;
+import org.engineFRP.rendering.shaders.SquareShader;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 
 import java.util.ArrayList;
+
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
 
 /**
  * Created by TekMaTek on 30/03/2015.
@@ -23,7 +30,7 @@ public class Util {
         return out;
     }
 
-    public static int[] genIndicies(int length) {
+    public static int[] genIndices(int length) {
         int[] out = new int[length];
         for(int i = 0; i < length; i++) {
             out[i] = i;
@@ -34,8 +41,8 @@ public class Util {
     public static Vertex[] polyToVertexArray(PolygonShape poly) {
         Vertex[] verts = new Vertex[poly.getVertexCount()];
         for(int i = 0; i < poly.getVertexCount(); i++) {
-            Vec2 p = poly.getVertices()[i].mul(1.0f/10.0f);
-            Vec2 n = poly.getNormals()[i].mul(1.0f/10.0f);
+            Vec2 p = poly.getVertices()[i].mul(1.0f / 10.0f);
+            Vec2 n = poly.getNormals()[i].mul(1.0f / 10.0f);
             verts[i] = new Vertex(new Vector3f(p.x, p.y, 0.0f), new Vector2f(n.x, n.y));
         }
         return verts;

@@ -1,6 +1,5 @@
 package spikeWork;
 
-import junit.framework.Assert;
 import org.engineFRP.core.FRPDisplay;
 import org.engineFRP.core.FRPKeyboard;
 import org.engineFRP.FRP.FRPUtil;

@@ -86,6 +86,11 @@ public final class Transform {
         return this;
     }
 
+    public Transform translation(Vector3f vec) {
+        translation.updateValue(vec);
+        return this;
+    }
+
     public Vector3f translation() {
         return this.translation.sample();
     }

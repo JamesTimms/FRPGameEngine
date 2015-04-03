@@ -2,6 +2,7 @@ package Personal;
 
 import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
+import org.engineFRP.Util.MapUtil;
 import org.engineFRP.Util.Util;
 import org.engineFRP.core.Engine;
 import org.engineFRP.core.Game;
@@ -41,16 +42,9 @@ public class JBoxDemo implements Game {
         PolygonShape groundBox = new PolygonShape();
         groundBox.setAsBox(5.0f, 1.0f);
         groundBody.createFixture(groundBox, 0.0f);
-        StreamSink<PolygonShape> groundTrans = new StreamSink<>();
-        Cell<Transform> trans = groundTrans
-                .once()
-                .map(Util::polyToVertexArray)
-                .map(verts -> new Mesh(verts, Util.genIndicies(verts.length), Texture.NoTexture(), false, new SquareShader(GL_TRIANGLE_FAN)))
-                .map(mesh -> new Transform(Util.vec2ToScaledVector3f(groundBodyDef.position), mesh, Material.green))
-                .hold(null);
-        groundTrans.send(groundBox);
         Scene.graph.add(
-                trans
+                MapUtil.polyToTrans(groundBox)
+                        .translation(Util.vec2ToScaledVector3f(groundBody.getPosition()))
         );
 
 
@@ -71,7 +65,7 @@ public class JBoxDemo implements Game {
 //        bodyStream
 //                .map(b -> {
 //                            Vertex[] verts = Util.polyToVertexArray(dynamicBox);
-//                            Mesh newMesh = new Mesh(verts, Util.genIndicies(verts.length), Texture.loadTexture(BLOCK_TEXTURE), false, new SquareShader(GL_TRIANGLE_STRIP));
+//                            Mesh newMesh = new Mesh(verts, Util.genIndices(verts.length), Texture.loadTexture(BLOCK_TEXTURE), false, new SquareShader(GL_TRIANGLE_STRIP));
 //                            return new Transform(Util.vec2ToScaledVector3f(b.getPosition())
 //                                    , newMesh);
 //                        }
@@ -81,7 +75,7 @@ public class JBoxDemo implements Game {
         Cell<Transform> trans2 = dTrans
                 .once()
                 .map(Util::polyToVertexArray)
-                .map(verts -> new Mesh(verts, Util.genIndicies(verts.length), Texture.NoTexture(), false, new SquareShader(GL_TRIANGLE_FAN)))
+                .map(verts -> new Mesh(verts, Util.genIndices(verts.length), Texture.NoTexture(), false, new SquareShader(GL_TRIANGLE_FAN)))
                 .map(mesh -> new Transform(Util.vec2ToScaledVector3f(body.getPosition()), mesh, Material.blue))
                 .hold(null);
         dTrans.send(dynamicBox);
