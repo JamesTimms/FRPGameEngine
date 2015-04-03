@@ -42,8 +42,7 @@ public class Util {
         Vertex[] verts = new Vertex[poly.getVertexCount()];
         for(int i = 0; i < poly.getVertexCount(); i++) {
             Vec2 p = poly.getVertices()[i].mul(1.0f / 10.0f);
-            Vec2 n = poly.getNormals()[i].mul(1.0f / 10.0f);
-            verts[i] = new Vertex(new Vector3f(p.x, p.y, 0.0f), new Vector2f(n.x, n.y));
+            verts[i] = new Vertex(new Vector3f(p.x, p.y, 0.0f), new Vector2f(p.x, p.y));
         }
         return verts;
     }

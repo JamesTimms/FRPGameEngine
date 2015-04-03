@@ -25,7 +25,7 @@ import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
  */
 public class JBoxDemo implements Game {
 
-    private static final String BLOCK_TEXTURE = "./res/textures/block.png";
+    private static final String BOX_TEXTURE = "./res/textures/box.jpg";
 
     public static void main(String[] args) {
         Engine.runGame(new JBoxDemo());
@@ -42,10 +42,10 @@ public class JBoxDemo implements Game {
         PolygonShape groundBox = new PolygonShape();
         groundBox.setAsBox(5.0f, 1.0f);
         groundBody.createFixture(groundBox, 0.0f);
-        Scene.graph.add(
-                MapUtil.polyToTrans(groundBox)
-                        .translation(Util.vec2ToScaledVector3f(groundBody.getPosition()))
-        );
+
+        Transform trans = MapUtil.polyToTrans(groundBox)
+                .translation(Util.vec2ToScaledVector3f(groundBody.getPosition()));
+        Scene.graph.add(trans);
 
 
         BodyDef bodyDef = new BodyDef();
@@ -70,27 +70,20 @@ public class JBoxDemo implements Game {
 //                                    , newMesh);
 //                        }
 //                ).hold(null);
-
-        StreamSink<PolygonShape> dTrans = new StreamSink<>();
-        Cell<Transform> trans2 = dTrans
-                .once()
-                .map(Util::polyToVertexArray)
-                .map(verts -> new Mesh(verts, Util.genIndices(verts.length), Texture.NoTexture(), false, new SquareShader(GL_TRIANGLE_FAN)))
-                .map(mesh -> new Transform(Util.vec2ToScaledVector3f(body.getPosition()), mesh, Material.blue))
-                .hold(null);
-        dTrans.send(dynamicBox);
-        Transform block = trans2.sample()
-                .changeTranslationType(FRPUtil.setVector)
-                .mergeTranslation(
-                        FRPTime.streamDelta(60)
-                                .map(delta -> {
-                                    theWorld.step(delta, 6, 2);
-//                            return null;
-                                    return body.getPosition();
-                                })
-                                .map(Util::vec2ToScaledVector3f)
-                );
-        Scene.graph.add(block);
+        Transform dTrans =
+                MapUtil.polyToTrans(dynamicBox)
+                        .changeTranslationType(FRPUtil.setVector)
+                        .mergeTranslation(
+                                FRPTime.streamDelta(60)
+                                        .map(delta -> {
+                                            theWorld.step(delta, 6, 2);
+                                            return body.getPosition();
+                                        })
+                                        .map(Util::vec2ToScaledVector3f)
+                        )
+                        .translation(Util.vec2ToScaledVector3f(body.getPosition()));
+        dTrans.mesh.texture = Texture.loadTexture(BOX_TEXTURE);
+        Scene.graph.add(dTrans);
 //        float timeStep = 1.0f / 60.0f;
 //        int velocityIterations = 6;
 //        int positionIterations = 2;

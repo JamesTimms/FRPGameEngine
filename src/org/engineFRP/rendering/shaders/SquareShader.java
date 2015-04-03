@@ -12,12 +12,17 @@ import static org.lwjgl.opengl.GL20.*;
  */
 public class SquareShader extends Shader {
 
+    private float scale = 1.0f;
+    private float offset;
+
     public SquareShader() {
-        this(GL_TRIANGLES);
+        this(GL_TRIANGLES, 1.0f, 0.0f);
     }
 
-    public SquareShader(int indicesType) {
+    public SquareShader(int indicesType, float scale, float offset) {
         super(indicesType);
+        this.scale = scale;
+        this.offset = offset;
 
         addVertextShader(LoadShader("basic/basicVertex.vertex"));
         addFragmentShader(LoadShader("basic/basicFragment.fragment"));
@@ -25,6 +30,8 @@ public class SquareShader extends Shader {
 
         addUniform("color");
         addUniform("balance");
+        addUniform("scale");
+        addUniform("offset");
         addUniform("transform");
     }
 
@@ -54,6 +61,8 @@ public class SquareShader extends Shader {
         dealWithTexture(transform.mesh.texture);
         setUniform3f("color", material.color);
         setUniformf("balance", material.balance);
+        setUniformf("scale", scale);
+        setUniformf("offset", offset);
         setUniform4m("transform", transform.getTransformMatrix());
     }
 }
