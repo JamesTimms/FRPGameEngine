@@ -1,6 +1,6 @@
 package org.engineFRP.Physics.collision;
 
-import org.engineFRP.core.FRPMouse;
+import org.engineFRP.FRP.FRPMouse;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.rendering.Vertex;
 

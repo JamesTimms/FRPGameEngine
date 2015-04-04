@@ -1,6 +1,5 @@
 package org.engineFRP.FRP;
 
-import org.engineFRP.core.FRPDisplay;
 import sodium.Cell;
 import sodium.StreamSink;
 

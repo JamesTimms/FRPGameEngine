@@ -1,6 +1,5 @@
-package org.engineFRP.core;
+package org.engineFRP.FRP;
 
-import org.engineFRP.FRP.FRPWinSize;
 import org.engineFRP.Physics.collision.AABB;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.maths.Vector3f;
@@ -46,15 +45,7 @@ public final class FRPDisplay {
         window = glfwCreateWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE, NULL, NULL);
         if(window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
-        windowSize = winResizeStream
-                .map(winSize -> {
-                    //want to have a 1:1 openGL context.
-                    int aspect = winSize.width < winSize.height ? winSize.width : winSize.height;
-                    GL11.glViewport(0, 0, aspect, aspect);
-                    return winSize;
-                })
-                .map(winSize -> new Vector2f(winSize.width, winSize.height))
-                .hold(new Vector2f(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        windowSize = setupGLContext();
 
         glfwMakeContextCurrent(window);
         GLContext.createFromCurrent();
@@ -95,6 +86,21 @@ public final class FRPDisplay {
                 (GLFWvidmode.width(vidmode) - DEFAULT_WIDTH) / 2,
                 (GLFWvidmode.height(vidmode) - DEFAULT_HEIGHT) / 2
         );
+    }
+
+    private static Cell<Vector2f> setupGLContext() {
+        return winResizeStream
+                .map(w -> {
+                    //want to have a centered 1:1 openGL context;
+                    int smallerSize = w.width < w.height ? w.width : w.height;
+                    int offsetY = w.width < w.height ? (w.height - w.width) / 2 : 0;
+                    int offsetX = w.width > w.height ? (w.width - w.height) / 2 : 0;
+                    System.out.println(w.height + " " + w.width);
+                    GL11.glViewport(offsetX, offsetY, smallerSize, smallerSize);
+                    return w;
+                })
+                .map(winSize -> new Vector2f(winSize.width, winSize.height))
+                .hold(new Vector2f(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     }
 
     public static AABB setupScreenCollider() {

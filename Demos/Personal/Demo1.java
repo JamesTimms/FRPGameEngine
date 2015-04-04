@@ -2,9 +2,9 @@ package Personal;
 
 import org.engineFRP.FRP.Time;
 import org.engineFRP.core.ErrorHandling;
-import org.engineFRP.core.FRPDisplay;
-import org.engineFRP.core.FRPKeyboard;
-import org.engineFRP.core.FRPMouse;
+import org.engineFRP.FRP.FRPDisplay;
+import org.engineFRP.FRP.FRPKeyboard;
+import org.engineFRP.FRP.FRPMouse;
 import org.lwjgl.opengl.GLContext;
 import sodium.Listener;
 

@@ -1,6 +1,6 @@
 package org.engineFRP.rendering;
 
-import org.engineFRP.core.FRPDisplay;
+import org.engineFRP.FRP.FRPDisplay;
 import org.engineFRP.rendering.shaders.CubeShader;
 import org.engineFRP.rendering.shaders.Shader;
 

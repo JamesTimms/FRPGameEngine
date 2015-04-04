@@ -1,4 +1,4 @@
-package org.engineFRP.core;
+package org.engineFRP.FRP;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
 import sodium.StreamSink;

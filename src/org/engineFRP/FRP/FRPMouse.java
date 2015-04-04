@@ -1,4 +1,4 @@
-package org.engineFRP.core;
+package org.engineFRP.FRP;
 
 import org.engineFRP.maths.MathUtil;
 import org.engineFRP.maths.Vector2f;

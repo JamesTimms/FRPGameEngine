@@ -1,5 +1,6 @@
 package org.engineFRP.core;
 
+import org.engineFRP.FRP.FRPDisplay;
 import org.engineFRP.FRP.FRPWinSize;
 import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;

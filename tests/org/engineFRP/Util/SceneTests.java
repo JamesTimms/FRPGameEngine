@@ -1,6 +1,6 @@
 package org.engineFRP.Util;
 
-import org.engineFRP.core.FRPDisplay;
+import org.engineFRP.FRP.FRPDisplay;
 import org.engineFRP.core.Scene;
 import org.engineFRP.core.Transform;
 import org.junit.Before;

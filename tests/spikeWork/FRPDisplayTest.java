@@ -1,6 +1,6 @@
 package spikeWork;
 
-import org.engineFRP.core.FRPDisplay;
+import org.engineFRP.FRP.FRPDisplay;
 import org.junit.Test;
 import sodium.Cell;
 import sodium.Listener;

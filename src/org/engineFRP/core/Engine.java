@@ -1,7 +1,6 @@
 package org.engineFRP.core;
 
-import org.engineFRP.FRP.FRPTime;
-import org.engineFRP.FRP.Time;
+import org.engineFRP.FRP.*;
 import org.engineFRP.rendering.SimpleRenderer;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
