@@ -16,7 +16,7 @@ public class CubeShader extends Shader {
     public CubeShader() {
         super();
 
-        addVertextShader(LoadShader("basic3D/complicated.vertex"));
+        addVertexShader(LoadShader("basic3D/complicated.vertex"));
         addFragmentShader(LoadShader("basic3D/complicated.fragment"));
         CompileShader();
 

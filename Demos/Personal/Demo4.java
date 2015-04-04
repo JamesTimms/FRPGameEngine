@@ -71,7 +71,7 @@ public class Demo4 {
                     Dictionary<GameObject, Boolean> hits = new Hashtable<>();
                     for(GameObject t : sceneGameObjects) {
                         hits.put(t,
-                                Click.isInPolygon(t.addPosAndFlipY(), mouse.b.position));
+                                Click.isInPolygon(t.mesh.addPosAndFlipY(t.transform), mouse.b.position));
                     }
                     return hits;
                 })

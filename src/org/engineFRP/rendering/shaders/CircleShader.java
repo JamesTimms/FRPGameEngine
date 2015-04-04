@@ -15,7 +15,7 @@ public class CircleShader extends Shader {
     public CircleShader() {
         super();
 
-        addVertextShader(LoadShader("basic/basicVertex.vertex"));
+        addVertexShader(LoadShader("basic/basicVertex.vertex"));
         addFragmentShader(LoadShader("basic/basicFragment.fragment"));
         CompileShader();
 
@@ -50,6 +50,6 @@ public class CircleShader extends Shader {
         dealWithTexture(gameObject.mesh.texture);
         setUniform3f("color", material.color);
         setUniformf("balance", material.balance);
-        setUniform4m("transform", gameObject.getTransformMatrix());
+        setUniform4m("transform", gameObject.transform.getTransformMatrix());
     }
 }

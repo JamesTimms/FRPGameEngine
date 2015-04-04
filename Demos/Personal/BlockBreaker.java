@@ -1,7 +1,6 @@
 package Personal;
 
 import org.engineFRP.FRP.FRPKeyboard;
-import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.core.*;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
@@ -35,12 +34,15 @@ public class BlockBreaker implements Game {
         Scene.graph.add(
                 new GameObject(new Vector3f(0.0f, -0.8f, -1.0f), MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.05f, 0.4f), Material.white)
                         .mergeTranslation(paddleMovement(-0.1f))
+                        .addStaticPhysics().updateToJbox()
         );
         Scene.graph.add(
                 new GameObject(new Vector3f(0.0f, -0.35f, -1.0f), MeshUtil.BuildCircleWithTexture(PADDLE_TEXTURE, 0.03f), Material.white)
-                        .mergeTranslation(FRPTime.streamDelta(FRPTime.THIRTY_PER_SECOND)
-                                .filter(delta -> !isCollidingWithBat())
-                                .map(delta -> new Vector3f(0.0f, -0.8f, 0.0f).mul(delta)))
+//                        .mergeTranslation(FRPTime.streamDelta(FRPTime.THIRTY_PER_SECOND)
+//                                        .filter(delta -> !isCollidingWithBat())
+//                                        .map(delta -> new Vector3f(0.0f, -0.8f, 0.0f).mul(delta))
+//                        )
+                        .addDynamicPhysics().updateFromJbox()
         );
         return Scene.graph;
     }

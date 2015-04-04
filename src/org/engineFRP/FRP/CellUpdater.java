@@ -1,5 +1,6 @@
 package org.engineFRP.FRP;
 
+import org.engineFRP.maths.Vector3f;
 import sodium.*;
 
 /**
@@ -37,6 +38,10 @@ public class CellUpdater<A> {
     public void changeResolver(Lambda2<Cell<A>, Stream<A>, Cell<A>> newResolver) {
         this.resolver = newResolver;
         this.value = replay(value);
+    }
+
+    public Stream<A> updateFrom() {
+        return value.updates();
     }
 
     public A sample() {

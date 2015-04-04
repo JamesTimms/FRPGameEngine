@@ -1,6 +1,8 @@
 package org.engineFRP.rendering;
 
 import org.engineFRP.Physics.Manafolds.Shape;
+import org.engineFRP.core.GameObject;
+import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.shaders.Shader;
 import org.engineFRP.rendering.shaders.SquareShader;
@@ -163,5 +165,16 @@ public class Mesh {
 
     private void addVertices(Vertex[] vertices, int[] indices) {
         addVertices(vertices, indices, false);
+    }
+
+    public Vertex[] addPosAndFlipY(Transform transform) {//FIXME: Make this method cleaner
+        Vertex[] existingVerts = shape.getVertices();
+        Vertex[] newVerts = new Vertex[existingVerts.length];
+        for(int i = 0; i < existingVerts.length; i++) {
+            Vector3f copyOfTrans = transform.translation.sample().clone();
+            copyOfTrans.y = -copyOfTrans.y;
+            newVerts[i] = new Vertex(existingVerts[i].getPos().add(copyOfTrans));
+        }
+        return newVerts;
     }
 }

@@ -2,16 +2,22 @@ package Personal;
 
 import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
+import org.engineFRP.FRP.JBoxWrapper;
 import org.engineFRP.Util.MapUtil;
 import org.engineFRP.Util.Util;
 import org.engineFRP.core.Engine;
 import org.engineFRP.core.Game;
 import org.engineFRP.core.GameObject;
 import org.engineFRP.core.Scene;
+import org.engineFRP.maths.Vector3f;
+import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.Texture;
+import org.engineFRP.rendering.shaders.SquareShader;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
+
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
 
 /**
  * Created by TekMaTek on 01/03/2015.
@@ -27,18 +33,19 @@ public class JBoxDemo implements Game {
 
     @Override
     public Scene setupScene() {
-        Vec2 gravity = new Vec2(0.0f, -9.8f);
-        World theWorld = new World(gravity);
 
-        BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(0.0f, -7.0f);
-        Body groundBody = theWorld.createBody(groundBodyDef);
+//        BodyDef groundBodyDef = new BodyDef();
+//        groundBodyDef.position.set(0.0f, -7.0f);
+//        Body groundBody = theWorld.createBody(groundBodyDef);
         PolygonShape groundBox = new PolygonShape();
         groundBox.setAsBox(5.0f, 1.0f);
-        groundBody.createFixture(groundBox, 0.0f);
+//        groundBody.createFixture(groundBox, 0.0f);//Add to world.
 
         GameObject trans = MapUtil.polyToTrans(groundBox)
-                .translation(Util.vec2ToVector3f(groundBody.getPosition()));
+                .translation(new Vector3f(0.0f, -0.7f, 0.0f))
+                .addStaticPhysics()
+                .mergeTranslation(FRPUtil.mapArrowKeysToMovementOf(-0.01f))
+                .updateToJbox();
         trans.mesh.texture = Texture.loadTexture(STONE_TEXTURE)
                 .changeSetting(Texture::RepeatTexture);
         Scene.graph.add(trans);
@@ -47,8 +54,8 @@ public class JBoxDemo implements Game {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
         bodyDef.position.set(0.0f, 4.0f);
-        bodyDef.fixedRotation = true;
-        Body body = theWorld.createBody(bodyDef);
+        bodyDef.fixedRotation = false;
+        Body body = JBoxWrapper.world.createBody(bodyDef);
         PolygonShape dynamicBox = new PolygonShape();
         dynamicBox.setAsBox(1.0f, 1.0f);
         FixtureDef fixtureDef = new FixtureDef();
@@ -71,11 +78,13 @@ public class JBoxDemo implements Game {
                         .changeTranslationType(FRPUtil.setVector)
                         .mergeTranslation(
                                 FRPTime.streamDelta(60)
-                                        .map(delta -> {
-                                            theWorld.step(delta, 6, 2);
-                                            return body.getPosition();
-                                        })
+                                        .map(delta -> body.getPosition())
                                         .map(Util::vec2ToVector3f)
+                        )
+                        .mergeRotation(
+                                FRPTime.streamDelta(60)
+                                        .map(delta -> body.getTransform().q.getAngle())
+                                        .map(angle -> new Vector3f(0.0f, 0.0f, angle))
                         )
                         .translation(Util.vec2ToVector3f(body.getPosition()));
         dTrans.mesh.texture = Texture.loadTexture(BOX_TEXTURE);

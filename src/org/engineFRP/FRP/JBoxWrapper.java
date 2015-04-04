@@ -6,6 +6,8 @@ import org.engineFRP.rendering.Mesh;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
+import sodium.Listener;
+import sodium.Stream;
 
 /**
  * Created by TekMaTek on 04/04/2015.
@@ -14,9 +16,13 @@ public class JBoxWrapper {
 
     private static final Vec2 gravity = new Vec2(0.0f, -9.8f);
     public static final World world = new World(gravity);
+    private final Listener l;
     public Body body;
 
     public JBoxWrapper() {
+        JBoxWrapper.world.setSleepingAllowed(false);
+        l = FRPTime.streamDelta(60)
+                .listen(delta -> JBoxWrapper.world.step(delta, 6, 2));
     }
 
     public static JBoxWrapper BuildStaticBody(Vector3f pos, Mesh mesh) {
@@ -47,5 +53,11 @@ public class JBoxWrapper {
         fixtureDef.friction = 0.3f;
         phy.body.createFixture(fixtureDef);
         return phy;
+    }
+
+    public Stream<Vector3f> Update() {
+        return FRPTime.streamDelta(60)
+                .map(delta -> body.getPosition())
+                .map(Util::vec2ToVector3f);
     }
 }

@@ -26,10 +26,10 @@ public class FRPTransformTests {
 
         testGameObject.mergeTranslation(moveStream);
         moveStream.send(Vector3f.ONE);
-        assertTrue(Vector3f.ONE.equals(testGameObject.translation()));
+        assertTrue(Vector3f.ONE.equals(testGameObject.transform.translation(testGameObject)));
 
         moveStream.send(Vector3f.ONE);
-        assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(testGameObject.translation()));
+        assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(testGameObject.transform.translation(testGameObject)));
     }
 
     @Test
@@ -42,11 +42,11 @@ public class FRPTransformTests {
         testGameObject.mergeTranslation(moveStream2);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
-        Vector3f eads = testGameObject.translation();
+        Vector3f eads = testGameObject.transform.translation(testGameObject);
         assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(eads));
 
         moveStream.send(Vector3f.ONE);
-        eads = testGameObject.translation();
+        eads = testGameObject.transform.translation(testGameObject);
         assertTrue(new Vector3f(3.0f, 3.0f, 3.0f).equals(eads));
 
         moveStream.send(Vector3f.ONE);
@@ -54,7 +54,7 @@ public class FRPTransformTests {
         moveStream2.send(Vector3f.ONE);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
-        eads = testGameObject.translation();
+        eads = testGameObject.transform.translation(testGameObject);
         assertTrue(new Vector3f(8.0f, 8.0f, 8.0f).equals(eads));
     }
 }

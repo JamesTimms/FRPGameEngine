@@ -62,7 +62,7 @@ public abstract class Shader {
 
     public abstract void updateUniforms(GameObject gameObject, Material material);
 
-    public void addVertextShader(String text) {
+    public void addVertexShader(String text) {
         addProgram(text, GL_VERTEX_SHADER);
     }
 

@@ -24,7 +24,7 @@ public class SquareShader extends Shader {
         this.scale = scale;
         this.offset = offset;
 
-        addVertextShader(LoadShader("basic/basicVertex.vertex"));
+        addVertexShader(LoadShader("basic/basicVertex.vertex"));
         addFragmentShader(LoadShader("basic/basicFragment.fragment"));
         CompileShader();
 
@@ -63,6 +63,6 @@ public class SquareShader extends Shader {
         setUniformf("balance", material.balance);
         setUniformf("scale", scale);
         setUniformf("offset", offset);
-        setUniform4m("transform", gameObject.getTransformMatrix());
+        setUniform4m("transform", gameObject.transform.getTransformMatrix());
     }
 }

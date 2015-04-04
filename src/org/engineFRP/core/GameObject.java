@@ -1,6 +1,5 @@
 package org.engineFRP.core;
 
-import org.engineFRP.FRP.CellUpdater;
 import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.FRP.JBoxWrapper;
@@ -8,10 +7,11 @@ import org.engineFRP.Util.Util;
 import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
-import org.engineFRP.rendering.Vertex;
 import org.engineFRP.rendering.shaders.Material;
+import org.jbox2d.common.Vec2;
 import sodium.Cell;
 import sodium.Lambda2;
+import sodium.Listener;
 import sodium.Stream;
 
 /**
@@ -19,17 +19,10 @@ import sodium.Stream;
  */
 public final class GameObject {
 
-    //TODO: clean up the constructors in this class.
-    public static final Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
-    private final CellUpdater<Vector3f> translation;
-    private final CellUpdater<Vector3f> rotation;
-    private final CellUpdater<Vector3f> scale;
+    public final Transform transform;
     public Mesh mesh;
     public Material material;
     public JBoxWrapper physics;
-
-    private Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
-    private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
 
     public GameObject() {
         this(Vector3f.ZERO, Vector3f.ZERO, Vector3f.ZERO, null, Material.BuildMaterial(Vector3f.ZERO, 0.5f, 0.2f, 1.0f));
@@ -37,11 +30,8 @@ public final class GameObject {
 
     private GameObject(final Vector3f position, final Vector3f rotation, final Vector3f scale, final Mesh mesh, final Material mat) {
         this.material = mat;
-        this.translation = new CellUpdater<>(FRPUtil.addVectors, position);
-        this.rotation = new CellUpdater<>(FRPUtil.addVectors, rotation);
-        this.scale = new CellUpdater<>(FRPUtil.addVectors, scale);
+        this.transform = new Transform(position, rotation, scale);
         this.mesh = mesh;
-//        physics = JBoxWrapper.BuildStaticBody(position, mesh);
     }
 
     public GameObject(final Vector3f translation, final Mesh mesh) {
@@ -52,92 +42,54 @@ public final class GameObject {
         this(translation, Vector3f.ZERO, Vector3f.ONE, mesh, mat);
     }
 
-    public GameObject updateJBox() {
-        return changeTranslationType(FRPUtil.setVector)
-                .mergeTranslation(
-                        FRPTime.streamDelta(60)
-                                .map(delta -> {
-                                    JBoxWrapper.world.step(delta, 6, 2);
-                                    return physics.body.getPosition();
-                                })
-                                .map(Util::vec2ToVector3f)
-                )
-                .translation(Util.vec2ToVector3f(physics.body.getPosition()));
+    public GameObject addStaticPhysics() {
+        physics = JBoxWrapper.BuildStaticBody(transform.translation.sample(), mesh);
+        return this;
     }
 
-    public Vertex[] addPosAndFlipY() {//FIXME: Make this method cleaner
-        Vertex[] existingVerts = this.mesh.shape.getVertices();
-        Vertex[] newVerts = new Vertex[existingVerts.length];
-        for(int i = 0; i < existingVerts.length; i++) {
-            Vector3f copyOfTrans = this.translation.sample().clone();
-            copyOfTrans.y = -copyOfTrans.y;
-            newVerts[i] = new Vertex(existingVerts[i].getPos().add(copyOfTrans));
-        }
-        return newVerts;
+    public GameObject addDynamicPhysics() {
+        physics = JBoxWrapper.BuildDynamicBody(transform.translation.sample(), mesh);
+        return this;
+    }
+
+    public GameObject updateFromJbox() {
+        return changeTranslationType(FRPUtil.setVector)
+                .mergeTranslation(physics.Update());
+//                .translation(Util.vec2ToVector3f(physics.body.getPosition()));
+    }
+
+    Listener l;
+
+    public GameObject updateToJbox() {
+        l = transform.translation
+                .updateFrom()
+                .map(Util::Vector3fToVec2)
+                .listen(vec2 -> physics.body.setTransform(vec2, 0.0f));
+        return this;
     }
 
     public Matrix4f getProjectedTransformation(final Camera camera) {
-        return camera.GetViewProjection().mul(getTransformMatrix());
-    }
-
-    public Matrix4f getTransformMatrix() {
-        final Vector3f _rotation = this.rotation.sample();
-        final Vector3f _scale = this.scale.sample();
-        Matrix4f translationMat =
-                new Matrix4f().initTranslation(
-                        translation.sample().x, translation.sample().y, translation.sample().z);
-        Matrix4f rotationMat =
-                new Matrix4f().initRotation(_rotation.x, _rotation.y, _rotation.z);
-        Matrix4f scaleMat =
-                new Matrix4f().initScale(_scale.x, _scale.y, _scale.z);
-
-        return translationMat.mul(rotationMat.mul(scaleMat));
+        return camera.GetViewProjection().mul(transform.getTransformMatrix());
     }
 
     public GameObject mergeTranslation(final Stream<Vector3f> stream) {
-        this.translation.merge(stream);
+        this.transform.mergeTranslation(stream);
+        return this;
+    }
+
+    public GameObject mergeRotation(final Stream<Vector3f> stream) {
+        this.transform.mergeRotation(stream);
         return this;
     }
 
     public GameObject changeTranslationType(Lambda2<Cell<Vector3f>, Stream<Vector3f>, Cell<Vector3f>> newType) {
-        translation.changeResolver(newType);
+        this.transform.translation.changeResolver(newType);
         return this;
     }
 
     public GameObject translation(Vector3f vec) {
-        translation.updateValue(vec);
+        this.transform.translation.updateValue(vec);
         return this;
     }
 
-    public Vector3f translation() {
-        return this.translation.sample();
-    }
-
-    public Vector3f getLeft() {
-        Vector3f left = forward.cross(up);
-        left.normalized();
-        return left;
-    }
-
-    public Vector3f getRight() {
-        Vector3f left = up.cross(forward);
-        left.normalized();
-        return left;
-    }
-
-    public void rotateX(final float angle) {
-        Vector3f hAxis = yAxis.cross(forward).normalized();
-
-        forward = forward.rotate(hAxis, angle).normalized();
-
-        up = forward.cross(hAxis).normalized();
-    }
-
-    public void rotateY(final float angle) {
-        Vector3f hAxis = yAxis.cross(forward).normalized();
-
-        forward = forward.rotate(yAxis, angle).normalized();
-
-        up = forward.cross(hAxis).normalized();
-    }
 }
