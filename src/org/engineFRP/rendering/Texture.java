@@ -1,9 +1,12 @@
 package org.engineFRP.rendering;
 
+import sodium.Lambda1;
+
+import javax.xml.soap.Text;
 import java.io.File;
 
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_REPEAT;
 
 /**
  * Created by TekMaTek on 26/01/2015.
@@ -34,10 +37,27 @@ public class Texture {
             ex.printStackTrace();
             System.exit(1);
         }
-        return null;
+        return NoTexture();
     }
 
     public void bind() {
         glBindTexture(GL_TEXTURE_2D, id);
+    }
+
+    public Texture changeSetting(Lambda1<Integer, Integer> settings) {
+        changeTextureSetting(settings, this.id);
+        return this;
+    }
+
+    public static Integer changeTextureSetting(Lambda1<Integer, Integer> settings, Integer textureID) {
+        return settings.apply(textureID);
+    }
+
+    public static int RepeatTexture(int texID) {
+        glBindTexture(GL_TEXTURE_2D, texID);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        return texID;
     }
 }

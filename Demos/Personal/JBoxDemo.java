@@ -8,17 +8,10 @@ import org.engineFRP.core.Engine;
 import org.engineFRP.core.Game;
 import org.engineFRP.core.Scene;
 import org.engineFRP.core.Transform;
-import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.Texture;
-import org.engineFRP.rendering.shaders.Material;
-import org.engineFRP.rendering.shaders.SquareShader;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
-import sodium.Cell;
-import sodium.StreamSink;
-
-import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
 
 /**
  * Created by TekMaTek on 01/03/2015.
@@ -26,6 +19,7 @@ import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
 public class JBoxDemo implements Game {
 
     private static final String BOX_TEXTURE = "./res/textures/box.jpg";
+    private static final String STONE_TEXTURE = "./res/textures/stone.jpg";
 
     public static void main(String[] args) {
         Engine.runGame(new JBoxDemo());
@@ -45,6 +39,8 @@ public class JBoxDemo implements Game {
 
         Transform trans = MapUtil.polyToTrans(groundBox)
                 .translation(Util.vec2ToScaledVector3f(groundBody.getPosition()));
+        trans.mesh.texture = Texture.loadTexture(STONE_TEXTURE)
+                .changeSetting(Texture::RepeatTexture);
         Scene.graph.add(trans);
 
 

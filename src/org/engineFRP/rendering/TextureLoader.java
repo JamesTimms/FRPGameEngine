@@ -2,6 +2,7 @@ package org.engineFRP.rendering;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
+import sodium.Lambda1;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -42,20 +43,13 @@ public class TextureLoader {
         // whatever OpenGL method you want, for example:
 
         int textureID = glGenTextures(); //Generate texture ID
+        Texture.changeTextureSetting(TextureLoader::DefaultTextureSetting, textureID);
+
         glBindTexture(GL_TEXTURE_2D, textureID); //Bind texture ID
-
-        //Setup wrap mode
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-
-        //Setup texture scaling filtering
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
         //Send texel data to OpenGL
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-
         glBindTexture(GL_TEXTURE_2D, 0); //Bind no texture so our texture isn't overridden.
+
         return textureID;
     }
 
@@ -66,5 +60,19 @@ public class TextureLoader {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int DefaultTextureSetting(int textureID) {
+        glBindTexture(GL_TEXTURE_2D, textureID); //Bind texture ID
+
+        //Setup wrap mode
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+
+        //Setup texture scaling filtering
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glBindTexture(GL_TEXTURE_2D, 0); //Bind texture ID
+        return textureID;
     }
 }
