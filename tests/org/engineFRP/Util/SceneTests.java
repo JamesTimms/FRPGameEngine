@@ -1,8 +1,8 @@
 package org.engineFRP.Util;
 
 import org.engineFRP.FRP.FRPDisplay;
+import org.engineFRP.core.GameObject;
 import org.engineFRP.core.Scene;
-import org.engineFRP.core.Transform;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,13 +17,13 @@ public class SceneTests {
 
     @Test
     public void testAddNode() {
-        Node<Transform> searchNode = Node.newNode(new Transform(), "c");
+        Node<GameObject> searchNode = Node.newNode(new GameObject(), "c");
         Scene.graph.add(
-                Node.newNode(new Transform(), "a")
-                        .addChild(Node.newNode(new Transform(), "b")
+                Node.newNode(new GameObject(), "a")
+                        .addChild(Node.newNode(new GameObject(), "b")
                                 .addChild(searchNode))
-                        .addChild(Node.newNode(new Transform(), "d"))
-                .addChild(Node.newNode(new Transform(), "e")));
+                        .addChild(Node.newNode(new GameObject(), "d"))
+                .addChild(Node.newNode(new GameObject(), "e")));
 
 //        System.out.println(Scene.graph.toString());
         assertEquals(searchNode.nodeName, Scene.graph.find("c").nodeName);

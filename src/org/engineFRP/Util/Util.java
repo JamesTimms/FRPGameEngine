@@ -1,24 +1,19 @@
 package org.engineFRP.Util;
 
-import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.maths.Vector3f;
-import org.engineFRP.rendering.Mesh;
-import org.engineFRP.rendering.Texture;
 import org.engineFRP.rendering.Vertex;
-import org.engineFRP.rendering.shaders.Material;
-import org.engineFRP.rendering.shaders.SquareShader;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 
 import java.util.ArrayList;
 
-import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
-
 /**
  * Created by TekMaTek on 30/03/2015.
  */
 public class Util {
+
+    public static final float JBOX_SCALE = 10.0f;
 
     public static int[] toIntArray(ArrayList<Integer> array) {
         Integer[] temp = new Integer[array.size()];
@@ -41,17 +36,43 @@ public class Util {
     public static Vertex[] polyToVertexArray(PolygonShape poly) {
         Vertex[] verts = new Vertex[poly.getVertexCount()];
         for(int i = 0; i < poly.getVertexCount(); i++) {
-            Vec2 p = poly.getVertices()[i].mul(1.0f / 10.0f);
-            verts[i] = new Vertex(new Vector3f(p.x, p.y, 0.0f), new Vector2f(p.x, p.y));
+            Vec2 p = poly.getVertices()[i].mul(1.0f);
+            verts[i] = new Vertex(vec2ToVector3f(p), vec2ToVector2f(p));
         }
         return verts;
     }
 
-    public static Vector3f vec2ToVector3f(Vec2 vec2) {
-        return new Vector3f(vec2.x, vec2.y, 0.0f);
+    public static PolygonShape vertexArrayToPoly(Vertex[] verts) {
+        PolygonShape poly = new PolygonShape();
+        Vec2[] v = new Vec2[verts.length];
+        for(int i = 0; i < verts.length; i++) {
+            v[i] = Vector3fToVec2(verts[i].getPos());
+        }
+        poly.set(v, verts.length);
+        return poly;
     }
 
-    public static Vector3f vec2ToScaledVector3f(Vec2 vec2) {
-        return new Vector3f(vec2.x / 10.0f, vec2.y / 10.0f, 0.0f);
+    public static Vector3f vec2ToVector3f(Vec2 vec2) {
+        return vec2ToVector3f(vec2, JBOX_SCALE);
+    }
+
+    public static Vector3f vec2ToVector3f(Vec2 vec2, float scale) {
+        return new Vector3f(vec2.x / scale, vec2.y / scale, 0.0f);
+    }
+
+    public static Vector2f vec2ToVector2f(Vec2 vec2) {
+        return vec2ToVector2f(vec2, JBOX_SCALE);
+    }
+
+    public static Vector2f vec2ToVector2f(Vec2 vec2, float scale) {
+        return new Vector2f(vec2.x / scale, vec2.y / scale);
+    }
+
+    public static Vec2 Vector3fToVec2(Vector3f pos) {
+        return Vector3fToVec2(pos, JBOX_SCALE);
+    }
+
+    public static Vec2 Vector3fToVec2(Vector3f pos, float scale) {
+        return new Vec2(pos.x * scale, pos.y * scale);
     }
 }

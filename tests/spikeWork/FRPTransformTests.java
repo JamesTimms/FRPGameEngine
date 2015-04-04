@@ -1,6 +1,6 @@
 package spikeWork;
 
-import org.engineFRP.core.Transform;
+import org.engineFRP.core.GameObject;
 import org.engineFRP.maths.Vector3f;
 import org.junit.After;
 import org.testng.annotations.Test;
@@ -21,32 +21,32 @@ public class FRPTransformTests {
 
     @Test
     public void testMergeIntoCellAndAccum() {
-        Transform testTransform = new Transform();
+        GameObject testGameObject = new GameObject();
         StreamSink<Vector3f> moveStream = new StreamSink<>();
 
-        testTransform.mergeTranslation(moveStream);
+        testGameObject.mergeTranslation(moveStream);
         moveStream.send(Vector3f.ONE);
-        assertTrue(Vector3f.ONE.equals(testTransform.translation()));
+        assertTrue(Vector3f.ONE.equals(testGameObject.translation()));
 
         moveStream.send(Vector3f.ONE);
-        assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(testTransform.translation()));
+        assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(testGameObject.translation()));
     }
 
     @Test
     public void testMergeIntoCellAndAccum2() {
-        Transform testTransform = new Transform();
+        GameObject testGameObject = new GameObject();
         StreamSink<Vector3f> moveStream = new StreamSink<>();
         StreamSink<Vector3f> moveStream2 = new StreamSink<>();
 
-        testTransform.mergeTranslation(moveStream);
-        testTransform.mergeTranslation(moveStream2);
+        testGameObject.mergeTranslation(moveStream);
+        testGameObject.mergeTranslation(moveStream2);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
-        Vector3f eads = testTransform.translation();
+        Vector3f eads = testGameObject.translation();
         assertTrue(new Vector3f(2.0f, 2.0f, 2.0f).equals(eads));
 
         moveStream.send(Vector3f.ONE);
-        eads = testTransform.translation();
+        eads = testGameObject.translation();
         assertTrue(new Vector3f(3.0f, 3.0f, 3.0f).equals(eads));
 
         moveStream.send(Vector3f.ONE);
@@ -54,7 +54,7 @@ public class FRPTransformTests {
         moveStream2.send(Vector3f.ONE);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
-        eads = testTransform.translation();
+        eads = testGameObject.translation();
         assertTrue(new Vector3f(8.0f, 8.0f, 8.0f).equals(eads));
     }
 }

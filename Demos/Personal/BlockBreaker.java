@@ -28,19 +28,19 @@ public class BlockBreaker implements Game {
         for(int i = -1; i < 2; i++) {
             for(int j = -1; j < 2; j++) {
                 Scene.graph.add(
-                        new Transform(new Vector3f(0.37f * i, (0.13f * j) + offsetY, -1.0f), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.4f), Material.blue)
+                        new GameObject(new Vector3f(0.37f * i, (0.13f * j) + offsetY, -1.0f), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.4f), Material.blue)
                 );
             }
         }
         Scene.graph.add(
-                new Transform(new Vector3f(0.0f, -0.8f, -1.0f), MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.05f, 0.4f), Material.white)
+                new GameObject(new Vector3f(0.0f, -0.8f, -1.0f), MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.05f, 0.4f), Material.white)
                         .mergeTranslation(paddleMovement(-0.1f))
         );
         Scene.graph.add(
-                new Transform(new Vector3f(0.0f, -0.65f, -1.0f), MeshUtil.BuildCircleWithTexture(PADDLE_TEXTURE, 0.03f), Material.white)
+                new GameObject(new Vector3f(0.0f, -0.35f, -1.0f), MeshUtil.BuildCircleWithTexture(PADDLE_TEXTURE, 0.03f), Material.white)
                         .mergeTranslation(FRPTime.streamDelta(FRPTime.THIRTY_PER_SECOND)
-                                .filter(delta -> isCollidingWithBat())
-                                .map(delta -> new Vector3f(0.0f, -0.2f, 0.0f).mul(delta)))
+                                .filter(delta -> !isCollidingWithBat())
+                                .map(delta -> new Vector3f(0.0f, -0.8f, 0.0f).mul(delta)))
         );
         return Scene.graph;
     }

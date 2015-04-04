@@ -9,12 +9,12 @@ import java.util.Objects;
 /**
  * Created by TekMaTek on 22/03/2015.
  */
-public class Scene extends Tree<Transform> {
+public class Scene extends Tree<GameObject> {
 
     public static final Scene graph = new Scene();
 
     private Scene() {
-        super(new Node<>(new Transform(), "root"));
+        super(new Node<>(new GameObject(), "root"));
     }
 
     public void drawScene() {
@@ -26,8 +26,8 @@ public class Scene extends Tree<Transform> {
      *
      * @param trans the transform to recursively draw from.
      */
-    private void drawScene(Node<Transform> trans) {
-        for(Node<Transform> transform : trans.getChildren()) {
+    private void drawScene(Node<GameObject> trans) {
+        for(Node<GameObject> transform : trans.getChildren()) {
             transform.sample().mesh.shader.updateUniforms(transform.sample(), transform.sample().material);//TODO: Clean this up.
             transform.sample().mesh.shader.draw(transform.sample());
             drawScene(transform);
@@ -35,33 +35,33 @@ public class Scene extends Tree<Transform> {
     }
 
     @Override
-    public Scene add(final Node<Transform> node) {
+    public Scene add(final Node<GameObject> node) {
         rootNode.addChild(node);
         return this;
     }
 
-    public Scene add(final Transform node) {
+    public Scene add(final GameObject node) {
         rootNode.addChild(new Cell<>(node));
         return this;
     }
 
     @Override
-    public Scene add(final Cell<Transform> node) {
+    public Scene add(final Cell<GameObject> node) {
         rootNode.addChild(node);
         return this;
     }
 
     @Override
-    public Node<Transform> find(final String nodeName) {//TODO: Use Optionals here.
+    public Node<GameObject> find(final String nodeName) {//TODO: Use Optionals here.
         return search(this.rootNode, nodeName);
     }
 
-    private Node<Transform> search(final Node<Transform> node, final String search) {
+    private Node<GameObject> search(final Node<GameObject> node, final String search) {
         if(Objects.equals(node.nodeName, search)) {
             return node;
         } else {
-            for(Node<Transform> child : node.getChildren()) {
-                Node<Transform> _child = search(child, search);
+            for(Node<GameObject> child : node.getChildren()) {
+                Node<GameObject> _child = search(child, search);
                 if(_child != null) {
                     return _child;
                 }
@@ -74,9 +74,9 @@ public class Scene extends Tree<Transform> {
         return allNodes(this.rootNode, "");
     }
 
-    private String allNodes(final Node<Transform> node, String print) {
+    private String allNodes(final Node<GameObject> node, String print) {
         print += node.nodeName + " depth" + node.getDepth() + " ";
-        for(Node<Transform> child : node.getChildren()) {
+        for(Node<GameObject> child : node.getChildren()) {
             print = allNodes(child, print);
         }
         return print;

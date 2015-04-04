@@ -1,7 +1,10 @@
 package org.engineFRP.core;
 
 import org.engineFRP.FRP.CellUpdater;
+import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
+import org.engineFRP.FRP.JBoxWrapper;
+import org.engineFRP.Util.Util;
 import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
@@ -14,7 +17,7 @@ import sodium.Stream;
 /**
  * Created by TekMaTek on 26/01/2015.
  */
-public final class Transform {
+public final class GameObject {
 
     //TODO: clean up the constructors in this class.
     public static final Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
@@ -23,28 +26,43 @@ public final class Transform {
     private final CellUpdater<Vector3f> scale;
     public Mesh mesh;
     public Material material;
+    public JBoxWrapper physics;
 
     private Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
     private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
 
-    public Transform() {
+    public GameObject() {
         this(Vector3f.ZERO, Vector3f.ZERO, Vector3f.ZERO, null, Material.BuildMaterial(Vector3f.ZERO, 0.5f, 0.2f, 1.0f));
     }
 
-    private Transform(final Vector3f position, final Vector3f rotation, final Vector3f scale, final Mesh mesh, final Material mat) {
+    private GameObject(final Vector3f position, final Vector3f rotation, final Vector3f scale, final Mesh mesh, final Material mat) {
         this.material = mat;
         this.translation = new CellUpdater<>(FRPUtil.addVectors, position);
         this.rotation = new CellUpdater<>(FRPUtil.addVectors, rotation);
         this.scale = new CellUpdater<>(FRPUtil.addVectors, scale);
         this.mesh = mesh;
+//        physics = JBoxWrapper.BuildStaticBody(position, mesh);
     }
 
-    public Transform(final Vector3f translation, final Mesh mesh) {
+    public GameObject(final Vector3f translation, final Mesh mesh) {
         this(translation, Vector3f.ZERO, Vector3f.ONE, mesh, Material.BuildMaterial(Vector3f.ZERO, 0.5f, 0.2f, 1.0f));
     }
 
-    public Transform(final Vector3f translation, final Mesh mesh, final Material mat) {
+    public GameObject(final Vector3f translation, final Mesh mesh, final Material mat) {
         this(translation, Vector3f.ZERO, Vector3f.ONE, mesh, mat);
+    }
+
+    public GameObject updateJBox() {
+        return changeTranslationType(FRPUtil.setVector)
+                .mergeTranslation(
+                        FRPTime.streamDelta(60)
+                                .map(delta -> {
+                                    JBoxWrapper.world.step(delta, 6, 2);
+                                    return physics.body.getPosition();
+                                })
+                                .map(Util::vec2ToVector3f)
+                )
+                .translation(Util.vec2ToVector3f(physics.body.getPosition()));
     }
 
     public Vertex[] addPosAndFlipY() {//FIXME: Make this method cleaner
@@ -76,17 +94,17 @@ public final class Transform {
         return translationMat.mul(rotationMat.mul(scaleMat));
     }
 
-    public Transform mergeTranslation(final Stream<Vector3f> stream) {
+    public GameObject mergeTranslation(final Stream<Vector3f> stream) {
         this.translation.merge(stream);
         return this;
     }
 
-    public Transform changeTranslationType(Lambda2<Cell<Vector3f>, Stream<Vector3f>, Cell<Vector3f>> newType) {
+    public GameObject changeTranslationType(Lambda2<Cell<Vector3f>, Stream<Vector3f>, Cell<Vector3f>> newType) {
         translation.changeResolver(newType);
         return this;
     }
 
-    public Transform translation(Vector3f vec) {
+    public GameObject translation(Vector3f vec) {
         translation.updateValue(vec);
         return this;
     }

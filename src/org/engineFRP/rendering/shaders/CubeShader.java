@@ -1,7 +1,7 @@
 package org.engineFRP.rendering.shaders;
 
 import org.engineFRP.core.Camera;
-import org.engineFRP.core.Transform;
+import org.engineFRP.core.GameObject;
 import org.engineFRP.rendering.Vertex;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -24,9 +24,9 @@ public class CubeShader extends Shader {
         addUniform("color");
     }
 
-    public void draw(Transform transform) {
+    public void draw(GameObject gameObject) {
         Bind();
-        updateUniforms(transform, Material.White());
+        updateUniforms(gameObject, Material.White());
 
         final int POSITION = 0;
         final int TEXTURE_COORDS = 1;
@@ -36,20 +36,20 @@ public class CubeShader extends Shader {
         glEnableVertexAttribArray(TEXTURE_COORDS);
         glEnableVertexAttribArray(NORMALS);
 
-        glBindBuffer(GL_ARRAY_BUFFER, transform.mesh.vertexBO);
+        glBindBuffer(GL_ARRAY_BUFFER, gameObject.mesh.vertexBO);
         glVertexAttribPointer(POSITION, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0);
         glVertexAttribPointer(TEXTURE_COORDS, 2, GL_FLOAT, false, Vertex.SIZE * 4, SIZE_OF_BYTE * 3);
         glVertexAttribPointer(NORMALS, 3, GL_FLOAT, false, Vertex.SIZE * 4, SIZE_OF_BYTE * 5);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, transform.mesh.indexBO);
-        glDrawElements(GL_TRIANGLES, transform.mesh.indicesLength, GL_UNSIGNED_INT, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gameObject.mesh.indexBO);
+        glDrawElements(GL_TRIANGLES, gameObject.mesh.indicesLength, GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(POSITION);
         glDisableVertexAttribArray(TEXTURE_COORDS);
         glDisableVertexAttribArray(NORMALS);
     }
 
-    public void updateUniforms(Transform transform, Material material) {
+    public void updateUniforms(GameObject gameObject, Material material) {
 //        dealWithTexture(material.texture);
         setUniform4m("transform", Camera.mainCamera.GetViewProjection());
         setUniform3f("color", material.color);

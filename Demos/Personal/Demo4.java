@@ -7,7 +7,7 @@ import org.engineFRP.Physics.collision.Click;
 import org.engineFRP.FRP.FRPDisplay;
 import org.engineFRP.FRP.FRPKeyboard;
 import org.engineFRP.FRP.FRPMouse;
-import org.engineFRP.core.Transform;
+import org.engineFRP.core.GameObject;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.SimpleRenderer;
@@ -35,7 +35,7 @@ public class Demo4 {
 
     private static final String TEXT_FILE = "./res/textures/grad.png";
 
-    private static Transform[] sceneTransforms;
+    private static GameObject[] sceneGameObjects;
     private static Time renderTimer = new Time(Time.THIRTY_PER_SECOND);
     private static Time pollTimer = new Time(120);
     private static Shader shader2;
@@ -55,8 +55,8 @@ public class Demo4 {
 
     public void setupScene() {
         shader2 = new SquareShader();
-        sceneTransforms = new Transform[] {
-                new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(TEXT_FILE))
+        sceneGameObjects = new GameObject[] {
+                new GameObject(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(TEXT_FILE))
                         .mergeTranslation(movements())
                         .mergeTranslation(FRPUtil.mapArrowKeysToMovementOf(-0.1f))
         };
@@ -68,8 +68,8 @@ public class Demo4 {
                         mouse.action == GLFW_PRESS)
                 .snapshot(cursorPosStream.hold(null), (click, cursor) -> new Tuple2<>(click, cursor))
                 .map(mouse -> {
-                    Dictionary<Transform, Boolean> hits = new Hashtable<>();
-                    for(Transform t : sceneTransforms) {
+                    Dictionary<GameObject, Boolean> hits = new Hashtable<>();
+                    for(GameObject t : sceneGameObjects) {
                         hits.put(t,
                                 Click.isInPolygon(t.addPosAndFlipY(), mouse.b.position));
                     }
@@ -77,9 +77,9 @@ public class Demo4 {
                 })
                 .map(hitShape -> {
                     int scoreThisClick = 0;
-                    Enumeration<Transform> keys = hitShape.keys();
+                    Enumeration<GameObject> keys = hitShape.keys();
                     while(keys.hasMoreElements()) {
-                        Transform t = keys.nextElement();
+                        GameObject t = keys.nextElement();
                         if(hitShape.get(t)) {
                             t.mesh.resize(0.80f);
                             scoreThisClick++;
@@ -125,8 +125,8 @@ public class Demo4 {
     }
 
     public static void drawDemo3() {
-        for(Transform transform : sceneTransforms) {
-            shader2.draw(transform);
+        for(GameObject gameObject : sceneGameObjects) {
+            shader2.draw(gameObject);
         }
     }
 

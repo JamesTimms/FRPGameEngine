@@ -6,8 +6,8 @@ import org.engineFRP.FRP.Time;
 import org.engineFRP.Util.Node;
 import org.engineFRP.core.Engine;
 import org.engineFRP.core.Game;
+import org.engineFRP.core.GameObject;
 import org.engineFRP.core.Scene;
-import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import sodium.Stream;
@@ -26,7 +26,7 @@ public class Demo5 implements Game {
     @Override
     public Scene setupScene() {
         return Scene.graph.add(Node.newNode(
-                new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(TEXT_FILE))
+                new GameObject(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(TEXT_FILE))
                         .mergeTranslation(movements())
                         .mergeTranslation(FRPUtil.mapArrowKeysToMovementOf(-0.1f))));
     }

@@ -6,8 +6,8 @@ import org.engineFRP.Util.MapUtil;
 import org.engineFRP.Util.Util;
 import org.engineFRP.core.Engine;
 import org.engineFRP.core.Game;
+import org.engineFRP.core.GameObject;
 import org.engineFRP.core.Scene;
-import org.engineFRP.core.Transform;
 import org.engineFRP.rendering.Texture;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
@@ -37,8 +37,8 @@ public class JBoxDemo implements Game {
         groundBox.setAsBox(5.0f, 1.0f);
         groundBody.createFixture(groundBox, 0.0f);
 
-        Transform trans = MapUtil.polyToTrans(groundBox)
-                .translation(Util.vec2ToScaledVector3f(groundBody.getPosition()));
+        GameObject trans = MapUtil.polyToTrans(groundBox)
+                .translation(Util.vec2ToVector3f(groundBody.getPosition()));
         trans.mesh.texture = Texture.loadTexture(STONE_TEXTURE)
                 .changeSetting(Texture::RepeatTexture);
         Scene.graph.add(trans);
@@ -62,11 +62,11 @@ public class JBoxDemo implements Game {
 //                .map(b -> {
 //                            Vertex[] verts = Util.polyToVertexArray(dynamicBox);
 //                            Mesh newMesh = new Mesh(verts, Util.genIndices(verts.length), Texture.loadTexture(BLOCK_TEXTURE), false, new SquareShader(GL_TRIANGLE_STRIP));
-//                            return new Transform(Util.vec2ToScaledVector3f(b.getPosition())
+//                            return new Transform(Util.vec2ToVector3f(b.getPosition())
 //                                    , newMesh);
 //                        }
 //                ).hold(null);
-        Transform dTrans =
+        GameObject dTrans =
                 MapUtil.polyToTrans(dynamicBox)
                         .changeTranslationType(FRPUtil.setVector)
                         .mergeTranslation(
@@ -75,9 +75,9 @@ public class JBoxDemo implements Game {
                                             theWorld.step(delta, 6, 2);
                                             return body.getPosition();
                                         })
-                                        .map(Util::vec2ToScaledVector3f)
+                                        .map(Util::vec2ToVector3f)
                         )
-                        .translation(Util.vec2ToScaledVector3f(body.getPosition()));
+                        .translation(Util.vec2ToVector3f(body.getPosition()));
         dTrans.mesh.texture = Texture.loadTexture(BOX_TEXTURE);
         Scene.graph.add(dTrans);
 //        float timeStep = 1.0f / 60.0f;

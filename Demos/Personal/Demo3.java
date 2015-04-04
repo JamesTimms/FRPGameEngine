@@ -6,7 +6,7 @@ import org.engineFRP.Physics.collision.AABB;
 import org.engineFRP.FRP.FRPDisplay;
 import org.engineFRP.FRP.FRPKeyboard;
 import org.engineFRP.FRP.FRPUtil;
-import org.engineFRP.core.Transform;
+import org.engineFRP.core.GameObject;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.SimpleRenderer;
@@ -35,7 +35,7 @@ public class Demo3 {
     static StreamSink<Tuple2<AABB, AABB>> colliderStream;
 
     static Shader shader2;
-    private static Transform[] sceneMeshes;
+    private static GameObject[] sceneMeshes;
     private static AABB background;
 
     public Demo3() {
@@ -47,9 +47,9 @@ public class Demo3 {
 
     public void setupScene() {
         background = FRPDisplay.setupScreenCollider();
-        for(Transform transform : sceneMeshes) {
-            transform.mergeTranslation(movements().merge(movements(), (f, s) -> f.add(s)));
-            transform.mergeTranslation(mapCollision(transform));
+        for(GameObject gameObject : sceneMeshes) {
+            gameObject.mergeTranslation(movements().merge(movements(), (f, s) -> f.add(s)));
+            gameObject.mergeTranslation(mapCollision(gameObject));
         }
     }
 
@@ -59,7 +59,7 @@ public class Demo3 {
                 .merge(FRPUtil.mapArrowKeysToMovementOf(-0.1f));
     }
 
-    public static Stream<Vector3f> mapCollision(Transform transform) {
+    public static Stream<Vector3f> mapCollision(GameObject gameObject) {
         return colliderStream
 //                .filter(thing -> (thing.a == transform.collider) || (thing.b == transform.collider))
 //                .filter(colliders -> colliders.a.isOutsideOf(colliders.b))
@@ -73,11 +73,11 @@ public class Demo3 {
     public void loop() {
         colliderStream = new StreamSink<>();
         shader2 = new SquareShader();
-        sceneMeshes = new Transform[] {
-                new Transform(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(-0.6f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(0.2f, 0.8f, -1.0f), MeshUtil.BuildSquare()),
-                new Transform(new Vector3f(0.6f, 0.0f, -1.0f), MeshUtil.BuildSquare())
+        sceneMeshes = new GameObject[] {
+                new GameObject(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
+                new GameObject(new Vector3f(-0.6f, 0.0f, -1.0f), MeshUtil.BuildSquare()),
+                new GameObject(new Vector3f(0.2f, 0.8f, -1.0f), MeshUtil.BuildSquare()),
+                new GameObject(new Vector3f(0.6f, 0.0f, -1.0f), MeshUtil.BuildSquare())
         };
         setupScene();
 
@@ -94,8 +94,8 @@ public class Demo3 {
     }
 
     public static void drawDemo3() {
-        for(Transform transform : sceneMeshes) {
-            shader2.draw(transform);
+        for(GameObject gameObject : sceneMeshes) {
+            shader2.draw(gameObject);
         }
     }
 

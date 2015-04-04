@@ -1,6 +1,6 @@
 package org.engineFRP.rendering.shaders;
 
-import org.engineFRP.core.Transform;
+import org.engineFRP.core.GameObject;
 import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.RenderingUtil;
@@ -58,9 +58,9 @@ public abstract class Shader {
         return shaderSource.toString();
     }
 
-    public abstract void draw(Transform transform);
+    public abstract void draw(GameObject gameObject);
 
-    public abstract void updateUniforms(Transform transform, Material material);
+    public abstract void updateUniforms(GameObject gameObject, Material material);
 
     public void addVertextShader(String text) {
         addProgram(text, GL_VERTEX_SHADER);
