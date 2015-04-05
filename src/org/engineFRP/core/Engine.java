@@ -16,6 +16,7 @@ public class Engine {
     private static boolean hasBeenInitialized = false;
     private static Time renderTimer = new Time(Time.THIRTY_PER_SECOND);
     private static Time pollTimer = new Time(120);
+    private static Time physics = new Time(30);
     private static Scene scene;
 
     private Engine() {
@@ -43,12 +44,19 @@ public class Engine {
             input();
             FRPTime.pollStreams();//Trigger all FRP streams.
             render();
+            physics();
         }
     }
 
     private static void input() {
         if(pollTimer.shouldGetFrame()) {
             glfwPollEvents();
+        }
+    }
+
+    private static void physics() {
+        if(physics.shouldGetFrame()) {
+            JBoxWrapper.physicsStep(physics.getDeltaTime());
         }
     }
 

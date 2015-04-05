@@ -1,6 +1,5 @@
 package org.engineFRP.core;
 
-import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.FRP.JBoxWrapper;
 import org.engineFRP.Util.Util;
@@ -8,10 +7,8 @@ import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.shaders.Material;
-import org.jbox2d.common.Vec2;
 import sodium.Cell;
 import sodium.Lambda2;
-import sodium.Listener;
 import sodium.Stream;
 
 /**
@@ -54,18 +51,14 @@ public final class GameObject {
 
     public GameObject updateFromJbox() {
         return changeTranslationType(FRPUtil.setVector)
-                .mergeTranslation(physics.Update())
-                .mergeRotation(physics.Update2());
-//                .translation(Util.vec2ToVector3f(physics.body.getPosition()));
+                .mergeTranslation(physics.updatePos())
+                .mergeRotation(physics.updateRot());
     }
 
-    Listener l;
-
     public GameObject updateToJbox() {
-        l = transform.translation
+        physics.updateToJbox(transform.translation
                 .updateFrom()
-                .map(Util::Vector3fToVec2)
-                .listen(vec2 -> physics.body.setTransform(vec2, 0.0f));
+                .map(Util::Vector3fToVec2));
         return this;
     }
 

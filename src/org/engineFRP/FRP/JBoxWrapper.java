@@ -8,6 +8,9 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 import sodium.Listener;
 import sodium.Stream;
+import sodium.StreamSink;
+
+import java.util.ArrayList;
 
 /**
  * Created by TekMaTek on 04/04/2015.
@@ -16,13 +19,27 @@ public class JBoxWrapper {
 
     private static final Vec2 gravity = new Vec2(0.0f, -9.8f);
     public static final World world = new World(gravity);
-    private final Listener l;
+    private static ArrayList<JBoxWrapper> allBodies = new ArrayList<>();
+    private final StreamSink<Body> jboxUpdateStream = new StreamSink<>();//Really inefficient?
     public Body body;
+    Listener updateJBox;//Listeners are bad here but is needed because no other way to update JBox when our transform moves.
 
     public JBoxWrapper() {
+        JBoxWrapper.allBodies.add(this);
         JBoxWrapper.world.setSleepingAllowed(false);
-        l = FRPTime.streamDelta(60)
-                .listen(delta -> JBoxWrapper.world.step(delta, 6, 2));
+    }
+
+    public JBoxWrapper updateToJbox(Stream<Vec2> updateFrom) {
+        updateJBox = updateFrom
+                .listen(vec2 -> body.setTransform(vec2, 0.0f));
+        return this;
+    }
+
+    public static void physicsStep(float delta) {
+        JBoxWrapper.world.step(delta, 6, 2);//TODO: Look to see if the two numbers at the end here are useful.
+        for(JBoxWrapper body : allBodies) {
+            body.jboxUpdateStream.send(body.body);//Sort of a pulse for the time stream.
+        }
     }
 
     public static JBoxWrapper BuildStaticBody(Vector3f pos, Mesh mesh) {
@@ -55,13 +72,13 @@ public class JBoxWrapper {
         return phy;
     }
 
-    public Stream<Vector3f> Update() {
+    public Stream<Vector3f> updatePos() {
         return FRPTime.streamDelta(60)
                 .map(delta -> body.getPosition())
                 .map(Util::vec2ToVector3f);
     }
 
-    public Stream<Vector3f> Update2() {
+    public Stream<Vector3f> updateRot() {
         return FRPTime.streamDelta(60)
                 .map(delta -> body.getTransform().q.getAngle())
                 .map(angle -> new Vector3f(0.0f, 0.0f, angle));
