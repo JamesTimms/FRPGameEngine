@@ -36,7 +36,7 @@ public class Util {
     public static Vertex[] polyToVertexArray(PolygonShape poly) {
         Vertex[] verts = new Vertex[poly.getVertexCount()];
         for(int i = 0; i < poly.getVertexCount(); i++) {
-            Vec2 p = poly.getVertices()[i].mul(1.0f);
+            Vec2 p = poly.getVertices()[i];
             verts[i] = new Vertex(vec2ToVector3f(p), vec2ToVector2f(p));
         }
         return verts;

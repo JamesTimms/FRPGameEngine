@@ -54,7 +54,8 @@ public final class GameObject {
 
     public GameObject updateFromJbox() {
         return changeTranslationType(FRPUtil.setVector)
-                .mergeTranslation(physics.Update());
+                .mergeTranslation(physics.Update())
+                .mergeRotation(physics.Update2());
 //                .translation(Util.vec2ToVector3f(physics.body.getPosition()));
     }
 

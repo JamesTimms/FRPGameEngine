@@ -43,7 +43,7 @@ public class JBoxWrapper {
         BodyDef bDef = new BodyDef();
         bDef.type = BodyType.DYNAMIC;
         bDef.position.set(Util.Vector3fToVec2(pos));
-        bDef.fixedRotation = true;
+        bDef.fixedRotation = false;
         phy.body = JBoxWrapper.world.createBody(bDef);
         //Now setup the AABB
         PolygonShape aabb = Util.vertexArrayToPoly(mesh.shape.getVertices());
@@ -59,5 +59,11 @@ public class JBoxWrapper {
         return FRPTime.streamDelta(60)
                 .map(delta -> body.getPosition())
                 .map(Util::vec2ToVector3f);
+    }
+
+    public Stream<Vector3f> Update2() {
+        return FRPTime.streamDelta(60)
+                .map(delta -> body.getTransform().q.getAngle())
+                .map(angle -> new Vector3f(0.0f, 0.0f, angle));
     }
 }
