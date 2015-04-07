@@ -1,5 +1,6 @@
 package org.engineFRP.Util;
 
+import org.lwjgl.Sys;
 import sodium.Cell;
 
 import java.util.ArrayList;
@@ -114,5 +115,17 @@ public class Node<A> {
             p = p.parent;
         }
         return depth;
+    }
+
+    public void Delete() {
+        this.value = null;
+        for(Node<A> node : this.children) {
+            node.parent = this.parent;
+            this.parent.children.add(node);
+        }
+        this.children = null;
+        this.parent.children.remove(this);
+        this.parent = null;
+//        System.gc();
     }
 }

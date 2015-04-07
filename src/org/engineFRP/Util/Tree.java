@@ -25,4 +25,5 @@ public abstract class Tree<A> {
 
     public abstract Node<A> find(final String nodeName);
 
+    public abstract Tree<A> destroy(final A node);
 }

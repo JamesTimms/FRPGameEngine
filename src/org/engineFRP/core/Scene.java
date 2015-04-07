@@ -56,8 +56,31 @@ public class Scene extends Tree<GameObject> {
         return search(this.rootNode, nodeName);
     }
 
+    @Override
+    public Scene destroy(final GameObject node) {
+        Node<GameObject> go = search(this.rootNode, node);
+        if(go != null) {
+            go.Delete();
+        }
+        return this;
+    }
+
     private Node<GameObject> search(final Node<GameObject> node, final String search) {
         if(Objects.equals(node.nodeName, search)) {
+            return node;
+        } else {
+            for(Node<GameObject> child : node.getChildren()) {
+                Node<GameObject> _child = search(child, search);
+                if(_child != null) {
+                    return _child;
+                }
+            }
+        }
+        return null;
+    }
+
+    private Node<GameObject> search(final Node<GameObject> node, final GameObject search) {
+        if(node.sample().equals(search)) {
             return node;
         } else {
             for(Node<GameObject> child : node.getChildren()) {

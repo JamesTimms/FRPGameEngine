@@ -27,8 +27,9 @@ public class JBoxWrapper {
     private final StreamSink<Body> jboxUpdateStream = new StreamSink<>();//Really inefficient?
     public Body body;
     public GameObject go;
-    Listener updateJBox;//Listeners are bad here but is needed because no other way to update JBox when our transform moves.
+    private static ArrayList<Listener> l = new ArrayList<>();//Listeners are bad here but is needed because no other way to update JBox when our transform moves.
     private static JBoxCollisionListener lis = new JBoxCollisionListener();
+    private static ArrayList<Body> bodiesToDelete = new ArrayList<>();
 
     public JBoxWrapper(GameObject go) {
         JBoxWrapper.allWrappers.add(this);
@@ -37,19 +38,19 @@ public class JBoxWrapper {
     }
 
     public JBoxWrapper updateToJbox(Stream<Vec2> updateFrom) {
-        updateJBox = updateFrom
-                .listen(vec2 -> body.setTransform(vec2, 0.0f));
+        l.add(updateFrom
+                .listen(vec2 -> body.setTransform(vec2, 0.0f)));
         return this;
     }
 
     public JBoxWrapper updateToJboxZeroForce(Stream<Vec2> updateFrom) {
-        updateJBox = updateFrom
+        l.add(updateFrom
                 .listen(vec2 -> {
                     this.body.m_force.setZero();
                     this.body.m_linearVelocity.setZero();
 //                    this.body.applyForceToCenter(new Vec2(-4.0f, 0.0f));
                     this.body.setTransform(vec2, 0.0f);
-                });
+                }));
         return this;
     }
 
@@ -138,6 +139,9 @@ public class JBoxWrapper {
 ////        p.setAsBox(20.0f, -13.5f);//Corner
 //        phy.body.createFixture(p, 0.0f);
         world.setContactListener(lis);
+        l.add(FRPTime.streamDelta(30)
+                .filter(delta -> bodiesToDelete.size() > 0)
+                .listen(delta -> bodiesToDelete.forEach(world::destroyBody)));
         Scene.graph.add(new GameObject(new Vector3f(0.0f, 1.08f, 0.0f), MeshUtil.BuildRect(2.0f, 0.2f))
                 .addStaticPhysics().name("wallTop"));
         Scene.graph.add(new GameObject(new Vector3f(0.0f, -1.08f, 0.0f), MeshUtil.BuildRect(2.0f, 0.2f))
@@ -148,5 +152,13 @@ public class JBoxWrapper {
                 .addStaticPhysics().name("wallRight"));
         Scene.graph.add(new GameObject(new Vector3f(-1.08f, 0.0f, 0.0f), MeshUtil.BuildRect(0.2f, 2.0f))
                 .addStaticPhysics().name("wallLeft"));
+    }
+
+    public void applyForceToCenter(Vec2 v) {
+        this.body.applyForceToCenter(v);
+    }
+
+    public static void markForDeletion(Body body) {
+        bodiesToDelete.add(body);
     }
 }

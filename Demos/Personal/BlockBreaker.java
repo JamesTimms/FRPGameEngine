@@ -36,7 +36,9 @@ public class BlockBreaker implements Game {
             for(int j = -1; j < 2; j++) {
                 Scene.graph.add(
                         new GameObject(new Vector3f(0.37f * i, (0.13f * j) + offsetY, -1.0f), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.4f, 0.2f), Material.blue)
-                                .addStaticPhysics().name("Block" + counter++)
+                                .addStaticPhysics()
+                                .name("Block" + counter++)
+                                .canBeDestroyedBy("Ball")
                 );
             }
         }
@@ -44,26 +46,18 @@ public class BlockBreaker implements Game {
                 new GameObject(new Vector3f(0.0f, -0.8f, -1.0f), MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.4f, 0.05f), Material.white)
                         .name(PADDLE_GO)
                         .addStaticPhysics()
-                        .updateFromJbox()
                         .updateToJbox(paddleMovement(-0.1f))
         );
         Scene.graph.add(
                 new GameObject(new Vector3f(0.0f, -0.35f, -1.0f), MeshUtil.BuildCircleWithTexture(PADDLE_TEXTURE, 0.05f), Material.white)
                         .name("Ball")
-                        .addDynamicPhysics().updateFromJbox()
-                        .applyForce(new Vec2(0.0f, -20.0f))
+                        .addDynamicPhysics()
                         .bouncyCollisionsWith(PADDLE_GO)
-                        .updateToJboxZeroForce(resetToZeroKey(GLFW_KEY_R))
+                        .resetJboxPosWith(GLFW_KEY_R)
         );
         JBoxWrapper.setupScreenCollider();
 
         return Scene.graph;
-    }
-
-    public static Stream<Vector3f> resetToZeroKey(int glfwKey) {
-        return FRPKeyboard.keyEvent
-                .filter(key -> key.key == glfwKey)
-                .map(key -> Vector3f.ZERO);
     }
 
     public static Stream<Vector3f> paddleMovement(float moveAmount) {

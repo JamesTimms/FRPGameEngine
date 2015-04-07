@@ -39,9 +39,7 @@ public class JBoxDemo implements Game {
 
         GameObject go = new GameObject(
                 new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(BOX_TEXTURE, 0.4f), Material.white)
-                .addDynamicPhysics()
-                .changeTranslationType(FRPUtil.setVector)
-                .updateFromJbox();
+                .addDynamicPhysics();
         Scene.graph.add(go.name("Box"));
 
         return Scene.graph;
