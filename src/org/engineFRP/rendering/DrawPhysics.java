@@ -1,6 +1,5 @@
 package org.engineFRP.rendering;
 
-import org.engineFRP.Util.Util;
 import org.jbox2d.callbacks.DebugDraw;
 import org.jbox2d.common.Color3f;
 import org.jbox2d.common.Transform;
