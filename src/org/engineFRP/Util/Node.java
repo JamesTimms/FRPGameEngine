@@ -58,8 +58,8 @@ public class Node<A> {
         return this;
     }
 
-    public Node<A> addChild(Cell<A> child) {//TODO: Make this use optionals.
-        return addChild(new Node<>(child, defaultNodeName));
+    public Node<A> addChild(Cell<A> child, String name) {//TODO: Make this use optionals.
+        return addChild(new Node<>(child, name));
     }
 
     /**

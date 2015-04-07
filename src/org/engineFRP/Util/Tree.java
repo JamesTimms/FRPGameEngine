@@ -18,13 +18,13 @@ public abstract class Tree<A> {
         return this;
     }
 
-    public Tree<A> add(final A node) {
-        rootNode.addChild(new Cell<>(node));
+    public Tree<A> add(final A node, String name) {
+        rootNode.addChild(new Cell<>(node), name);
         return this;
     }
 
-    public Tree<A> add(final Cell<A> node) {
-        rootNode.addChild(node);
+    public Tree<A> add(final Cell<A> node, String name) {
+        rootNode.addChild(node, name);
         return this;
     }
 

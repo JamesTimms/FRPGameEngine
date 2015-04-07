@@ -46,7 +46,7 @@ public class Demo3 {
     }
 
     public void setupScene() {
-        background = FRPDisplay.setupScreenCollider();
+//        background = FRPDisplay.setupScreenCollider();
         for(GameObject gameObject : sceneMeshes) {
             gameObject.mergeTranslation(movements().merge(movements(), (f, s) -> f.add(s)));
             gameObject.mergeTranslation(mapCollision(gameObject));

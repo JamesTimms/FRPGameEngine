@@ -1,10 +1,7 @@
 package Personal;
 
-import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
-import org.engineFRP.FRP.JBoxWrapper;
 import org.engineFRP.Util.MapUtil;
-import org.engineFRP.Util.Util;
 import org.engineFRP.core.Engine;
 import org.engineFRP.core.Game;
 import org.engineFRP.core.GameObject;
@@ -39,14 +36,14 @@ public class JBoxDemo implements Game {
                 .updateToJbox();
         trans.mesh.texture = Texture.loadTexture(STONE_TEXTURE)
                 .changeSetting(Texture::RepeatTexture);
-        Scene.graph.add(trans);
+        Scene.graph.add(trans, "Floor");
 
         GameObject go = new GameObject(
                 new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(BOX_TEXTURE, 0.4f), Material.white)
                 .addDynamicPhysics()
                 .changeTranslationType(FRPUtil.setVector)
                 .updateFromJbox();
-        Scene.graph.add(go);
+        Scene.graph.add(go, "Box");
 
         return Scene.graph;
     }

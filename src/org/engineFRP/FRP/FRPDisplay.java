@@ -103,13 +103,6 @@ public final class FRPDisplay {
                 .hold(new Vector2f(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     }
 
-    public static AABB setupScreenCollider() {
-        return new AABB(
-                new Stream<Vector3f>().hold(new Vector3f(-0.6f, -0.6f, 0.0f)),
-                new Stream<Vector3f>().hold(new Vector3f(0.6f, 0.6f, 0.0f))
-        );
-    }
-
     public static void setupCloseWindow() {
         exitWindow = FRPKeyboard.keyEvent
                 .filter(key -> key.key == GLFW_KEY_ESCAPE && key.action == GLFW_RELEASE)

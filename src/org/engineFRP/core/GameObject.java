@@ -7,6 +7,8 @@ import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.shaders.Material;
+import org.jbox2d.collision.AABB;
+import org.jbox2d.common.Vec2;
 import sodium.Cell;
 import sodium.Lambda2;
 import sodium.Stream;

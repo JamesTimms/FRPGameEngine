@@ -40,14 +40,15 @@ public class Scene extends Tree<GameObject> {
         return this;
     }
 
-    public Scene add(final GameObject node) {
-        rootNode.addChild(new Cell<>(node));
+    @Override
+    public Scene add(final GameObject node, String name) {
+        rootNode.addChild(new Cell<>(node), name);
         return this;
     }
 
     @Override
-    public Scene add(final Cell<GameObject> node) {
-        rootNode.addChild(node);
+    public Scene add(final Cell<GameObject> node, String name) {
+        rootNode.addChild(node, name);
         return this;
     }
 

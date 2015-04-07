@@ -1,5 +1,6 @@
 package org.engineFRP.FRP;
 
+import org.engineFRP.Physics.collision.AABB;
 import org.engineFRP.Util.Util;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
@@ -26,7 +27,7 @@ public class JBoxWrapper {
 
     public JBoxWrapper() {
         JBoxWrapper.allBodies.add(this);
-        JBoxWrapper.world.setSleepingAllowed(false);
+        JBoxWrapper.world.setSleepingAllowed(false);//An Init. Here as a cheat. Should move this else where.
     }
 
     public JBoxWrapper updateToJbox(Stream<Vec2> updateFrom) {
@@ -60,7 +61,7 @@ public class JBoxWrapper {
         BodyDef bDef = new BodyDef();
         bDef.type = BodyType.DYNAMIC;
         bDef.position.set(Util.Vector3fToVec2(pos));
-        bDef.fixedRotation = false;
+        bDef.fixedRotation = true;
         phy.body = JBoxWrapper.world.createBody(bDef);
         //Now setup the AABB
         PolygonShape aabb = Util.vertexArrayToPoly(mesh.shape.getVertices());
@@ -83,4 +84,17 @@ public class JBoxWrapper {
                 .map(delta -> body.getTransform().q.getAngle())
                 .map(angle -> new Vector3f(0.0f, 0.0f, angle));
     }
+
+
+    public static void setupScreenCollider() {
+        JBoxWrapper phy = new JBoxWrapper();
+        BodyDef bDef = new BodyDef();
+        bDef.position.set(new Vec2(0.0f, 0.0f));
+        phy.body = JBoxWrapper.world.createBody(bDef);
+        PolygonShape p = new PolygonShape();
+        p.setAsBox(-6.0f, -6.0f);//Corner
+        p.setAsBox(6.0f, 6.0f);//Corner
+        phy.body.createFixture(p, 0.0f);
+    }
+
 }
