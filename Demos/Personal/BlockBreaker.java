@@ -1,17 +1,11 @@
 package Personal;
 
 import org.engineFRP.FRP.*;
-import org.engineFRP.Physics.JBoxCollisionListener;
 import org.engineFRP.core.*;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.shaders.Material;
-import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.collision.AABB;
-import org.jbox2d.collision.Manifold;
-import org.jbox2d.collision.WorldManifold;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.World;
 import sodium.Listener;
 import sodium.Stream;
 
@@ -49,29 +43,27 @@ public class BlockBreaker implements Game {
         Scene.graph.add(
                 new GameObject(new Vector3f(0.0f, -0.8f, -1.0f), MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.4f, 0.05f), Material.white)
                         .name(PADDLE_GO)
-                        .mergeTranslation(paddleMovement(-0.1f))
-                        .addStaticPhysics().updateToJbox()
+                        .addStaticPhysics()
+                        .updateFromJbox()
+                        .updateToJbox(paddleMovement(-0.1f))
         );
         Scene.graph.add(
                 new GameObject(new Vector3f(0.0f, -0.35f, -1.0f), MeshUtil.BuildCircleWithTexture(PADDLE_TEXTURE, 0.05f), Material.white)
                         .name("Ball")
                         .addDynamicPhysics().updateFromJbox()
-                        .applyForce()
+                        .applyForce(new Vec2(0.0f, -20.0f))
+                        .bouncyCollisionsWith(PADDLE_GO)
+                        .updateToJboxZeroForce(resetToZeroKey(GLFW_KEY_R))
         );
         JBoxWrapper.setupScreenCollider();
 
-//        l.add(FRPTime.streamDelta(30)
-//                .listen(delta -> isBallCollidingWith(PADDLE_GO)));
-//        l.add(FRPTime.streamDelta(30)
-//                .listen(delta -> isBallCollidingWith("wallLeft")));
-//        l.add(FRPTime.streamDelta(30)
-//                .listen(delta -> isBallCollidingWith("wallRight")));
-//        l.add(FRPTime.streamDelta(30)
-//                .listen(delta -> isBallCollidingWith("wallTop")));
-//        l.add(FRPTime.streamDelta(30)
-//                .listen(delta -> isBallCollidingWith("wallBot")));
-
         return Scene.graph;
+    }
+
+    public static Stream<Vector3f> resetToZeroKey(int glfwKey) {
+        return FRPKeyboard.keyEvent
+                .filter(key -> key.key == glfwKey)
+                .map(key -> Vector3f.ZERO);
     }
 
     public static Stream<Vector3f> paddleMovement(float moveAmount) {
@@ -88,22 +80,5 @@ public class BlockBreaker implements Game {
                             return Vector3f.ZERO;
                     }
                 });
-    }
-
-    public void isBallCollidingWith(String otherObject) {
-
-//        JBoxWrapper.world.getContactManager().collide();
-//        new WorldManifold().initialize();
-
-
-        GameObject ball = Scene.graph.find("Ball").sample();
-        GameObject bat = Scene.graph.find(otherObject).sample();
-        Vector3f batPos = bat.transform.translation.sample();
-        Vector3f ballPos = ball.transform.translation.sample();
-        float xForce = ballPos.x - batPos.x;
-        if(AABB.testOverlap(ball.physics.body.getFixtureList().getAABB(0)
-                , bat.physics.body.getFixtureList().getAABB(0))) {
-            ball.physics.body.applyForceToCenter(new Vec2(xForce, 0.03f));
-        }
     }
 }

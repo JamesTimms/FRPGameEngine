@@ -2,6 +2,7 @@ package org.engineFRP.core;
 
 import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.FRP.JBoxWrapper;
+import org.engineFRP.Physics.JBoxCollisionListener;
 import org.engineFRP.Util.Util;
 import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
@@ -9,9 +10,15 @@ import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.shaders.Material;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.contacts.Contact;
 import sodium.Cell;
 import sodium.Lambda2;
+import sodium.Listener;
 import sodium.Stream;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by TekMaTek on 26/01/2015.
@@ -23,6 +30,7 @@ public final class GameObject {
     public Mesh mesh;
     public Material material;
     public JBoxWrapper physics;
+    public ArrayList<Listener> l = new ArrayList<>();
 
     public GameObject() {
         this(Vector3f.ZERO, Vector3f.ZERO, Vector3f.ZERO, null, Material.BuildMaterial(Vector3f.ZERO, 0.5f, 0.2f, 1.0f));
@@ -53,19 +61,30 @@ public final class GameObject {
     }
 
     public GameObject updateFromJbox() {
+        this.physics.body.setTransform(Util.Vector3fToVec2(this.transform.translation.sample())
+                , this.transform.rotation.sample().z);
         return changeTranslationType(FRPUtil.setVector)
                 .mergeTranslation(physics.updatePos())
                 .mergeRotation(physics.updateRot());
     }
 
-    public GameObject applyForce() {
-        this.physics.body.applyForceToCenter(new Vec2(0.0f, -20.0f));
+    public GameObject applyForce(Vec2 v) {
+        this.physics.body.applyForceToCenter(v);
         return this;
     }
 
-    public GameObject updateToJbox() {
-        physics.updateToJbox(transform.translation
-                .updateFrom()
+    public GameObject updateToJbox(Stream<Vector3f> up) {
+        physics.updateToJbox(up
+                .accum(this.transform.translation.sample(), (curV, newV) -> curV.add(newV))
+                .updates()
+                .map(Util::Vector3fToVec2));
+        return this;
+    }
+
+    public GameObject updateToJboxZeroForce(Stream<Vector3f> up) {
+        physics.updateToJboxZeroForce(up
+                .accum(this.transform.translation.sample(), (curV, newV) -> curV.add(newV))
+                .updates()
                 .map(Util::Vector3fToVec2));
         return this;
     }
@@ -99,4 +118,43 @@ public final class GameObject {
         return this;
     }
 
+    public GameObject bouncyCollisionsWith(String otherGO) {
+        l.add(JBoxCollisionListener.end
+                .filter(contact -> isBall(contact, Scene.graph.find(otherGO).sample()))
+                .listen(contact -> {
+                    GameObject go = JBoxWrapper.getGOFromBody(contact.getFixtureA().getBody());
+                    GameObject go2 = JBoxWrapper.getGOFromBody(contact.getFixtureB().getBody());
+                    GameObject thisGO = this.equals(go) ? go : go2;
+                    Vector3f v = go.transform.translation.sample();
+                    Vector3f v2 = go2.transform.translation.sample();
+                    float xForce = v2.x - v.x;
+                    thisGO.applyForce(new Vec2(xForce / 5.0f, 0.05f));
+                }));
+//        GameObject go = JBoxWrapper.getGOFromBody(contact.getFixtureA().getBody());
+//        GameObject go2 = JBoxWrapper.getGOFromBody(contact.getFixtureB().getBody());
+//        if(isBall(go, go2)) {
+//            WorldManifold m = new WorldManifold();
+//            contact.getWorldManifold(m);
+//        } else if(isBall(go2, go)) {
+//            WorldManifold m = new WorldManifold();
+//            contact.getWorldManifold(m);
+//            Vector3f v = go.transform.translation.sample();
+//            Vector3f v2 = go2.transform.translation.sample();
+//            float xForce = v2.x - v.x;
+//            go2.physics.accumForce(new Vec2(xForce / 5.0f, 0.05f));
+//        }
+        return this;
+    }
+
+    private boolean isBall(Contact contact, GameObject otherGO) {
+        GameObject go = JBoxWrapper.getGOFromBody(contact.getFixtureA().getBody());
+        GameObject go2 = JBoxWrapper.getGOFromBody(contact.getFixtureB().getBody());
+        return (this.equals(go) || this.equals(go2)) &&
+                (otherGO.equals(go) || otherGO.equals(go2));
+    }
+
+    public GameObject makeForceZero() {
+        this.physics.body.m_force.set(new Vec2(0.0f, 0.0f));
+        return this;
+    }
 }

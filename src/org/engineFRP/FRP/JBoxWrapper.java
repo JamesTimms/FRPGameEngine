@@ -42,6 +42,17 @@ public class JBoxWrapper {
         return this;
     }
 
+    public JBoxWrapper updateToJboxZeroForce(Stream<Vec2> updateFrom) {
+        updateJBox = updateFrom
+                .listen(vec2 -> {
+                    this.body.m_force.setZero();
+                    this.body.m_linearVelocity.setZero();
+//                    this.body.applyForceToCenter(new Vec2(-4.0f, 0.0f));
+                    this.body.setTransform(vec2, 0.0f);
+                });
+        return this;
+    }
+
     public static GameObject getGOFromBody(Body body) {
         for(JBoxWrapper jbox : allWrappers) {
             if(jbox.body.equals(body)) {
@@ -77,7 +88,12 @@ public class JBoxWrapper {
         phy.body = JBoxWrapper.world.createBody(bDef);
         //Now setup the AABB
         PolygonShape aabb = Util.vertexArrayToPoly(mesh.shape.getVertices());
-        phy.body.createFixture(aabb, 0.0f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = aabb;
+        fixtureDef.density = 0.1f;
+        fixtureDef.friction = 0.1f;
+        fixtureDef.restitution = 0.85f;
+        phy.body.createFixture(fixtureDef);
         return phy;
     }
 

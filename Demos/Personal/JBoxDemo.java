@@ -32,8 +32,7 @@ public class JBoxDemo implements Game {
         GameObject trans = MapUtil.polyToGameObject(groundBox)
                 .translation(new Vector3f(0.0f, -0.7f, 0.0f))
                 .addStaticPhysics()
-                .mergeTranslation(FRPUtil.mapArrowKeysToMovementOf(-0.01f))
-                .updateToJbox();
+                .updateToJbox(FRPUtil.mapArrowKeysToMovementOf(-0.01f));
         trans.mesh.texture = Texture.loadTexture(STONE_TEXTURE)
                 .changeSetting(Texture::RepeatTexture);
         Scene.graph.add(trans.name("Floor"));
