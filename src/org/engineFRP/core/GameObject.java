@@ -18,6 +18,7 @@ import sodium.Stream;
  */
 public final class GameObject {
 
+    public String name;
     public final Transform transform;
     public Mesh mesh;
     public Material material;
@@ -42,12 +43,12 @@ public final class GameObject {
     }
 
     public GameObject addStaticPhysics() {
-        physics = JBoxWrapper.BuildStaticBody(transform.translation.sample(), mesh);
+        physics = JBoxWrapper.BuildStaticBody(this, transform.translation.sample(), mesh);
         return this;
     }
 
     public GameObject addDynamicPhysics() {
-        physics = JBoxWrapper.BuildDynamicBody(transform.translation.sample(), mesh);
+        physics = JBoxWrapper.BuildDynamicBody(this, transform.translation.sample(), mesh);
         return this;
     }
 
@@ -55,6 +56,11 @@ public final class GameObject {
         return changeTranslationType(FRPUtil.setVector)
                 .mergeTranslation(physics.updatePos())
                 .mergeRotation(physics.updateRot());
+    }
+
+    public GameObject applyForce() {
+        this.physics.body.applyForceToCenter(new Vec2(0.0f, -20.0f));
+        return this;
     }
 
     public GameObject updateToJbox() {
@@ -66,6 +72,11 @@ public final class GameObject {
 
     public Matrix4f getProjectedTransformation(final Camera camera) {
         return camera.GetViewProjection().mul(transform.getTransformMatrix());
+    }
+
+    public GameObject name(String name) {
+        this.name = name;
+        return this;
     }
 
     public GameObject mergeTranslation(final Stream<Vector3f> stream) {

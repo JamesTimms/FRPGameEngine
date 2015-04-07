@@ -29,21 +29,21 @@ public class JBoxDemo implements Game {
         PolygonShape groundBox = new PolygonShape();
         groundBox.setAsBox(5.0f, 1.0f);
 
-        GameObject trans = MapUtil.polyToTrans(groundBox)
+        GameObject trans = MapUtil.polyToGameObject(groundBox)
                 .translation(new Vector3f(0.0f, -0.7f, 0.0f))
                 .addStaticPhysics()
                 .mergeTranslation(FRPUtil.mapArrowKeysToMovementOf(-0.01f))
                 .updateToJbox();
         trans.mesh.texture = Texture.loadTexture(STONE_TEXTURE)
                 .changeSetting(Texture::RepeatTexture);
-        Scene.graph.add(trans, "Floor");
+        Scene.graph.add(trans.name("Floor"));
 
         GameObject go = new GameObject(
                 new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(BOX_TEXTURE, 0.4f), Material.white)
                 .addDynamicPhysics()
                 .changeTranslationType(FRPUtil.setVector)
                 .updateFromJbox();
-        Scene.graph.add(go, "Box");
+        Scene.graph.add(go.name("Box"));
 
         return Scene.graph;
     }

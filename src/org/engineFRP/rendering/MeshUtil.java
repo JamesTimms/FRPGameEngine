@@ -162,12 +162,12 @@ public class MeshUtil {
         return new Mesh(new Rect(size), Texture.loadTexture(filename), new SquareShader());
     }
 
-    public static Mesh BuildRectWithTexture(String filename, float height, float width) {
-        return new Mesh(new Rect(height, width), Texture.loadTexture(filename), new SquareShader());
+    public static Mesh BuildRectWithTexture(String filename, float width, float height) {
+        return new Mesh(new Rect(width, height), Texture.loadTexture(filename), new SquareShader());
     }
 
-    public static Mesh BuildRect(float height, float width) {
-        return new Mesh(new Rect(height, width), Texture.NoTexture(), new SquareShader());
+    public static Mesh BuildRect(float width, float height) {
+        return new Mesh(new Rect(width, height), Texture.NoTexture(), new SquareShader());
     }
 
     public static Mesh BuildCircleWithTexture(String filename, float radius) {

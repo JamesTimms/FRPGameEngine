@@ -23,7 +23,7 @@ public class MapUtil {
      * @param poly JBox2D PolygonShape that defines the AABB and other physics collision/resolution stuff.
      * @return FRPEngine Transform used for rendering and other non-physics stuff.
      */
-    public static GameObject polyToTrans(PolygonShape poly) {
+    public static GameObject polyToGameObject(PolygonShape poly) {
         return new Mapper<>(poly).map(Util::polyToVertexArray)
                 .map(verts -> new Mesh(verts, Util.genIndices(verts.length), Texture.NoTexture(), false, new SquareShader(GL_TRIANGLE_FAN, 0.25f, 0.5f)))
                 .baseMap(mesh -> new GameObject(Vector3f.ZERO, mesh, Material.white));

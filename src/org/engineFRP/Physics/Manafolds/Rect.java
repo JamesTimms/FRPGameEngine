@@ -17,9 +17,9 @@ public class Rect extends Shape {
         this(size, size);
     }
 
-    public Rect(float height, float width) {
-        float adjHeight = height / 2.0f;
+    public Rect(float width, float height) {
         float adjWidth = width / 2.0f;
+        float adjHeight = height / 2.0f;
         vertices = new Vertex[] {//TODO: the texture coords here may be wrong.
                 new Vertex(new Vector3f(-adjWidth, -adjHeight, 0.0f), new Vector2f(0.0f, 1.0f)),//bottom left
                 new Vertex(new Vector3f(adjWidth, -adjHeight, 0.0f), new Vector2f(1.0f, 1.0f)),//bottom right
