@@ -51,7 +51,7 @@ public class CubeShader extends Shader {
 
     public void updateUniforms(GameObject gameObject) {
 //        dealWithTexture(material.texture);
-        setUniform4m("transform", Camera.mainCamera.GetViewProjection());
+        setUniform4m("transform", Camera.mainCamera.GetProjection());
         setUniform3f("color", gameObject.material.color);
     }
 }

@@ -1,7 +1,6 @@
 package org.engineFRP.core;
 
 import org.engineFRP.FRP.FRPKeyboard;
-import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.FRP.JBoxWrapper;
 import org.engineFRP.Physics.JBoxCollisionListener;
@@ -10,9 +9,7 @@ import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.shaders.Material;
-import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.contacts.Contact;
 import sodium.Cell;
 import sodium.Lambda2;
@@ -20,7 +17,6 @@ import sodium.Listener;
 import sodium.Stream;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by TekMaTek on 26/01/2015.
@@ -79,7 +75,7 @@ public final class GameObject {
         physics.updateToJbox(up
                 .accum(this.transform.translation.sample(), (curV, newV) -> curV.add(newV))
                 .updates()
-                .map(v -> Util.Vector3fToVec2(v)));
+                .map(Util::Vector3fToVec2));
         return this;
     }
 
@@ -91,10 +87,6 @@ public final class GameObject {
                 .updates()
                 .map(Util::Vector3fToVec2));
         return this;
-    }
-
-    public Matrix4f getProjectedTransformation(final Camera camera) {
-        return camera.GetViewProjection().mul(transform.getTransformMatrix());
     }
 
     public GameObject name(String name) {

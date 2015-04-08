@@ -20,8 +20,6 @@ public class Matrix4f {
 		right.normalized( );
 		right = right.cross( forward );
 
-		Vector3f newUp = f.cross( right );
-
 		m[ 0 ][ 0 ] = right.x;
 		m[ 0 ][ 1 ] = right.y;
 		m[ 0 ][ 2 ] = right.z;
@@ -194,10 +192,6 @@ public class Matrix4f {
 
 		return this;
 	}
-//
-//	public Matrix4f lazyInitPerspective( ) {
-//		return initPerspective( 70, Window.GetHeight( ) / Window.GetWidth( ), 0.5f, 1000.0f );
-//	}
 
 	public Matrix4f initOrthographic( float left, float right, float bottom, float top, float near, float far ) {
 		float width = right - left;

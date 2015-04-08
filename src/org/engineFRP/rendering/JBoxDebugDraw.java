@@ -57,6 +57,7 @@ public class JBoxDebugDraw extends DebugDraw {
         glBegin(GL_LINES);
         Vector2f v1 = Util.vec2ToVector2f(p1);
         Vector2f v2 = Util.vec2ToVector2f(p2);
+//        System.out.println(v1 + " " + v2);
         glVertex2f(v1.x, v1.y);
         glVertex2f(v2.x, v2.y);
         glEnd();

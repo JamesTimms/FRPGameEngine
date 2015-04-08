@@ -27,9 +27,9 @@ public class Scene extends Tree<GameObject> {
      * @param trans the transform to recursively draw from.
      */
     private void drawScene(Node<GameObject> trans) {
-        for(Node<GameObject> transform : trans.getChildren()) {
-            transform.sample().mesh.shader.draw(transform.sample());
-            drawScene(transform);
+        for(Node<GameObject> go : trans.getChildren()) {
+            go.sample().mesh.shader.draw(go.sample());
+            drawScene(go);
         }
     }
 

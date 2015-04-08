@@ -37,6 +37,7 @@ public class JBoxDemo implements Game {
     public Scene setupScene() {
         PolygonShape groundBox = new PolygonShape();
         groundBox.setAsBox(9.8f, 1.0f);
+
         PolygonShape s = new PolygonShape();
         s.setAsBox(9.8f, 1.0f);
         //Setup the template body and real body.
@@ -52,7 +53,7 @@ public class JBoxDemo implements Game {
         body.createFixture(fixtureDef);
 
         GameObject trans = MapUtil.polyToGameObject(s)
-                .translation(new Vector3f(0.0f, -0.0f, 0.0f))
+                .translation(new Vector3f(0.0f, 0.0f, 0.0f))
                 .addStaticPhysics()
                 .updateToJbox(movements());
         trans.mesh.texture = Texture.loadTexture(STONE_TEXTURE)

@@ -1,5 +1,7 @@
 package org.engineFRP.rendering.shaders;
 
+import org.engineFRP.FRP.FRPDisplay;
+import org.engineFRP.core.Camera;
 import org.engineFRP.core.GameObject;
 import org.engineFRP.rendering.Vertex;
 
@@ -55,6 +57,7 @@ public class SquareShader extends Shader {
 
         glDisableVertexAttribArray(POSITION);
         glDisableVertexAttribArray(TEXTURE_COORDS);
+        dealWithTexture(null);//This solves colour problem with glBegin.
     }
 
     public void updateUniforms(GameObject gameObject) {

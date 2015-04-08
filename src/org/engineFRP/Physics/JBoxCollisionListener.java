@@ -27,7 +27,6 @@ public class JBoxCollisionListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         begin.send(contact);
-        System.out.println(contact.getRestitution());
 //        GameObject go = JBoxWrapper.getGOFromBody(contact.getFixtureA().getBody());
 //        GameObject go2 = JBoxWrapper.getGOFromBody(contact.getFixtureB().getBody());
 //        if(isBall(go, go2)) {

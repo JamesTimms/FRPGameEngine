@@ -38,7 +38,7 @@ public class Transform {
         Matrix4f scaleMat =
                 new Matrix4f().initScale(_scale.x, _scale.y, _scale.z);
 
-        return translationMat.mul(rotationMat.mul(scaleMat));
+        return Camera.mainCamera.GetProjection().mul(translationMat.mul(rotationMat.mul(scaleMat)));
     }
 
     public Transform mergeTranslation(final Stream<Vector3f> stream) {

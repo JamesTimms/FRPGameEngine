@@ -7,8 +7,7 @@ import org.jbox2d.callbacks.DebugDraw;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Created by TekMaTek on 22/03/2015.
@@ -80,8 +79,8 @@ public class Engine {
     private static void render() {
         if(renderTimer.shouldGetFrame()) {
             glClear(GL_COLOR_BUFFER_BIT);
-            scene.drawScene();
             JBoxWrapper.world.drawDebugData();
+            scene.drawScene();
             glfwSwapBuffers(FRPDisplay.getWindow());
         }
     }
