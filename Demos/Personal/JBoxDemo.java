@@ -1,7 +1,11 @@
 package Personal;
 
+import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
+import org.engineFRP.FRP.JBoxWrapper;
+import org.engineFRP.FRP.Time;
 import org.engineFRP.Util.MapUtil;
+import org.engineFRP.Util.Util;
 import org.engineFRP.core.Engine;
 import org.engineFRP.core.Game;
 import org.engineFRP.core.GameObject;
@@ -11,6 +15,11 @@ import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.Texture;
 import org.engineFRP.rendering.shaders.Material;
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.FixtureDef;
+import sodium.Stream;
 
 /**
  * Created by TekMaTek on 01/03/2015.
@@ -27,21 +36,41 @@ public class JBoxDemo implements Game {
     @Override
     public Scene setupScene() {
         PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(5.0f, 1.0f);
+        groundBox.setAsBox(9.8f, 1.0f);
+        PolygonShape s = new PolygonShape();
+        s.setAsBox(9.8f, 1.0f);
+        //Setup the template body and real body.
+        BodyDef bDef = new BodyDef();
+        bDef.position.set(new Vec2(0.0f, 0.0f));
+        Body body = JBoxWrapper.world.createBody(bDef);
+        //Now setup the AABB
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = groundBox;
+        fixtureDef.density = 0.1f;
+        fixtureDef.friction = 0.1f;
+        fixtureDef.restitution = 0.85f;
+        body.createFixture(fixtureDef);
 
-        GameObject trans = MapUtil.polyToGameObject(groundBox)
-                .translation(new Vector3f(0.0f, -0.7f, 0.0f))
+        GameObject trans = MapUtil.polyToGameObject(s)
+                .translation(new Vector3f(0.0f, -0.0f, 0.0f))
                 .addStaticPhysics()
-                .updateToJbox(FRPUtil.mapArrowKeysToMovementOf(-0.01f));
+                .updateToJbox(movements());
         trans.mesh.texture = Texture.loadTexture(STONE_TEXTURE)
                 .changeSetting(Texture::RepeatTexture);
         Scene.graph.add(trans.name("Floor"));
 
-        GameObject go = new GameObject(
-                new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(BOX_TEXTURE, 0.4f), Material.white)
-                .addDynamicPhysics();
-        Scene.graph.add(go.name("Box"));
+//        GameObject go = new GameObject(
+//                new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(BOX_TEXTURE, 0.4f), Material.white)
+//                .addDynamicPhysics();
+//        Scene.graph.add(go.name("Box"));
 
         return Scene.graph;
+    }
+    public static Stream<Vector3f> movements() {
+        return FRPTime.streamDelta(Time.THIRTY_PER_SECOND)
+                .map(deltaTime -> {
+                    double curTime = Time.getTime();
+                    return new Vector3f((float) Math.cos(curTime) / 80.0f, (float) Math.sin(curTime) / 80.0f, 0.0f);
+                });
     }
 }

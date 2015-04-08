@@ -1,7 +1,9 @@
 package org.engineFRP.core;
 
 import org.engineFRP.FRP.*;
+import org.engineFRP.rendering.JBoxDebugDraw;
 import org.engineFRP.rendering.SimpleRenderer;
+import org.jbox2d.callbacks.DebugDraw;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
@@ -18,6 +20,7 @@ public class Engine {
     private static Time pollTimer = new Time(120);
     private static Time physics = new Time(30);
     private static Scene scene;
+    private static JBoxDebugDraw jBoxDebugDraw;
 
     private Engine() {
     }
@@ -28,8 +31,22 @@ public class Engine {
             FRPKeyboard.create();
             FRPMouse.create();
             SimpleRenderer.init();
+            JBoxWrapper.init();//physics
+            initDebug();//Visual debugging tools for JBox2D.
             hasBeenInitialized = true;
         }
+    }
+
+    public static void initDebug() {
+        jBoxDebugDraw = new JBoxDebugDraw();
+//        jBoxDebugDraw.setFlags(DebugDraw.e_wireframeDrawingBit);
+        jBoxDebugDraw.setFlags(DebugDraw.e_aabbBit);
+//        jBoxDebugDraw.setFlags(DebugDraw.e_centerOfMassBit);
+//        jBoxDebugDraw.setFlags(DebugDraw.e_dynamicTreeBit);
+//        jBoxDebugDraw.setFlags(DebugDraw.e_jointBit);
+//        jBoxDebugDraw.setFlags(DebugDraw.e_pairBit);
+//        jBoxDebugDraw.setFlags(DebugDraw.e_shapeBit);
+        JBoxWrapper.world.setDebugDraw(jBoxDebugDraw);
     }
 
     public static void runGame(Game game) {
@@ -64,6 +81,7 @@ public class Engine {
         if(renderTimer.shouldGetFrame()) {
             glClear(GL_COLOR_BUFFER_BIT);
             scene.drawScene();
+            JBoxWrapper.world.drawDebugData();
             glfwSwapBuffers(FRPDisplay.getWindow());
         }
     }

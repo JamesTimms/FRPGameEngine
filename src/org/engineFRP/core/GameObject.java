@@ -79,7 +79,7 @@ public final class GameObject {
         physics.updateToJbox(up
                 .accum(this.transform.translation.sample(), (curV, newV) -> curV.add(newV))
                 .updates()
-                .map(Util::Vector3fToVec2));
+                .map(v -> Util.Vector3fToVec2(v)));
         return this;
     }
 

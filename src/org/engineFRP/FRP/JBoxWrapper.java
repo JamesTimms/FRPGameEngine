@@ -30,11 +30,22 @@ public class JBoxWrapper {
     private static ArrayList<Listener> l = new ArrayList<>();//Listeners are bad here but is needed because no other way to update JBox when our transform moves.
     private static JBoxCollisionListener lis = new JBoxCollisionListener();
     private static ArrayList<Body> bodiesToDelete = new ArrayList<>();
+    private static boolean hasBeenInitialized = false;
 
     public JBoxWrapper(GameObject go) {
         JBoxWrapper.allWrappers.add(this);
-        JBoxWrapper.world.setSleepingAllowed(false);//An Init. Here as a cheat. Should move this else where.
         this.go = go;
+    }
+
+    public static void init() {
+        if(!hasBeenInitialized) {
+            JBoxWrapper.world.setSleepingAllowed(false);
+            world.setContactListener(lis);
+            l.add(FRPTime.streamDelta(30)
+                    .filter(delta -> bodiesToDelete.size() > 0)
+                    .listen(delta -> bodiesToDelete.forEach(world::destroyBody)));
+            hasBeenInitialized = true;
+        }
     }
 
     public JBoxWrapper updateToJbox(Stream<Vec2> updateFrom) {
@@ -48,7 +59,6 @@ public class JBoxWrapper {
                 .listen(vec2 -> {
                     this.body.m_force.setZero();
                     this.body.m_linearVelocity.setZero();
-//                    this.body.applyForceToCenter(new Vec2(-4.0f, 0.0f));
                     this.body.setTransform(vec2, 0.0f);
                 }));
         return this;
@@ -85,7 +95,7 @@ public class JBoxWrapper {
         JBoxWrapper phy = new JBoxWrapper(go);
         //Setup the template body and real body.
         BodyDef bDef = new BodyDef();
-        bDef.position.set(Util.Vector3fToVec2(pos));
+        bDef.position.set(Util.Vector3fToVec2(pos));//good
         phy.body = JBoxWrapper.world.createBody(bDef);
         //Now setup the AABB
         PolygonShape aabb = Util.vertexArrayToPoly(mesh.shape.getVertices());
@@ -138,10 +148,6 @@ public class JBoxWrapper {
 //        p.setAsBox(-10.0f, 1.0f);//Corner
 ////        p.setAsBox(20.0f, -13.5f);//Corner
 //        phy.body.createFixture(p, 0.0f);
-        world.setContactListener(lis);
-        l.add(FRPTime.streamDelta(30)
-                .filter(delta -> bodiesToDelete.size() > 0)
-                .listen(delta -> bodiesToDelete.forEach(world::destroyBody)));
         Scene.graph.add(new GameObject(new Vector3f(0.0f, 1.08f, 0.0f), MeshUtil.BuildRect(2.0f, 0.2f))
                 .addStaticPhysics().name("wallTop"));
         Scene.graph.add(new GameObject(new Vector3f(0.0f, -1.08f, 0.0f), MeshUtil.BuildRect(2.0f, 0.2f))

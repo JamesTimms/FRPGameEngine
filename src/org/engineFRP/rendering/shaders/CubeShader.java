@@ -26,7 +26,7 @@ public class CubeShader extends Shader {
 
     public void draw(GameObject gameObject) {
         Bind();
-        updateUniforms(gameObject, Material.White());
+        updateUniforms(gameObject);
 
         final int POSITION = 0;
         final int TEXTURE_COORDS = 1;
@@ -49,9 +49,9 @@ public class CubeShader extends Shader {
         glDisableVertexAttribArray(NORMALS);
     }
 
-    public void updateUniforms(GameObject gameObject, Material material) {
+    public void updateUniforms(GameObject gameObject) {
 //        dealWithTexture(material.texture);
         setUniform4m("transform", Camera.mainCamera.GetViewProjection());
-        setUniform3f("color", material.color);
+        setUniform3f("color", gameObject.material.color);
     }
 }

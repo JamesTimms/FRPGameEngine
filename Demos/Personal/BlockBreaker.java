@@ -1,11 +1,11 @@
 package Personal;
 
 import org.engineFRP.FRP.*;
+import org.engineFRP.rendering.JBoxDebugDraw;
 import org.engineFRP.core.*;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.shaders.Material;
-import org.jbox2d.common.Vec2;
 import sodium.Listener;
 import sodium.Stream;
 
@@ -49,7 +49,7 @@ public class BlockBreaker implements Game {
                         .updateToJbox(paddleMovement(-0.1f))
         );
         Scene.graph.add(
-                new GameObject(new Vector3f(0.0f, -0.35f, -1.0f), MeshUtil.BuildCircleWithTexture(PADDLE_TEXTURE, 0.05f), Material.white)
+                new GameObject(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildCircleWithTexture(PADDLE_TEXTURE, 0.05f), Material.white)
                         .name("Ball")
                         .addDynamicPhysics()
                         .bouncyCollisionsWith(PADDLE_GO)

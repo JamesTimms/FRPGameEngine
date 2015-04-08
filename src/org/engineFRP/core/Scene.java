@@ -28,7 +28,6 @@ public class Scene extends Tree<GameObject> {
      */
     private void drawScene(Node<GameObject> trans) {
         for(Node<GameObject> transform : trans.getChildren()) {
-            transform.sample().mesh.shader.updateUniforms(transform.sample(), transform.sample().material);//TODO: Clean this up.
             transform.sample().mesh.shader.draw(transform.sample());
             drawScene(transform);
         }

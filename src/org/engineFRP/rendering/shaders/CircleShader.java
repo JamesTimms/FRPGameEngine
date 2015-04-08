@@ -26,7 +26,7 @@ public class CircleShader extends Shader {
 
     public void draw(GameObject gameObject) {
         Bind();
-        updateUniforms(gameObject, gameObject.material);
+        updateUniforms(gameObject);
 
         final int POSITION = 0;
         final int TEXTURE_COORDS = 1;
@@ -46,10 +46,10 @@ public class CircleShader extends Shader {
         glDisableVertexAttribArray(TEXTURE_COORDS);
     }
 
-    public void updateUniforms(GameObject gameObject, Material material) {
+    public void updateUniforms(GameObject gameObject) {
         dealWithTexture(gameObject.mesh.texture);
-        setUniform3f("color", material.color);
-        setUniformf("balance", material.balance);
+        setUniform3f("color", gameObject.material.color);
+        setUniformf("balance", gameObject.material.balance);
         setUniform4m("transform", gameObject.transform.getTransformMatrix());
     }
 }
