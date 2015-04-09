@@ -31,7 +31,7 @@ public class Engine {
             FRPMouse.create();
             SimpleRenderer.init();
             JBoxWrapper.init();//physics
-            initDebug();//Visual debugging tools for JBox2D.
+//            initDebug();//Visual debugging tools for JBox2D.//TODO: Fix the debug drawing bug
             hasBeenInitialized = true;
         }
     }
@@ -49,11 +49,6 @@ public class Engine {
     }
 
     public static void runGame(Game game) {
-        //Just some thoughts on how to better implement the time loops.
-        //While(shouldStillPlayGame){
-        //  sleepOrFreeThread(forSmallestTimeTillNextUpdate);//For example sleep for 1/30 of a second.
-        //  processNextActionRequired();//Not sure how this will work for simultaneous actions.
-        //}
         init();
         scene = game.setupScene();
         while(!FRPDisplay.shouldWindowClose()) {
@@ -79,7 +74,7 @@ public class Engine {
     private static void render() {
         if(renderTimer.shouldGetFrame()) {
             glClear(GL_COLOR_BUFFER_BIT);
-            JBoxWrapper.world.drawDebugData();
+//            JBoxWrapper.world.drawDebugData();//Disabled due to debug drawing bug.
             scene.drawScene();
             glfwSwapBuffers(FRPDisplay.getWindow());
         }

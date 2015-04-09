@@ -55,7 +55,7 @@ public class Demo4 {
 
     public void setupScene() {
         shader2 = new SquareShader();
-        sceneGameObjects = new GameObject[] {
+        sceneGameObjects = new GameObject[]{
                 new GameObject(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(TEXT_FILE))
                         .mergeTranslation(movements())
                         .mergeTranslation(FRPUtil.mapArrowKeysToMovementOf(-0.1f))
@@ -112,10 +112,10 @@ public class Demo4 {
 
     public static Stream<Vector3f> movements() {
         return FRPTime.streamDelta(Time.THIRTY_PER_SECOND)
-                .map(deltaTime -> {
-                    double curTime = Time.getTime();
-                    return new Vector3f((float) Math.sin(curTime) / 80.0f, (float) Math.sin(curTime) / 80.0f, 0.0f);
-                });
+                .accum(0.0f, (total, delta) -> total += delta)
+                .updates()
+                .map(total -> new Vector3f((float) Math.sin(0.75f * total) / 80.0f,
+                        (float) Math.cos(0.75f * total) / 80.0f, 0.0f));
     }
 
     public void renderDemo3() {
