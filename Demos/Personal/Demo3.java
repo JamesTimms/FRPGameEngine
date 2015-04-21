@@ -48,8 +48,8 @@ public class Demo3 {
     public void setupScene() {
 //        background = FRPDisplay.setupScreenCollider();
         for(GameObject gameObject : sceneMeshes) {
-            gameObject.mergeTranslation(movements().merge(movements(), (f, s) -> f.add(s)));
-            gameObject.mergeTranslation(mapCollision(gameObject));
+            gameObject.mergeTranslationWith(movements().merge(movements(), (f, s) -> f.add(s)));
+            gameObject.mergeTranslationWith(mapCollision(gameObject));
         }
     }
 

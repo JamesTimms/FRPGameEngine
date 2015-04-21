@@ -60,10 +60,10 @@ public class JBoxDemo implements Game {
                 .changeSetting(Texture::RepeatTexture);
         Scene.graph.add(trans.name("Floor"));
 
-//        GameObject go = new GameObject(
-//                new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(BOX_TEXTURE, 0.4f), Material.white)
-//                .addDynamicPhysics();
-//        Scene.graph.add(go.name("Box"));
+        GameObject go = new GameObject(
+                new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(BOX_TEXTURE, 0.4f), Material.white)
+                .addDynamicPhysics();
+        Scene.graph.add(go.name("Box"));
 
         return Scene.graph;
     }

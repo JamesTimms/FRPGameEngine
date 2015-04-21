@@ -2,7 +2,6 @@ package org.engineFRP.rendering;
 
 import sodium.Lambda1;
 
-import javax.xml.soap.Text;
 import java.io.File;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -14,6 +13,7 @@ import static org.lwjgl.opengl.GL11.GL_REPEAT;
 public class Texture {
 
     public int id;
+    public static final String BLANK_TEXTURE = "./res/textures/NoText.png";
 
     private Texture() {
     }
@@ -25,8 +25,8 @@ public class Texture {
         return newTexture;
     }
 
-    public static Texture NoTexture() {
-        return BuildTexture(0);
+    public static Texture BlankTexture() {
+        return loadTexture(BLANK_TEXTURE);
     }
 
     public static Texture loadTexture(String filename) {
@@ -37,7 +37,7 @@ public class Texture {
             ex.printStackTrace();
             System.exit(1);
         }
-        return NoTexture();
+        return BlankTexture();
     }
 
     public void bind() {

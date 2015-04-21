@@ -50,6 +50,13 @@ public class Scene extends Tree<GameObject> {
         return this;
     }
 
+    public final Scene add(final GameObject... gameObjects) {
+        for(GameObject node : gameObjects) {
+            rootNode.addChild(new Cell<>(node), node.name);
+        }
+        return this;
+    }
+
     @Override
     public Node<GameObject> find(final String nodeName) {//TODO: Use Optionals here.
         return search(this.rootNode, nodeName);

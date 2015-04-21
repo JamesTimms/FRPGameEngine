@@ -51,6 +51,11 @@ public class Transform {
         return this;
     }
 
+    public Transform mergeScale(Stream<Vector3f> stream) {
+        this.scale.merge(stream);
+        return this;
+    }
+
     public Transform changeTranslationType(Lambda2<Cell<Vector3f>, Stream<Vector3f>, Cell<Vector3f>> newType) {
         this.translation.changeResolver(newType);
         return this;

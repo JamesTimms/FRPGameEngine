@@ -3,15 +3,11 @@ package org.engineFRP.rendering;
 import org.engineFRP.Physics.Manafolds.Circle;
 import org.engineFRP.Physics.Manafolds.Rect;
 import org.engineFRP.Physics.Manafolds.Triangle;
-import org.engineFRP.Util.Util;
 import org.engineFRP.maths.Vector2f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.shaders.CircleShader;
 import org.engineFRP.rendering.shaders.CubeShader;
 import org.engineFRP.rendering.shaders.SquareShader;
-
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
 
 
 /**
@@ -167,11 +163,15 @@ public class MeshUtil {
     }
 
     public static Mesh BuildRect(float width, float height) {
-        return new Mesh(new Rect(width, height), Texture.NoTexture(), new SquareShader());
+        return new Mesh(new Rect(width, height), Texture.BlankTexture(), new SquareShader());
     }
 
     public static Mesh BuildCircleWithTexture(String filename, float radius) {
         return new Mesh(new Circle(radius), Texture.loadTexture(filename), new CircleShader());
+    }
+
+    public static Mesh BuildCircle(float radius) {
+        return new Mesh(new Circle(radius), Texture.BlankTexture(), new CircleShader());
     }
 
     public static Mesh scaledSquare(String filename, float size) {

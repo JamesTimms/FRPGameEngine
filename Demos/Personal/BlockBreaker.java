@@ -1,7 +1,6 @@
 package Personal;
 
 import org.engineFRP.FRP.*;
-import org.engineFRP.rendering.JBoxDebugDraw;
 import org.engineFRP.core.*;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
@@ -19,7 +18,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class BlockBreaker implements Game {
 
     private static final String BLOCK_TEXTURE = "./res/textures/block.png";
-    private static final String PADDLE_TEXTURE = "./res/textures/complexCheckers.png";
+    private static final String PADDLE_TEXTURE = "./res/textures/box.jpg";
 
     private static final String PADDLE_GO = "Paddle";
     private static ArrayList<Listener> l = new ArrayList<>();
@@ -32,10 +31,11 @@ public class BlockBreaker implements Game {
     public Scene setupScene() {
         final float offsetY = 0.5f;
         int counter = 0;
-        for(int i = -1; i < 2; i++) {
-            for(int j = -1; j < 2; j++) {
+        for(int i = -3; i < 4; i++) {
+            for(int j = -3; j < 4; j++) {
                 Scene.graph.add(
-                        new GameObject(new Vector3f(0.37f * i, (0.13f * j) + offsetY, -1.0f), MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.4f, 0.2f), Material.blue)
+                        new GameObject(new Vector3f(0.175f * i, (0.065f * j) + offsetY, -1.0f),
+                                MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.1f), Material.blue)
                                 .addStaticPhysics()
                                 .name("Block" + counter++)
                                 .canBeDestroyedBy("Ball")
@@ -43,13 +43,14 @@ public class BlockBreaker implements Game {
             }
         }
         Scene.graph.add(
-                new GameObject(new Vector3f(0.0f, -0.8f, -1.0f), MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.4f, 0.05f), Material.white)
+                new GameObject(new Vector3f(0.0f, -0.8f, -1.0f),
+                        MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.3f, 0.025f), Material.white)
                         .name(PADDLE_GO)
                         .addStaticPhysics()
                         .updateToJbox(paddleMovement(-0.1f))
         );
         Scene.graph.add(
-                new GameObject(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildCircleWithTexture(PADDLE_TEXTURE, 0.05f), Material.white)
+                new GameObject(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildCircle(0.028f), Material.white)
                         .name("Ball")
                         .addDynamicPhysics()
                         .bouncyCollisionsWith(PADDLE_GO)
@@ -76,3 +77,5 @@ public class BlockBreaker implements Game {
                 });
     }
 }
+
+

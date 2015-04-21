@@ -25,7 +25,7 @@ public class MapUtil {
      */
     public static GameObject polyToGameObject(PolygonShape poly) {
         return new Mapper<>(poly).map(Util::polyToVertexArray)
-                .map(verts -> new Mesh(verts, Util.genIndices(verts.length), Texture.NoTexture(), false, new SquareShader(GL_TRIANGLE_FAN, 0.25f, 0.5f)))
+                .map(verts -> new Mesh(verts, Util.genIndices(verts.length), Texture.BlankTexture(), false, new SquareShader(GL_TRIANGLE_FAN, 0.25f, 0.5f)))
                 .baseMap(mesh -> new GameObject(Vector3f.ZERO, mesh, Material.white));
     }
 }

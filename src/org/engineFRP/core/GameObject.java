@@ -5,7 +5,6 @@ import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.FRP.JBoxWrapper;
 import org.engineFRP.Physics.JBoxCollisionListener;
 import org.engineFRP.Util.Util;
-import org.engineFRP.maths.Matrix4f;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.shaders.Material;
@@ -41,7 +40,7 @@ public final class GameObject {
     }
 
     public GameObject(final Vector3f translation, final Mesh mesh) {
-        this(translation, Vector3f.ZERO, Vector3f.ONE, mesh, Material.BuildMaterial(Vector3f.ZERO, 0.5f, 0.2f, 1.0f));
+        this(translation, Vector3f.ZERO, Vector3f.ONE, mesh, Material.white);
     }
 
     public GameObject(final Vector3f translation, final Mesh mesh, final Material mat) {
@@ -62,7 +61,7 @@ public final class GameObject {
         this.physics.body.setTransform(Util.Vector3fToVec2(this.transform.translation.sample())
                 , this.transform.rotation.sample().z);
         return changeTranslationType(FRPUtil.setVector)
-                .mergeTranslation(physics.updatePos())
+                .mergeTranslationWith(physics.updatePos())
                 .mergeRotation(physics.updateRot());
     }
 
@@ -94,13 +93,18 @@ public final class GameObject {
         return this;
     }
 
-    public GameObject mergeTranslation(final Stream<Vector3f> stream) {
+    public GameObject mergeTranslationWith(final Stream<Vector3f> stream) {
         this.transform.mergeTranslation(stream);
         return this;
     }
 
     public GameObject mergeRotation(final Stream<Vector3f> stream) {
         this.transform.mergeRotation(stream);
+        return this;
+    }
+
+    public GameObject mergeScale(final Stream<Vector3f> stream) {
+        this.transform.mergeScale(stream);
         return this;
     }
 
@@ -111,6 +115,11 @@ public final class GameObject {
 
     public GameObject translation(Vector3f vec) {
         this.transform.translation.updateValue(vec);
+        return this;
+    }
+
+    public GameObject scale(Vector3f vec) {
+        this.transform.scale.updateValue(vec);
         return this;
     }
 

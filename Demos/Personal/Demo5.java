@@ -27,8 +27,8 @@ public class Demo5 implements Game {
     public Scene setupScene() {
         return Scene.graph.add(Node.newNode(
                 new GameObject(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildSquareWithTexture(TEXT_FILE))
-                        .mergeTranslation(movements())
-                        .mergeTranslation(FRPUtil.mapArrowKeysToMovementOf(-0.1f))));
+                        .mergeTranslationWith(movements())
+                        .mergeTranslationWith(FRPUtil.mapArrowKeysToMovementOf(-0.1f))));
     }
 
     public static Stream<Vector3f> movements() {

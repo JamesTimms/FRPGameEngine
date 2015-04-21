@@ -24,7 +24,7 @@ public class FRPTransformTests {
         GameObject testGameObject = new GameObject();
         StreamSink<Vector3f> moveStream = new StreamSink<>();
 
-        testGameObject.mergeTranslation(moveStream);
+        testGameObject.mergeTranslationWith(moveStream);
         moveStream.send(Vector3f.ONE);
         assertTrue(Vector3f.ONE.equals(testGameObject.transform.translation(testGameObject)));
 
@@ -38,8 +38,8 @@ public class FRPTransformTests {
         StreamSink<Vector3f> moveStream = new StreamSink<>();
         StreamSink<Vector3f> moveStream2 = new StreamSink<>();
 
-        testGameObject.mergeTranslation(moveStream);
-        testGameObject.mergeTranslation(moveStream2);
+        testGameObject.mergeTranslationWith(moveStream);
+        testGameObject.mergeTranslationWith(moveStream2);
         moveStream.send(Vector3f.ONE);
         moveStream2.send(Vector3f.ONE);
         Vector3f eads = testGameObject.transform.translation(testGameObject);

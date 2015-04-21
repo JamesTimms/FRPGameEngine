@@ -43,7 +43,7 @@ public class JBoxWrapper {
             world.setContactListener(lis);
             l.add(FRPTime.streamDelta(30)
                     .filter(delta -> bodiesToDelete.size() > 0)
-                    .listen(delta -> bodiesToDelete.forEach(world::destroyBody)));
+                    .listen(delta -> bodiesToDelete.forEach(world::destroyBody)));//TODO: Sometimes Sodium Callback error here.
             hasBeenInitialized = true;
         }
     }

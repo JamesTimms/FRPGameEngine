@@ -7,6 +7,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.lwjgl.opengl.GL11.*;
 
 public class TextureTests {
@@ -35,8 +36,8 @@ public class TextureTests {
 
     @Test
     public void testNoTexture() {
-        Texture testTexture = Texture.NoTexture();
-        assertEquals(0, testTexture.id);
+        Texture testTexture = Texture.BlankTexture();
+        assertNotEquals(0, testTexture.id);
     }
 
     @Test

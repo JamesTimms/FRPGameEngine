@@ -35,6 +35,7 @@ public class FRPUtil {
                         case (GLFW_KEY_DOWN):
                             return new Vector3f(0.0f, moveAmount, 0.0f);
                         default:
+                            assert false;//This shouldn't be called.
                             return Vector3f.ZERO;
                     }
                 });
