@@ -1,20 +1,11 @@
 package Personal;
 
 import org.engineFRP.FRP.FRPDisplay;
-import org.engineFRP.FRP.FRPKeyboard;
-import org.engineFRP.FRP.FRPMouse;
-import org.engineFRP.core.Engine;
-import org.engineFRP.core.Game;
-import org.engineFRP.core.GameObject;
-import org.engineFRP.core.Scene;
 import org.engineFRP.rendering.SimpleRenderer;
-import org.jbox2d.collision.broadphase.Pair;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glVertex3f;
 
 /**
  * Created by TekMaTek on 06/04/2015.
