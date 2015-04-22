@@ -1,15 +1,12 @@
 package org.engineFRP.FRP;
 
-import org.engineFRP.Physics.collision.AABB;
 import org.engineFRP.maths.Vector2f;
-import org.engineFRP.maths.Vector3f;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import sodium.Cell;
 import sodium.Listener;
-import sodium.Stream;
 
 import java.nio.ByteBuffer;
 
@@ -114,5 +111,11 @@ public final class FRPDisplay {
 
     public static boolean shouldWindowClose() {
         return glfwWindowShouldClose(FRPDisplay.window) == GL11.GL_TRUE;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        exitWindow.unlisten();
     }
 }

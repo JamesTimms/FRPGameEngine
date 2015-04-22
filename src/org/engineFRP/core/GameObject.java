@@ -3,6 +3,7 @@ package org.engineFRP.core;
 import org.engineFRP.FRP.FRPKeyboard;
 import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.FRP.JBoxWrapper;
+import org.engineFRP.FRP.Mapper;
 import org.engineFRP.Physics.JBoxCollisionListener;
 import org.engineFRP.Util.Util;
 import org.engineFRP.maths.Vector3f;
@@ -16,11 +17,12 @@ import sodium.Listener;
 import sodium.Stream;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 /**
  * Created by TekMaTek on 26/01/2015.
  */
-public final class GameObject {
+public class GameObject {
 
     public String name;
     public final Transform transform;
@@ -123,35 +125,8 @@ public final class GameObject {
         return this;
     }
 
-    public GameObject bouncyCollisionsWith(String otherGO) {
-        l.add(JBoxCollisionListener.end
-                .filter(contact -> isBall(contact, Scene.graph.find(otherGO).sample()))
-                .listen(contact -> {
-                    GameObject go = JBoxWrapper.getGOFromBody(contact.getFixtureA().getBody());
-                    GameObject go2 = JBoxWrapper.getGOFromBody(contact.getFixtureB().getBody());
-                    GameObject thisGO = this.equals(go) ? go : go2;
-                    Vector3f v = go.transform.translation.sample();
-                    Vector3f v2 = go2.transform.translation.sample();
-                    float xForce = v2.x - v.x;
-                    thisGO.applyForce(new Vec2(xForce / 5.0f, 0.05f));
-                }));
-        return this;
-    }
-
-    private boolean isBall(Contact contact, GameObject otherGO) {
-        GameObject go = JBoxWrapper.getGOFromBody(contact.getFixtureA().getBody());
-        GameObject go2 = JBoxWrapper.getGOFromBody(contact.getFixtureB().getBody());
-        return (this.equals(go) || this.equals(go2)) &&
-                (otherGO.equals(go) || otherGO.equals(go2));
-    }
-
-    public GameObject canBeDestroyedBy(String otherGO) {
-        l.add(JBoxCollisionListener.end
-                .filter(contact -> isBall(contact, this))
-                .listen(contact -> {
-                    JBoxWrapper.markForDeletion(this.physics.body);
-                    Scene.graph.destroy(this);
-                }));
+    public <V, T extends GameObject> GameObject apply(Lambda2<V, T, T> thing, V applicative) {
+        thing.apply(applicative, (T) this);
         return this;
     }
 }

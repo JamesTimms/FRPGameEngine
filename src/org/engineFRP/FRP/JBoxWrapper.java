@@ -140,14 +140,6 @@ public class JBoxWrapper {
     }
 
     public static void setupScreenCollider() {
-//        JBoxWrapper phy = new JBoxWrapper();
-//        BodyDef bDef = new BodyDef();
-//        bDef.position.set(new Vec2(0.0f, 0.0f));
-//        phy.body = JBoxWrapper.world.createBody(bDef);
-//        PolygonShape p = new PolygonShape();
-//        p.setAsBox(-10.0f, 1.0f);//Corner
-////        p.setAsBox(20.0f, -13.5f);//Corner
-//        phy.body.createFixture(p, 0.0f);
         Scene.graph.add(new GameObject(new Vector3f(0.0f, 1.08f, 0.0f), MeshUtil.BuildRect(2.0f, 0.2f))
                 .addStaticPhysics().name("wallTop"));
         Scene.graph.add(new GameObject(new Vector3f(0.0f, -1.08f, 0.0f), MeshUtil.BuildRect(2.0f, 0.2f))

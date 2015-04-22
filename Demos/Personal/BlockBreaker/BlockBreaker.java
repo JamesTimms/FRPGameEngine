@@ -1,4 +1,4 @@
-package Personal;
+package Personal.BlockBreaker;
 
 import org.engineFRP.FRP.*;
 import org.engineFRP.core.*;
@@ -38,7 +38,7 @@ public class BlockBreaker implements Game {
                                 MeshUtil.BuildRectWithTexture(BLOCK_TEXTURE, 0.2f, 0.1f), Material.blue)
                                 .addStaticPhysics()
                                 .name("Block" + counter++)
-                                .canBeDestroyedBy("Ball")
+                                .apply(BBLogic::canBeDestroyedBy, "Ball")
                 );
             }
         }
@@ -47,34 +47,18 @@ public class BlockBreaker implements Game {
                         MeshUtil.BuildRectWithTexture(PADDLE_TEXTURE, 0.3f, 0.025f), Material.white)
                         .name(PADDLE_GO)
                         .addStaticPhysics()
-                        .updateToJbox(paddleMovement(-0.1f))
+                        .updateToJbox(BBLogic.paddleMovement(-0.1f))
         );
         Scene.graph.add(
                 new GameObject(new Vector3f(0.0f, 0.0f, -1.0f), MeshUtil.BuildCircle(0.028f), Material.white)
                         .name("Ball")
                         .addDynamicPhysics()
-                        .bouncyCollisionsWith(PADDLE_GO)
+                        .apply(BBLogic::bouncyCollisionsWith, PADDLE_GO)
                         .resetJboxPosWith(GLFW_KEY_R)
         );
         JBoxWrapper.setupScreenCollider();
 
         return Scene.graph;
-    }
-
-    public static Stream<Vector3f> paddleMovement(float moveAmount) {
-        return FRPKeyboard.keyEvent
-                .filter(key -> key.action != GLFW_RELEASE
-                        && FRPKeyboard.isArrowKeyPressed(key.key))
-                .map(key -> {
-                    switch(key.key) {
-                        case (GLFW_KEY_RIGHT):
-                            return new Vector3f(-moveAmount, 0.0f, 0.0f);
-                        case (GLFW_KEY_LEFT):
-                            return new Vector3f(moveAmount, 0.0f, 0.0f);
-                        default:
-                            return Vector3f.ZERO;
-                    }
-                });
     }
 }
 
