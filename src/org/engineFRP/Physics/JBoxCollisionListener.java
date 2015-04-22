@@ -1,13 +1,9 @@
 package org.engineFRP.Physics;
 
-import org.engineFRP.FRP.JBoxWrapper;
 import org.engineFRP.core.GameObject;
-import org.engineFRP.maths.Vector3f;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
-import org.jbox2d.collision.WorldManifold;
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.contacts.Contact;
 import sodium.StreamSink;
 import sodium.Tuple2;

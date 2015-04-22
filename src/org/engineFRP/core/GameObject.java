@@ -1,23 +1,15 @@
 package org.engineFRP.core;
 
-import org.engineFRP.FRP.FRPKeyboard;
-import org.engineFRP.FRP.FRPUtil;
-import org.engineFRP.FRP.JBoxWrapper;
-import org.engineFRP.FRP.Mapper;
-import org.engineFRP.Physics.JBoxCollisionListener;
+import org.engineFRP.FRP.*;
+import org.engineFRP.Physics.JBoxWrapper;
 import org.engineFRP.Util.Util;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.Mesh;
 import org.engineFRP.rendering.shaders.Material;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.contacts.Contact;
 import sodium.Cell;
 import sodium.Lambda2;
-import sodium.Listener;
 import sodium.Stream;
-
-import java.util.ArrayList;
-import java.util.function.Function;
 
 /**
  * Created by TekMaTek on 26/01/2015.
@@ -29,7 +21,6 @@ public class GameObject {
     public Mesh mesh;
     public Material material;
     public JBoxWrapper physics;
-    public ArrayList<Listener> l = new ArrayList<>();
 
     public GameObject() {
         this(Vector3f.ZERO, Vector3f.ZERO, Vector3f.ZERO, null, Material.BuildMaterial(Vector3f.ZERO, 0.5f, 0.2f, 1.0f));

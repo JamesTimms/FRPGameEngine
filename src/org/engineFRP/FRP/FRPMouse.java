@@ -21,8 +21,6 @@ public class FRPMouse {
     private static GLFWCursorPosCallback cursorCallback;
 
     public static void create() {
-//        glfwCreateCursor(null, 0, 0);
-
         glfwSetMouseButtonCallback(FRPDisplay.getWindow(), mouseCallback = new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {

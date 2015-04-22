@@ -1,4 +1,4 @@
-package org.engineFRP.Physics.collision;
+package org.engineFRP.Util;
 
 import org.engineFRP.FRP.FRPMouse;
 import org.engineFRP.maths.Vector2f;

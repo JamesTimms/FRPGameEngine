@@ -1,8 +1,5 @@
 package org.engineFRP.rendering;
 
-import org.engineFRP.core.Camera;
-import org.engineFRP.maths.Vector3f;
-
 import static org.lwjgl.opengl.GL11.*;
 
 /**

@@ -1,7 +1,8 @@
 package Personal.BlockBreaker;
 
 import org.engineFRP.FRP.FRPKeyboard;
-import org.engineFRP.FRP.JBoxWrapper;
+import org.engineFRP.Physics.JBoxWrapper;
+import org.engineFRP.FRP.ListenerArrayList;
 import org.engineFRP.Physics.JBoxCollisionListener;
 import org.engineFRP.core.GameObject;
 import org.engineFRP.core.Scene;
@@ -19,9 +20,10 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
  */
 public class BBLogic {
 
+    public static ListenerArrayList l = new ListenerArrayList();
 
     public static GameObject bouncyCollisionsWith(String otherGO, GameObject go) {
-        go.l.add(JBoxCollisionListener.end
+        BBLogic.l.add(JBoxCollisionListener.end
                 .filter(contact -> areObjectsPresent(go, Scene.graph.find(otherGO).sample(), contact))
                 .listen(contact -> {
                     GameObject go1 = JBoxWrapper.getGOFromBody(contact.getFixtureA().getBody());
@@ -43,7 +45,7 @@ public class BBLogic {
     }
 
     public static GameObject canBeDestroyedBy(String otherGO, GameObject go) {
-        go.l.add(JBoxCollisionListener.end
+        BBLogic.l.add(JBoxCollisionListener.end
                 .filter(contact -> areObjectsPresent(Scene.graph.find(otherGO).sample(), go, contact))
                 .listen(contact -> {
                     JBoxWrapper.markForDeletion(go.physics.body);

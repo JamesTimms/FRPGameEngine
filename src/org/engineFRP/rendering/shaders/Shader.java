@@ -20,7 +20,6 @@ import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 
 public abstract class Shader {
 
-    public static Vector3f ambientLight = new Vector3f(0.2f, 0.2f, 0.2f);
     private int program;
     private HashMap<String, Integer> uniforms;
     protected int indicesType = GL_TRIANGLES;

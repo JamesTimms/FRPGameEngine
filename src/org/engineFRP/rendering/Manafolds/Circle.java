@@ -1,4 +1,4 @@
-package org.engineFRP.Physics.Manafolds;
+package org.engineFRP.rendering.Manafolds;
 
 import org.engineFRP.Util.Util;
 import org.engineFRP.maths.Vector3f;

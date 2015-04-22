@@ -1,7 +1,6 @@
 package org.engineFRP.rendering;
 
-import org.engineFRP.Physics.Manafolds.Shape;
-import org.engineFRP.core.GameObject;
+import org.engineFRP.rendering.Manafolds.Shape;
 import org.engineFRP.core.Transform;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.shaders.Shader;

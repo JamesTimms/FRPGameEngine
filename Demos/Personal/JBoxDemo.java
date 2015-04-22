@@ -1,11 +1,9 @@
 package Personal;
 
 import org.engineFRP.FRP.FRPTime;
-import org.engineFRP.FRP.FRPUtil;
-import org.engineFRP.FRP.JBoxWrapper;
+import org.engineFRP.Physics.JBoxWrapper;
 import org.engineFRP.FRP.Time;
 import org.engineFRP.Util.MapUtil;
-import org.engineFRP.Util.Util;
 import org.engineFRP.core.Engine;
 import org.engineFRP.core.Game;
 import org.engineFRP.core.GameObject;

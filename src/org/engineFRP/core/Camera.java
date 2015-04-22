@@ -25,8 +25,8 @@ public class Camera {
     public Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
     public Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);
     public CellUpdater<Vector3f> translation;
-    private Vector3f rotation;
-    private Vector3f scale;
+    private CellUpdater<Vector3f> rotation;
+    private CellUpdater<Vector3f> scale;
     public int cameraMode = ORTHOGRAPHIC;
 
     public Camera() {

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class Util {
 
     public static final float JBOX_SCALE = 10.0f;
-    public static final float JBOX_OFFSET = 0.0f;
 
     public static int[] toIntArray(ArrayList<Integer> array) {
         Integer[] temp = new Integer[array.size()];
@@ -34,7 +33,7 @@ public class Util {
         return out;
     }
 
-    public static Vertex[] polyToVertexArray(PolygonShape poly) {//Good
+    public static Vertex[] polyToVertexArray(PolygonShape poly) {
         Vertex[] verts = new Vertex[poly.getVertexCount()];
         for(int i = 0; i < poly.getVertexCount(); i++) {
             Vec2 p = poly.getVertices()[i];

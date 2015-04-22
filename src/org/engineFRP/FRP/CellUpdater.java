@@ -1,6 +1,5 @@
 package org.engineFRP.FRP;
 
-import org.engineFRP.maths.Vector3f;
 import sodium.*;
 
 /**

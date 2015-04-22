@@ -1,6 +1,6 @@
-package org.engineFRP.FRP;
+package org.engineFRP.Physics;
 
-import org.engineFRP.Physics.JBoxCollisionListener;
+import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.Util.Util;
 import org.engineFRP.core.GameObject;
 import org.engineFRP.core.Scene;

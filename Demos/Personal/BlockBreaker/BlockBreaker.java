@@ -1,14 +1,10 @@
 package Personal.BlockBreaker;
 
-import org.engineFRP.FRP.*;
+import org.engineFRP.Physics.JBoxWrapper;
 import org.engineFRP.core.*;
 import org.engineFRP.maths.Vector3f;
 import org.engineFRP.rendering.MeshUtil;
 import org.engineFRP.rendering.shaders.Material;
-import sodium.Listener;
-import sodium.Stream;
-
-import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -21,7 +17,6 @@ public class BlockBreaker implements Game {
     private static final String PADDLE_TEXTURE = "./res/textures/box.jpg";
 
     private static final String PADDLE_GO = "Paddle";
-    private static ArrayList<Listener> l = new ArrayList<>();
 
     public static void main(String[] args) {
         Engine.runGame(new BlockBreaker());

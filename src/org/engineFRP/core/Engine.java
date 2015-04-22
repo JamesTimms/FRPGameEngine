@@ -1,7 +1,8 @@
 package org.engineFRP.core;
 
 import org.engineFRP.FRP.*;
-import org.engineFRP.rendering.JBoxDebugDraw;
+import org.engineFRP.Physics.JBoxWrapper;
+import org.engineFRP.Physics.JBoxDebugDraw;
 import org.engineFRP.rendering.SimpleRenderer;
 import org.jbox2d.callbacks.DebugDraw;
 
@@ -19,7 +20,6 @@ public class Engine {
     private static Time pollTimer = new Time(120);
     private static Time physics = new Time(30);
     private static Scene scene;
-    private static JBoxDebugDraw jBoxDebugDraw;
 
     private Engine() {
     }
@@ -37,7 +37,7 @@ public class Engine {
     }
 
     public static void initDebug() {
-        jBoxDebugDraw = new JBoxDebugDraw();
+        JBoxDebugDraw jBoxDebugDraw = new JBoxDebugDraw();
 //        jBoxDebugDraw.setFlags(DebugDraw.e_wireframeDrawingBit);
         jBoxDebugDraw.setFlags(DebugDraw.e_aabbBit);
 //        jBoxDebugDraw.setFlags(DebugDraw.e_centerOfMassBit);

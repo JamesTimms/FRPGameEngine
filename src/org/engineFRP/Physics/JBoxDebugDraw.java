@@ -1,4 +1,4 @@
-package org.engineFRP.rendering;
+package org.engineFRP.Physics;
 
 import org.engineFRP.Util.Util;
 import org.engineFRP.maths.Vector2f;

@@ -1,7 +1,5 @@
 package org.engineFRP.rendering.shaders;
 
-import org.engineFRP.FRP.FRPDisplay;
-import org.engineFRP.core.Camera;
 import org.engineFRP.core.GameObject;
 import org.engineFRP.rendering.Vertex;
 

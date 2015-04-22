@@ -32,8 +32,6 @@ public class FRPKeyboard {
     }
 
     public static class Key {
-        public static final Key EMPTY_KEY = new Key(-1, -1, -1, -1, -1);
-
         public long window;
         public int key;
         public int scancode;

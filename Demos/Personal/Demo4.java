@@ -3,7 +3,7 @@ package Personal;
 import org.engineFRP.FRP.FRPTime;
 import org.engineFRP.FRP.FRPUtil;
 import org.engineFRP.FRP.Time;
-import org.engineFRP.Physics.collision.Click;
+import org.engineFRP.Util.Click;
 import org.engineFRP.FRP.FRPDisplay;
 import org.engineFRP.FRP.FRPKeyboard;
 import org.engineFRP.FRP.FRPMouse;
