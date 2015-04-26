@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class TextureTests {
 
     private static final String RES_PATH = "./res/textures/";
-    private static final String TEXTURE_FILE = "checkers.png";
+    private static final String TEXTURE_FILE = "test.png";
 
     @Before
     public void createDisplay() {
