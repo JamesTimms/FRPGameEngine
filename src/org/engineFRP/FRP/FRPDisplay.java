@@ -99,7 +99,7 @@ public final class FRPDisplay {
 
     public static void setupCloseWindow() {
         exitWindow = FRPKeyboard.keyEvent
-                .filter(key -> key.key == GLFW_KEY_ESCAPE && key.action == GLFW_RELEASE)
+                .filter(key -> key.code == GLFW_KEY_ESCAPE && key.action == GLFW_RELEASE)
                 .listen(key -> glfwSetWindowShouldClose(key.window, GL11.GL_TRUE));
     }
 

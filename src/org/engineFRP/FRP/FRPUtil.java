@@ -20,12 +20,12 @@ public class FRPUtil {
             (cell, stream) -> stream
                     .hold(cell.sample());
 
-    public static final Stream<Vector3f> mapArrowKeysToMovementOf(float moveAmount) {
+    public static Stream<Vector3f> mapArrowKeysToMovementOf(float moveAmount) {
         return FRPKeyboard.keyEvent
                 .filter(key -> key.action != GLFW_RELEASE
-                        && FRPKeyboard.isArrowKeyPressed(key.key))
+                        && FRPKeyboard.isArrowKeyPressed(key.code))
                 .map(key -> {
-                    switch(key.key) {
+                    switch(key.code) {
                         case (GLFW_KEY_RIGHT):
                             return new Vector3f(-moveAmount, 0.0f, 0.0f);
                         case (GLFW_KEY_LEFT):

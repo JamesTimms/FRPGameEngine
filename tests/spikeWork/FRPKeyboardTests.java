@@ -57,7 +57,7 @@ public class FRPKeyboardTests {
     @Test
     public void testFilterKeyStream() {
         Cell<FRPKeyboard.Key> keyPress = FRPKeyboard.keyEvent
-                .filter(key -> key.key == GLFW_KEY_SPACE)
+                .filter(key -> key.code == GLFW_KEY_SPACE)
                 .hold(null);
 
         FRPKeyboard.Key key = new FRPKeyboard.Key(GLFW_KEY_RIGHT, GLFW_PRESS);

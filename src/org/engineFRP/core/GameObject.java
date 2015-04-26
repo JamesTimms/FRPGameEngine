@@ -12,6 +12,11 @@ import sodium.Cell;
 import sodium.Lambda2;
 import sodium.Stream;
 
+import java.util.function.Function;
+import java.util.function.IntBinaryOperator;
+import java.util.function.IntFunction;
+import java.util.function.IntUnaryOperator;
+
 /**
  * Created by TekMaTek on 26/01/2015.
  */
@@ -74,7 +79,7 @@ public class GameObject {
 
     public GameObject resetJboxPosWith(int glfwKey) {
         physics.updateToJboxZeroForce(FRPKeyboard.keyEvent
-                .filter(key -> key.key == glfwKey)
+                .filter(key -> key.code == glfwKey)
                 .map(key -> Vector3f.ZERO)
                 .accum(this.transform.translation.sample(), (curV, newV) -> curV.add(newV))
                 .updates()
