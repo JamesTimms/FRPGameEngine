@@ -50,7 +50,10 @@ public class JBoxWrapper {
 
     public JBoxWrapper updateToJbox(Stream<Vec2> updateFrom) {
         l.add(updateFrom
-                .listen(vec2 -> body.setTransform(vec2, 0.0f)));
+                .listen(vec2 -> {
+                    body.setLinearVelocity(vec2);
+//                    body.setTransform(vec2, 0.0f);
+                }));
         return this;
     }
 
@@ -103,6 +106,24 @@ public class JBoxWrapper {
         fixtureDef.shape = aabb;
         fixtureDef.density = 0.1f;
         fixtureDef.friction = 0.1f;
+        fixtureDef.restitution = 0.85f;
+        phy.body.createFixture(fixtureDef);
+        return phy;
+    }
+
+    public static JBoxWrapper BuildKinematicBody(GameObject go, Vector3f pos, Mesh mesh) {
+        JBoxWrapper phy = new JBoxWrapper(go);
+        //Setup the template body and real body.
+        BodyDef bDef = new BodyDef();
+        bDef.type = BodyType.KINEMATIC;
+        bDef.position.set(Util.Vector3fToVec2(pos));//good
+        phy.body = JBoxWrapper.world.createBody(bDef);
+        //Now setup the AABB
+        PolygonShape aabb = Util.vertexArrayToPoly(mesh.shape.getVertices());
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = aabb;
+        fixtureDef.density = 0.01f;
+        fixtureDef.friction = 0.9f;
         fixtureDef.restitution = 0.85f;
         phy.body.createFixture(fixtureDef);
         return phy;

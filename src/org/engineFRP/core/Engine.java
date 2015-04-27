@@ -61,6 +61,7 @@ public class Engine {
     private static void input() {
         if(pollTimer.shouldGetFrame()) {
             glfwPollEvents();
+            FRPKeyboard.hackedSmoothKeys();
         }
     }
 

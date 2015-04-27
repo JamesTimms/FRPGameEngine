@@ -51,6 +51,11 @@ public class GameObject {
         return this.updateFromJbox();
     }
 
+    public GameObject addKinematicPhysics() {
+        physics = JBoxWrapper.BuildKinematicBody(this, transform.translation.sample(), mesh);
+        return this.updateFromJbox();
+    }
+
     public GameObject addDynamicPhysics() {
         physics = JBoxWrapper.BuildDynamicBody(this, transform.translation.sample(), mesh);
         return this.updateFromJbox();
