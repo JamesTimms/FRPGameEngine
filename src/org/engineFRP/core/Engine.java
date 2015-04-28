@@ -43,7 +43,7 @@ public class Engine {
 //        jBoxDebugDraw.setFlags(DebugDraw.e_dynamicTreeBit);
 //        jBoxDebugDraw.setFlags(DebugDraw.e_jointBit);
 //        jBoxDebugDraw.setFlags(DebugDraw.e_pairBit);
-//        jBoxDebugDraw.setFlags(DebugDraw.e_shapeBit);
+//        jBoxDebugDraw.setFlags(DebugDraw.e_shaÚpeBit);
         JBoxWrapper.world.setDebugDraw(jBoxDebugDraw);
     }
 

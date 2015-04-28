@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.engineFRP</OriginalElement>
+  <nodes>
+    <node x="150.0" y="79.0">org.engineFRP.core.Transform</node>
+    <node x="0.0" y="79.0">org.engineFRP.rendering</node>
+    <node x="251.5" y="158.0">org.engineFRP.core.GameObject</node>
+    <node x="219.125" y="0.0">org.engineFRP.FRP</node>
+    <node x="338.125" y="0.0">org.engineFRP.core.Scene</node>
+    <node x="297.5" y="79.0">org.engineFRP.core.Engine</node>
+    <node x="169.0" y="158.0">org.engineFRP.core.Game</node>
+    <node x="385.5" y="79.0">org.engineFRP.Physics</node>
+    <node x="87.125" y="0.0">org.engineFRP.maths</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.engineFRP.Physics" target="org.engineFRP.core.GameObject">
+      <point x="29.5" y="14.5" />
+      <point x="474.0" y="138.0" />
+      <point x="337.25" y="138.0" />
+      <point x="36.75" y="-14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Transform" target="org.engineFRP.maths">
+      <point x="-21.75" y="-14.5" />
+      <point x="171.75" y="54.0" />
+      <point x="143.125" y="54.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.GameObject" target="org.engineFRP.Physics">
+      <point x="12.25" y="-14.5" />
+      <point x="312.75" y="128.0" />
+      <point x="415.0" y="128.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.GameObject" target="org.engineFRP.rendering">
+      <point x="-36.75" y="-14.5" />
+      <point x="263.75" y="138.0" />
+      <point x="65.0" y="138.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.GameObject" target="org.engineFRP.core.Transform">
+      <point x="-12.25" y="-14.5" />
+      <point x="288.25" y="128.0" />
+      <point x="193.5" y="128.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Engine" target="org.engineFRP.FRP">
+      <point x="-17.0" y="-14.5" />
+      <point x="314.5" y="54.0" />
+      <point x="293.375" y="54.0" />
+      <point x="24.75" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Transform" target="org.engineFRP.FRP">
+      <point x="21.75" y="-14.5" />
+      <point x="215.25" y="54.0" />
+      <point x="243.875" y="54.0" />
+      <point x="-24.75" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Engine" target="org.engineFRP.core.Scene">
+      <point x="17.0" y="-14.5" />
+      <point x="348.5" y="54.0" />
+      <point x="369.625" y="54.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="252.0" y="130.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.engineFRP</OriginalElement>
+  <nodes>
+    <node x="646.0" y="-2.0869140625">org.engineFRP.FRP.FRPWinSize.Resize</node>
+    <node x="815.6875" y="79.0">org.engineFRP.FRP.FRPMouse.Mouse</node>
+    <node x="618.6875" y="79.0">org.engineFRP.FRP.FRPMouse.Cursor</node>
+    <node x="362.0" y="184.9130859375">org.engineFRP.FRP.Mapper</node>
+    <node x="726.6875" y="0.0">org.engineFRP.FRP.FRPWinSize</node>
+    <node x="178.0625" y="79.0">org.engineFRP.rendering</node>
+    <node x="147.5" y="187.9130859375">org.engineFRP.FRP.FRPKeyboard.Key</node>
+    <node x="241.46964285714284" y="188.0">org.engineFRP.core</node>
+    <node x="705.6875" y="79.0">org.engineFRP.FRP.FRPDisplay</node>
+    <node x="533.0625" y="79.0">org.engineFRP.FRP.Time</node>
+    <node x="329.0625" y="79.0">org.engineFRP.FRP.FRPUtil</node>
+    <node x="419.0625" y="79.0">org.engineFRP.FRP.CellUpdater</node>
+    <node x="364.0" y="227.9130859375">org.engineFRP.FRP.ListenerArrayList</node>
+    <node x="705.4267857142858" y="188.0">org.engineFRP.FRP.FRPMouse</node>
+    <node x="20.0625" y="79.0">org.engineFRP.Physics</node>
+    <node x="122.0" y="266.9130859375">org.engineFRP.FRP.FRPKeyboard</node>
+    <node x="537.8125" y="188.0">org.engineFRP.FRP.FRPTime</node>
+    <node x="311.1446428571429" y="0.0">org.engineFRP.maths</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.engineFRP.FRP.FRPTime" target="org.engineFRP.FRP.Time">
+      <point x="0.0" y="-14.5" />
+      <point x="14.75" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.Physics">
+      <point x="-42.5" y="-14.5" />
+      <point x="249.96964285714284" y="168.0" />
+      <point x="79.0625" y="168.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.maths">
+      <point x="8.5" y="-14.5" />
+      <point x="300.96964285714284" y="148.0" />
+      <point x="318.5625" y="148.0" />
+      <point x="318.5625" y="59.0" />
+      <point x="344.74464285714294" y="59.0" />
+      <point x="-22.399999999999977" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPDisplay" target="org.engineFRP.FRP.FRPWinSize">
+      <point x="22.5" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.Physics" target="org.engineFRP.Physics">
+      <point x="-39.333333333333314" y="14.5" />
+      <point x="39.729166666666686" y="128.0" />
+      <point x="0.0625" y="128.0" />
+      <point x="0.0625" y="93.5" />
+      <point x="-59.0" y="-0.0" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.core">
+      <point x="0.0" y="14.5" />
+      <point x="292.46964285714284" y="237.0" />
+      <point x="221.46964285714284" y="237.0" />
+      <point x="221.46964285714284" y="202.5" />
+      <point x="-51.0" y="-0.0" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPMouse" target="org.engineFRP.FRP.FRPMouse.Cursor">
+      <point x="-22.0" y="-14.5" />
+      <point x="727.4267857142858" y="168.0" />
+      <point x="652.1875" y="168.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPMouse.Cursor" target="org.engineFRP.maths">
+      <point x="0.0" y="-14.5" />
+      <point x="652.1875" y="59.0" />
+      <point x="389.5446428571429" y="59.0" />
+      <point x="22.399999999999977" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPKeyboard" target="org.engineFRP.FRP.FRPKeyboard.Key">
+      <point x="-25.5" y="-14.5" />
+      <point x="147.5" y="241.9130859375" />
+      <point x="160.25" y="241.9130859375" />
+      <point x="-12.75" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPMouse" target="org.engineFRP.FRP.FRPMouse.Mouse">
+      <point x="22.0" y="-14.5" />
+      <point x="771.4267857142858" y="168.0" />
+      <point x="849.6875" y="168.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.FRP.CellUpdater">
+      <point x="25.5" y="-14.5" />
+      <point x="317.96964285714284" y="158.0" />
+      <point x="466.0625" y="158.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering" target="org.engineFRP.maths">
+      <point x="0.0" y="-14.5" />
+      <point x="243.0625" y="49.0" />
+      <point x="322.34464285714284" y="49.0" />
+      <point x="-44.80000000000001" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPDisplay" target="org.engineFRP.maths">
+      <point x="-22.5" y="-14.5" />
+      <point x="728.1875" y="49.0" />
+      <point x="411.94464285714287" y="49.0" />
+      <point x="44.80000000000001" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.FRP.Time">
+      <point x="42.5" y="-14.5" />
+      <point x="334.96964285714284" y="168.0" />
+      <point x="547.8125" y="168.0" />
+      <point x="-14.75" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.rendering">
+      <point x="-8.5" y="-14.5" />
+      <point x="283.96964285714284" y="168.0" />
+      <point x="275.5625" y="168.0" />
+      <point x="32.5" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPUtil" target="org.engineFRP.maths">
+      <point x="0.0" y="-14.5" />
+      <point x="364.0625" y="59.0" />
+      <point x="367.1446428571429" y="59.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.Physics" target="org.engineFRP.core">
+      <point x="39.33333333333337" y="14.5" />
+      <point x="118.39583333333337" y="158.0" />
+      <point x="266.96964285714284" y="158.0" />
+      <point x="-25.5" y="-14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering" target="org.engineFRP.rendering">
+      <point x="-32.5" y="14.5" />
+      <point x="210.5625" y="128.0" />
+      <point x="158.0625" y="128.0" />
+      <point x="158.0625" y="93.5" />
+      <point x="-65.0" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="442.0" y="234.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.engineFRP</OriginalElement>
+  <nodes>
+    <node x="309.0" y="509.0">org.engineFRP.FRP.FRPMouse.Mouse</node>
+    <node x="222.0" y="509.0">org.engineFRP.FRP.FRPMouse.Cursor</node>
+    <node x="487.42881944444446" y="89.0">org.engineFRP.rendering.Texture</node>
+    <node x="333.32881944444443" y="89.0">org.engineFRP.rendering.Manafolds.Shape</node>
+    <node x="276.42881944444446" y="178.0">org.engineFRP.rendering.Manafolds.Triangle</node>
+    <node x="97.42881944444446" y="277.0">org.engineFRP.Util.Tree</node>
+    <node x="798.5" y="178.0">org.engineFRP.Physics.JBoxWrapper</node>
+    <node x="578.0" y="509.0">org.engineFRP.core.Game</node>
+    <node x="371.42881944444446" y="178.0">org.engineFRP.rendering.Manafolds.Rect</node>
+    <node x="84.0" y="509.0">org.engineFRP.FRP.FRPWinSize</node>
+    <node x="670.596875" y="277.0">org.engineFRP.core.GameObject</node>
+    <node x="62.24999999999999" y="588.0">org.engineFRP.FRP.FRPDisplay</node>
+    <node x="255.125" y="588.0">org.engineFRP.FRP.FRPMouse</node>
+    <node x="578.4288194444445" y="89.0">org.engineFRP.rendering.shaders.Shader</node>
+    <node x="0.0" y="435.0">org.engineFRP.FRP.FRPTime</node>
+    <node x="0.0" y="509.0">org.engineFRP.FRP.FRPWinSize.Resize</node>
+    <node x="669.9288194444445" y="178.0">org.engineFRP.core.Transform</node>
+    <node x="447.5" y="509.0">org.engineFRP.FRP.FRPKeyboard.Key</node>
+    <node x="134.25" y="356.0">org.engineFRP.core.Scene</node>
+    <node x="99.0" y="435.0">org.engineFRP.core.Engine</node>
+    <node x="446.42881944444446" y="178.0">org.engineFRP.rendering.Mesh</node>
+    <node x="780.4288194444445" y="89.0">org.engineFRP.Physics.JBoxCollisionListener</node>
+    <node x="307.4826388888888" y="0.0">org.engineFRP.rendering.Vertex</node>
+    <node x="194.42881944444446" y="178.0">org.engineFRP.rendering.Manafolds.Circle</node>
+    <node x="55.25" y="356.0">org.engineFRP.FRP.Time</node>
+    <node x="113.42881944444446" y="178.0">org.engineFRP.Util.Node</node>
+    <node x="666.4288194444445" y="89.0">org.engineFRP.FRP.CellUpdater</node>
+    <node x="422.0" y="588.0">org.engineFRP.FRP.FRPKeyboard</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.engineFRP.core.GameObject" target="org.engineFRP.rendering.Mesh">
+      <point x="-40.83333333333337" y="-14.5" />
+      <point x="678.7635416666666" y="257.0" />
+      <point x="476.92881944444446" y="257.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPTime" target="org.engineFRP.FRP.Time">
+      <point x="0.0" y="-14.5" />
+      <point x="39.5" y="415.0" />
+      <point x="65.08333333333331" y="415.0" />
+      <point x="-19.66666666666667" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Transform" target="org.engineFRP.FRP.CellUpdater">
+      <point x="21.75" y="-14.5" />
+      <point x="735.1788194444445" y="158.0" />
+      <point x="736.9288194444445" y="158.0" />
+      <point x="23.5" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Mesh" target="org.engineFRP.rendering.Manafolds.Shape">
+      <point x="-24.399999999999977" y="-14.5" />
+      <point x="452.5288194444445" y="148.0" />
+      <point x="378.1288194444445" y="148.0" />
+      <point x="12.800000000000011" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPDisplay" target="org.engineFRP.FRP.FRPWinSize">
+      <point x="0.0" y="-14.5" />
+      <point x="-23.25" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPMouse" target="org.engineFRP.FRP.FRPMouse.Cursor">
+      <point x="-33.0" y="-14.5" />
+      <point x="266.125" y="563.0" />
+      <point x="238.75" y="563.0" />
+      <point x="-16.75" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPKeyboard" target="org.engineFRP.FRP.FRPKeyboard.Key">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.GameObject" target="org.engineFRP.Physics.JBoxWrapper">
+      <point x="8.166666666666629" y="-14.5" />
+      <point x="727.7635416666666" y="237.0" />
+      <point x="815.1666666666666" y="237.0" />
+      <point x="-33.33333333333337" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Manafolds.Rect" target="org.engineFRP.rendering.Vertex">
+      <point x="13.75" y="-14.5" />
+      <point x="412.67881944444446" y="158.0" />
+      <point x="420.17881944444446" y="158.0" />
+      <point x="420.17881944444446" y="59.0" />
+      <point x="352.28263888888887" y="59.0" />
+      <point x="12.800000000000011" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Mesh" target="org.engineFRP.rendering.Texture">
+      <point x="12.199999999999989" y="-14.5" />
+      <point x="489.12881944444445" y="148.0" />
+      <point x="522.9288194444445" y="148.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.Physics.JBoxWrapper" target="org.engineFRP.Physics.JBoxCollisionListener">
+      <point x="25.0" y="-14.5" />
+      <point x="873.5" y="158.0" />
+      <point x="886.9288194444445" y="158.0" />
+      <point x="35.5" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Mesh" target="org.engineFRP.rendering.shaders.Shader">
+      <point x="24.399999999999977" y="-14.5" />
+      <point x="501.32881944444443" y="158.0" />
+      <point x="612.4288194444445" y="158.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Manafolds.Triangle" target="org.engineFRP.rendering.Manafolds.Shape">
+      <point x="18.75" y="-14.5" />
+      <point x="332.67881944444446" y="158.0" />
+      <point x="352.5288194444445" y="158.0" />
+      <point x="-12.800000000000011" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Manafolds.Shape" target="org.engineFRP.rendering.Vertex">
+      <point x="0.0" y="-14.5" />
+      <point x="365.32881944444443" y="69.0" />
+      <point x="339.4826388888888" y="69.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Manafolds.Circle" target="org.engineFRP.rendering.Manafolds.Shape">
+      <point x="15.5" y="-14.5" />
+      <point x="240.92881944444446" y="148.0" />
+      <point x="339.7288194444444" y="148.0" />
+      <point x="-25.600000000000023" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Scene" target="org.engineFRP.Util.Tree">
+      <point x="-21.0" y="-14.5" />
+      <point x="144.75" y="331.0" />
+      <point x="124.92881944444446" y="331.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Mesh" target="org.engineFRP.rendering.Vertex">
+      <point x="0.0" y="-14.5" />
+      <point x="476.92881944444446" y="49.0" />
+      <point x="365.0826388888888" y="49.0" />
+      <point x="25.600000000000023" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Engine" target="org.engineFRP.FRP.Time">
+      <point x="0.0" y="-14.5" />
+      <point x="133.0" y="405.0" />
+      <point x="104.41666666666669" y="405.0" />
+      <point x="19.66666666666667" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Scene" target="org.engineFRP.core.GameObject">
+      <point x="21.0" y="-14.5" />
+      <point x="186.75" y="331.0" />
+      <point x="719.596875" y="331.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Manafolds.Circle" target="org.engineFRP.rendering.Vertex">
+      <point x="-15.5" y="-14.5" />
+      <point x="209.92881944444446" y="59.0" />
+      <point x="313.8826388888888" y="59.0" />
+      <point x="-25.600000000000023" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Engine" target="org.engineFRP.core.Scene">
+      <point x="22.666666666666657" y="-14.5" />
+      <point x="155.66666666666666" y="415.0" />
+      <point x="165.75" y="415.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.Util.Tree" target="org.engineFRP.Util.Node">
+      <point x="0.0" y="-14.5" />
+      <point x="124.92881944444446" y="257.0" />
+      <point x="128.67881944444446" y="257.0" />
+      <point x="-15.25" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.Physics.JBoxWrapper" target="org.engineFRP.core.GameObject">
+      <point x="0.0" y="14.5" />
+      <point x="848.5" y="247.0" />
+      <point x="744.096875" y="247.0" />
+      <point x="24.5" y="-14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPDisplay" target="org.engineFRP.FRP.FRPWinSize.Resize">
+      <point x="-30.0" y="-14.5" />
+      <point x="77.25" y="563.0" />
+      <point x="32.0" y="563.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Manafolds.Triangle" target="org.engineFRP.rendering.Vertex">
+      <point x="-18.75" y="-14.5" />
+      <point x="295.17881944444446" y="138.0" />
+      <point x="299.07881944444443" y="138.0" />
+      <point x="299.07881944444443" y="69.0" />
+      <point x="326.68263888888885" y="69.0" />
+      <point x="-12.800000000000011" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP.FRPMouse" target="org.engineFRP.FRP.FRPMouse.Mouse">
+      <point x="11.0" y="-14.5" />
+      <point x="310.125" y="563.0" />
+      <point x="326.0" y="563.0" />
+      <point x="-17.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.Scene" target="org.engineFRP.Util.Node">
+      <point x="0.0" y="-14.5" />
+      <point x="165.75" y="331.0" />
+      <point x="162.92881944444446" y="331.0" />
+      <point x="162.92881944444446" y="257.0" />
+      <point x="159.17881944444446" y="257.0" />
+      <point x="15.25" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core.GameObject" target="org.engineFRP.core.Transform">
+      <point x="-24.5" y="-14.5" />
+      <point x="695.096875" y="257.0" />
+      <point x="691.6788194444445" y="257.0" />
+      <point x="-21.75" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering.Manafolds.Rect" target="org.engineFRP.rendering.Manafolds.Shape">
+      <point x="-13.75" y="-14.5" />
+      <point x="385.17881944444446" y="158.0" />
+      <point x="365.32881944444443" y="158.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="461.5" y="308.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

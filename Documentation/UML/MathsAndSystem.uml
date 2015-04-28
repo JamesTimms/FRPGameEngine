@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.engineFRP</OriginalElement>
+  <nodes>
+    <node x="279.712962962963" y="6.201171875">org.engineFRP.Util</node>
+    <node x="179.50000000000003" y="105.201171875">org.engineFRP.rendering</node>
+    <node x="284.2037037037037" y="224.201171875">org.engineFRP.core</node>
+    <node x="11.828703703703695" y="6.201171875">org.engineFRP.maths.Vector3f</node>
+    <node x="260.0" y="322.1142578125">org.engineFRP.maths.Matrix4f</node>
+    <node x="137.0" y="322.1142578125">org.engineFRP.maths.MathUtil</node>
+    <node x="0.0" y="322.1142578125">org.engineFRP.maths.Quaternion</node>
+    <node x="163.712962962963" y="6.201171875">org.engineFRP.maths.Vector2f</node>
+    <node x="40.5" y="105.201171875">org.engineFRP.FRP</node>
+    <node x="391.04629629629636" y="105.201171875">org.engineFRP.Physics</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.engineFRP.rendering" target="org.engineFRP.maths.Vector2f">
+      <point x="-2.8421709430404007E-14" y="-14.5" />
+      <point x="244.5" y="85.201171875" />
+      <point x="220.712962962963" y="85.201171875" />
+      <point x="19.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP" target="org.engineFRP.FRP">
+      <point x="0.0" y="14.5" />
+      <point x="90.0" y="164.201171875" />
+      <point x="10.5" y="164.201171875" />
+      <point x="10.5" y="112.451171875" />
+      <point x="-49.5" y="-7.25" />
+    </edge>
+    <edge source="org.engineFRP.rendering" target="org.engineFRP.maths.Vector3f">
+      <point x="-43.33333333333337" y="-14.5" />
+      <point x="201.16666666666666" y="75.201171875" />
+      <point x="75.16203703703701" y="75.201171875" />
+      <point x="25.33333333333333" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP" target="org.engineFRP.maths.Vector2f">
+      <point x="24.75" y="-14.5" />
+      <point x="114.75" y="85.201171875" />
+      <point x="182.712962962963" y="85.201171875" />
+      <point x="-19.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.Util" target="org.engineFRP.Util">
+      <point x="-32.33333333333333" y="14.5" />
+      <point x="295.8796296296297" y="55.201171875" />
+      <point x="259.712962962963" y="55.201171875" />
+      <point x="259.712962962963" y="20.701171875" />
+      <point x="-48.5" y="-0.0" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.Physics">
+      <point x="25.5" y="-14.5" />
+      <point x="360.7037037037037" y="194.201171875" />
+      <point x="450.04629629629636" y="194.201171875" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.FRP" target="org.engineFRP.maths.Vector3f">
+      <point x="-24.75" y="-14.5" />
+      <point x="65.25" y="85.201171875" />
+      <point x="49.828703703703695" y="85.201171875" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering" target="org.engineFRP.Util">
+      <point x="43.333333333333286" y="-14.5" />
+      <point x="287.8333333333333" y="85.201171875" />
+      <point x="328.212962962963" y="85.201171875" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.Util">
+      <point x="8.5" y="-14.5" />
+      <point x="343.7037037037037" y="184.201171875" />
+      <point x="360.54629629629636" y="184.201171875" />
+      <point x="32.333333333333385" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.FRP">
+      <point x="-25.5" y="-14.5" />
+      <point x="309.7037037037037" y="194.201171875" />
+      <point x="123.0" y="194.201171875" />
+      <point x="33.0" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.Physics" target="org.engineFRP.Physics">
+      <point x="-39.33333333333334" y="14.5" />
+      <point x="410.71296296296305" y="154.201171875" />
+      <point x="371.04629629629636" y="154.201171875" />
+      <point x="371.04629629629636" y="119.701171875" />
+      <point x="-59.0" y="-0.0" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.maths.Vector3f">
+      <point x="-42.5" y="-14.5" />
+      <point x="292.7037037037037" y="204.201171875" />
+      <point x="0.0" y="204.201171875" />
+      <point x="0.0" y="85.201171875" />
+      <point x="24.495370370370352" y="85.201171875" />
+      <point x="-25.333333333333343" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.core">
+      <point x="0.0" y="14.5" />
+      <point x="335.2037037037037" y="273.201171875" />
+      <point x="264.2037037037037" y="273.201171875" />
+      <point x="264.2037037037037" y="238.701171875" />
+      <point x="-51.0" y="-0.0" />
+    </edge>
+    <edge source="org.engineFRP.core" target="org.engineFRP.rendering">
+      <point x="-8.5" y="-14.5" />
+      <point x="326.7037037037037" y="184.201171875" />
+      <point x="277.0" y="184.201171875" />
+      <point x="32.49999999999997" y="14.5" />
+    </edge>
+    <edge source="org.engineFRP.Physics" target="org.engineFRP.core">
+      <point x="39.33333333333337" y="14.5" />
+      <point x="489.37962962962973" y="204.201171875" />
+      <point x="377.7037037037037" y="204.201171875" />
+      <point x="42.5" y="-14.5" />
+    </edge>
+    <edge source="org.engineFRP.rendering" target="org.engineFRP.rendering">
+      <point x="-32.5" y="14.5" />
+      <point x="212.00000000000003" y="154.201171875" />
+      <point x="159.50000000000003" y="154.201171875" />
+      <point x="159.50000000000003" y="119.701171875" />
+      <point x="-65.0" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="255.0" y="176.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
