@@ -1,0 +1,107 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Triangle</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.engineFRP.rendering.Manafolds</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Triangle (org.engineFRP.rendering.Manafolds)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Triangle</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.engineFRP.rendering.Manafolds;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.engineFRP.maths.Vector3f;
+<i>4</i>&nbsp;import org.engineFRP.rendering.Vertex;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * Created by TekMaTek on 11/03/2015.
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;public class Triangle extends Shape {
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    public Triangle() {
+<b class="nc"><i>12</i>&nbsp;        this(0.5f);</b>
+<i>13</i>&nbsp;    }
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;    public Triangle(float size) {</b>
+<b class="nc"><i>16</i>&nbsp;        vertices = new Vertex[] {</b>
+<i>17</i>&nbsp;                new Vertex(new Vector3f(-size, -size, 0.0f)),
+<i>18</i>&nbsp;                new Vertex(new Vector3f(size, -size, 0.0f)),
+<i>19</i>&nbsp;                new Vertex(new Vector3f(0, size, 0.0f))
+<i>20</i>&nbsp;        };
+<b class="nc"><i>21</i>&nbsp;        drawOrder = new int[] {0, 1, 2};</b>
+<b class="nc"><i>22</i>&nbsp;        orderClockwise(vertices);</b>
+<i>23</i>&nbsp;    }
+<i>24</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-05-03 14:32</div>
+</div>
+</body>
+</html>

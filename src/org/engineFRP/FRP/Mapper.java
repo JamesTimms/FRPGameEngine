@@ -21,4 +21,5 @@ public class Mapper<T> {
     public <U> U baseMap(Function<? super T, ? extends U> mapper) {
         return mapper.apply(value);
     }
+
 }

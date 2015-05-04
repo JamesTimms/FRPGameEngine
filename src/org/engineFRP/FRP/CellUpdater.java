@@ -8,7 +8,6 @@ import sodium.*;
 public class CellUpdater<A> {
 
     private Lambda2<Cell<A>, Stream<A>, Cell<A>> resolver;
-    //TODO: Consider using Optionals here to avoid having to init the Cell.
     private Cell<A> value;
     private Stream<A> stream = new Stream<>();
     private StreamSink<A> direct = new StreamSink<>();
@@ -47,7 +46,6 @@ public class CellUpdater<A> {
         return value.sample();
     }
 
-//    //TODO: need to refactor the entire code base into a push based system like this instead of sample().
 //    public Listener listener(final Handler<A> action) {
 //        return this.value.value().listen(action);
 //    }

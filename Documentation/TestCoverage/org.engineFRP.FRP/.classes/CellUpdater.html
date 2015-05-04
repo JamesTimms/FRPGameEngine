@@ -1,0 +1,136 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CellUpdater</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.engineFRP.FRP</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CellUpdater (org.engineFRP.FRP)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CellUpdater</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (4/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (12/ 18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.engineFRP.FRP;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import sodium.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Created by TekMaTek on 21/03/2015.
+<i>7</i>&nbsp; */
+<i>8</i>&nbsp;public class CellUpdater&lt;A&gt; {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    private Lambda2&lt;Cell&lt;A&gt;, Stream&lt;A&gt;, Cell&lt;A&gt;&gt; resolver;
+<i>11</i>&nbsp;    private Cell&lt;A&gt; value;
+<b class="fc"><i>12</i>&nbsp;    private Stream&lt;A&gt; stream = new Stream&lt;&gt;();</b>
+<b class="fc"><i>13</i>&nbsp;    private StreamSink&lt;A&gt; direct = new StreamSink&lt;&gt;();</b>
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;    public CellUpdater(final Lambda2&lt;Cell&lt;A&gt;, Stream&lt;A&gt;, Cell&lt;A&gt;&gt; resolver, final A initValue) {</b>
+<b class="fc"><i>16</i>&nbsp;        this.stream = stream.merge(direct);//Set up direct accessor method.</b>
+<b class="fc"><i>17</i>&nbsp;        this.resolver = resolver;</b>
+<b class="fc"><i>18</i>&nbsp;        value = replay(new Cell&lt;&gt;(initValue));</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    private Cell&lt;A&gt; replay(final Cell&lt;A&gt; cell) {
+<b class="fc"><i>22</i>&nbsp;        return resolver.apply(cell, stream);</b>
+<i>23</i>&nbsp;    }
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    public CellUpdater&lt;A&gt; merge(final Stream&lt;A&gt; otherStream) {
+<b class="fc"><i>26</i>&nbsp;        this.stream = stream.merge(otherStream);</b>
+<b class="fc"><i>27</i>&nbsp;        this.value = replay(value);</b>
+<b class="fc"><i>28</i>&nbsp;        return this;</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public CellUpdater&lt;A&gt; updateValue(A a) {
+<b class="nc"><i>32</i>&nbsp;        direct.send(a);</b>
+<b class="nc"><i>33</i>&nbsp;        return this;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    public void changeResolver(Lambda2&lt;Cell&lt;A&gt;, Stream&lt;A&gt;, Cell&lt;A&gt;&gt; newResolver) {
+<b class="nc"><i>37</i>&nbsp;        this.resolver = newResolver;</b>
+<b class="nc"><i>38</i>&nbsp;        this.value = replay(value);</b>
+<b class="nc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    public Stream&lt;A&gt; updateFrom() {
+<b class="nc"><i>42</i>&nbsp;        return value.updates();</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    public A sample() {
+<b class="fc"><i>46</i>&nbsp;        return value.sample();</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;//    public Listener listener(final Handler&lt;A&gt; action) {
+<i>50</i>&nbsp;//        return this.value.value().listen(action);
+<i>51</i>&nbsp;//    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-05-03 14:32</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SimpleRenderer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.engineFRP.rendering</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SimpleRenderer (org.engineFRP.rendering)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleRenderer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.engineFRP.rendering;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import static org.lwjgl.opengl.GL11.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Created by TekMaTek on 26/02/2015.
+<i>7</i>&nbsp; */
+<b class="nc"><i>8</i>&nbsp;public class SimpleRenderer {</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    public static void init() {
+<b class="nc"><i>11</i>&nbsp;        System.out.println(RenderingUtil.GetOpenGLVersion());</b>
+<b class="nc"><i>12</i>&nbsp;        glClearColor(0.1686f, 0.1686f, 0.1686f, 1.0f);</b>
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;        glEnable(GL_BLEND);</b>
+<b class="nc"><i>15</i>&nbsp;        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</b>
+<i>16</i>&nbsp;    }
+<i>17</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-05-03 14:32</div>
+</div>
+</body>
+</html>

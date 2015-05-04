@@ -1,0 +1,136 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Time</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.engineFRP.FRP</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Time (org.engineFRP.FRP)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Time</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.5%
+  </span>
+  <span class="absValue">
+    (21/ 22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.engineFRP.FRP;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * Created by TekMaTek on 21/03/2014.
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;public class Time {
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;    public static final int FRAME_CAP = 120,
+<i>9</i>&nbsp;            INSTANTLY = 0,
+<i>10</i>&nbsp;            ONE_PER_SECOND = 1,
+<i>11</i>&nbsp;            TEN_PER_SECOND = 10,
+<i>12</i>&nbsp;            THIRTY_PER_SECOND = 30;
+<i>13</i>&nbsp;    public static final long SECOND = 1000000000L;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    public static long getNanoTime() {
+<b class="fc"><i>16</i>&nbsp;        return System.nanoTime();</b>
+<i>17</i>&nbsp;    }
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    public static long getTime() {
+<b class="nc"><i>20</i>&nbsp;        return getNanoTime() / Time.SECOND;</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    public int frameRate;
+<b class="fc"><i>24</i>&nbsp;    private Double timeElapsed = 0.0d;</b>
+<b class="fc"><i>25</i>&nbsp;    private Long timeDiff = 0l,</b>
+<i>26</i>&nbsp;            lastDeltaTime,
+<b class="fc"><i>27</i>&nbsp;            deltaTime = 0l;</b>
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;    public Time(int frameRate) {</b>
+<b class="fc"><i>30</i>&nbsp;        this.frameRate = frameRate;</b>
+<b class="fc"><i>31</i>&nbsp;        lastDeltaTime = getNanoTime();</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public boolean shouldGetFrame() {
+<b class="fc"><i>35</i>&nbsp;        Long timeNow = getNanoTime();</b>
+<b class="fc"><i>36</i>&nbsp;        Long lastTime = timeNow - timeDiff;</b>
+<b class="fc"><i>37</i>&nbsp;        timeDiff = timeNow;</b>
+<b class="fc"><i>38</i>&nbsp;        long _frameRate = (frameRate &gt; FRAME_CAP) ? FRAME_CAP : frameRate;</b>
+<b class="fc"><i>39</i>&nbsp;        long frameThrottle = (_frameRate &lt;= 0) ? 0 : SECOND / _frameRate;</b>
+<b class="fc"><i>40</i>&nbsp;        timeElapsed = timeElapsed + lastTime;</b>
+<b class="fc"><i>41</i>&nbsp;        boolean isReady = timeElapsed &gt; frameThrottle;</b>
+<b class="fc"><i>42</i>&nbsp;        if(isReady) {</b>
+<b class="fc"><i>43</i>&nbsp;            timeElapsed = 0.0d;</b>
+<b class="fc"><i>44</i>&nbsp;            deltaTime = timeNow - lastDeltaTime;</b>
+<b class="fc"><i>45</i>&nbsp;            lastDeltaTime = timeNow;</b>
+<i>46</i>&nbsp;        }
+<b class="fc"><i>47</i>&nbsp;        return isReady;</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public float getDeltaTime() {
+<b class="fc"><i>51</i>&nbsp;        return (float) deltaTime / SECOND;</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-05-03 14:32</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Camera</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.engineFRP.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Camera (org.engineFRP.core)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Camera</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.engineFRP.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.engineFRP.FRP.CellUpdater;
+<i>4</i>&nbsp;import org.engineFRP.FRP.FRPDisplay;
+<i>5</i>&nbsp;import org.engineFRP.FRP.FRPUtil;
+<i>6</i>&nbsp;import org.engineFRP.maths.Matrix4f;
+<i>7</i>&nbsp;import org.engineFRP.maths.Vector3f;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Created by TekMaTek on 26/01/2015.
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class Camera {
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;    public static Camera mainCamera = new Camera();</b>
+<i>15</i>&nbsp;    public static final int PERSPECTIVE = 0;
+<i>16</i>&nbsp;    public static final int ORTHOGRAPHIC = 1;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public float zNear;
+<i>19</i>&nbsp;    public float zFar;
+<i>20</i>&nbsp;    public int width;
+<i>21</i>&nbsp;    public int height;
+<i>22</i>&nbsp;    public float fieldOfView;
+<i>23</i>&nbsp;
+<b class="nc"><i>24</i>&nbsp;    public Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);</b>
+<b class="nc"><i>25</i>&nbsp;    public Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);</b>
+<b class="nc"><i>26</i>&nbsp;    public Vector3f yAxis = new Vector3f(0.0f, 1.0f, 0.0f);</b>
+<i>27</i>&nbsp;    public CellUpdater&lt;Vector3f&gt; translation;
+<i>28</i>&nbsp;    private CellUpdater&lt;Vector3f&gt; rotation;
+<i>29</i>&nbsp;    private CellUpdater&lt;Vector3f&gt; scale;
+<b class="nc"><i>30</i>&nbsp;    public int cameraMode = ORTHOGRAPHIC;</b>
+<i>31</i>&nbsp;
+<b class="nc"><i>32</i>&nbsp;    public Camera() {</b>
+<b class="nc"><i>33</i>&nbsp;        if(mainCamera == null) {</b>
+<b class="nc"><i>34</i>&nbsp;            mainCamera = this;</b>
+<i>35</i>&nbsp;        }
+<b class="nc"><i>36</i>&nbsp;        this.setProjection(60.0f, FRPDisplay.DEFAULT_WIDTH, FRPDisplay.DEFAULT_HEIGHT, 0.1f, 1000.0f);</b>
+<b class="nc"><i>37</i>&nbsp;        translation = new CellUpdater&lt;&gt;(FRPUtil.addVectors, new Vector3f(0.0f, 0.0f, -1.0f));</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    public void setProjection(float fieldOfView, int width, int height, float zNear, float zFar) {
+<b class="nc"><i>41</i>&nbsp;        this.fieldOfView = (fieldOfView &gt; 1) ? fieldOfView : 1;</b>
+<b class="nc"><i>42</i>&nbsp;        this.width = width;</b>
+<b class="nc"><i>43</i>&nbsp;        this.height = height;</b>
+<b class="nc"><i>44</i>&nbsp;        this.zNear = (zNear &gt; 0) ? zNear : 0;</b>
+<b class="nc"><i>45</i>&nbsp;        this.zFar = (zFar &gt; zNear) ? zFar : zFar + 1.0f;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    public Matrix4f GetProjection() {
+<b class="nc"><i>49</i>&nbsp;        Matrix4f cameraRotation = new Matrix4f().initCamera(forward, up);</b>
+<b class="nc"><i>50</i>&nbsp;        Matrix4f cameraTranslation = new Matrix4f().initTranslation(</b>
+<b class="nc"><i>51</i>&nbsp;                -translation.sample().x, -translation.sample().y, -translation.sample().z);</b>
+<b class="nc"><i>52</i>&nbsp;        Matrix4f projection = ((cameraMode == PERSPECTIVE) ?</b>
+<b class="nc"><i>53</i>&nbsp;                cameraPerspectiveProjection() :</b>
+<b class="nc"><i>54</i>&nbsp;                cameraOrthographicProjection())</b>
+<b class="nc"><i>55</i>&nbsp;                .mul(cameraRotation.mul(cameraTranslation));</b>
+<b class="nc"><i>56</i>&nbsp;        return projection;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    private Matrix4f cameraPerspectiveProjection() {
+<b class="nc"><i>60</i>&nbsp;        return new Matrix4f().initPerspective(</b>
+<i>61</i>&nbsp;                this.fieldOfView, (float) height / (float) width, this.zNear, this.zFar);
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    private Matrix4f cameraOrthographicProjection() {//TODO: Need to figure out how to implement this correctly.
+<b class="nc"><i>65</i>&nbsp;        return new Matrix4f().initOrthographic(-1.0f, 1.0f,</b>
+<i>66</i>&nbsp;                -1.0f, 1.0f, -1.0f, 1.0f);
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-05-03 14:32</div>
+</div>
+</body>
+</html>

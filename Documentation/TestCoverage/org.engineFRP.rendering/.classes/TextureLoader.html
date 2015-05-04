@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TextureLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.engineFRP.rendering</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TextureLoader (org.engineFRP.rendering)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TextureLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.2%
+  </span>
+  <span class="absValue">
+    (25/ 29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.engineFRP.rendering;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.lwjgl.BufferUtils;
+<i>4</i>&nbsp;import org.lwjgl.opengl.GL12;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import javax.imageio.ImageIO;
+<i>7</i>&nbsp;import java.awt.image.BufferedImage;
+<i>8</i>&nbsp;import java.io.File;
+<i>9</i>&nbsp;import java.io.IOException;
+<i>10</i>&nbsp;import java.nio.ByteBuffer;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import static org.lwjgl.opengl.GL11.*;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Taken from this link.
+<i>16</i>&nbsp; * http://stackoverflow.com/questions/10801016/lwjgl-textures-and-strings
+<i>17</i>&nbsp; */
+<b class="nc"><i>18</i>&nbsp;public class TextureLoader {</b>
+<i>19</i>&nbsp;    private static final int BYTES_PER_PIXEL = 4;//3 for RGB, 4 for RGBA
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public static int loadTexture(BufferedImage image) {
+<i>22</i>&nbsp;
+<b class="fc"><i>23</i>&nbsp;        int[] pixels = new int[image.getWidth() * image.getHeight()];</b>
+<b class="fc"><i>24</i>&nbsp;        image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());</b>
+<i>25</i>&nbsp;
+<b class="fc"><i>26</i>&nbsp;        ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB</b>
+<i>27</i>&nbsp;
+<b class="fc"><i>28</i>&nbsp;        for(int y = 0; y &lt; image.getHeight(); y++) {</b>
+<b class="fc"><i>29</i>&nbsp;            for(int x = 0; x &lt; image.getWidth(); x++) {</b>
+<b class="fc"><i>30</i>&nbsp;                int pixel = pixels[y * image.getWidth() + x];</b>
+<b class="fc"><i>31</i>&nbsp;                buffer.put((byte) ((pixel &gt;&gt; 16) &amp; 0xFF));     // Red component</b>
+<b class="fc"><i>32</i>&nbsp;                buffer.put((byte) ((pixel &gt;&gt; 8) &amp; 0xFF));      // Green component</b>
+<b class="fc"><i>33</i>&nbsp;                buffer.put((byte) (pixel &amp; 0xFF));             // Blue component</b>
+<b class="fc"><i>34</i>&nbsp;                buffer.put((byte) ((pixel &gt;&gt; 24) &amp; 0xFF));    // Alpha component. Only for RGBA</b>
+<i>35</i>&nbsp;            }
+<i>36</i>&nbsp;        }
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;        buffer.flip(); //FOR THE LOVE OF GOD DO NOT FORGET THIS</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;        // You now have a ByteBuffer filled with the color data of each pixel.
+<i>41</i>&nbsp;        // Now just create a texture ID and bind it. Then you can load it using
+<i>42</i>&nbsp;        // whatever OpenGL method you want, for example:
+<i>43</i>&nbsp;
+<b class="fc"><i>44</i>&nbsp;        int textureID = glGenTextures(); //Generate texture ID</b>
+<b class="fc"><i>45</i>&nbsp;        Texture.changeTextureSetting(TextureLoader::DefaultTextureSetting, textureID);</b>
+<i>46</i>&nbsp;
+<b class="fc"><i>47</i>&nbsp;        glBindTexture(GL_TEXTURE_2D, textureID); //Bind texture ID</b>
+<i>48</i>&nbsp;        //Send texel data to OpenGL
+<b class="fc"><i>49</i>&nbsp;        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);</b>
+<b class="fc"><i>50</i>&nbsp;        glBindTexture(GL_TEXTURE_2D, 0); //Bind no texture so our texture isn&#39;t overridden.</b>
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;        return textureID;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public static BufferedImage loadImage(File file) {
+<i>56</i>&nbsp;        try {
+<b class="fc"><i>57</i>&nbsp;            return ImageIO.read(file);</b>
+<b class="nc"><i>58</i>&nbsp;        } catch(IOException e) {</b>
+<b class="nc"><i>59</i>&nbsp;            e.printStackTrace();</b>
+<i>60</i>&nbsp;        }
+<b class="nc"><i>61</i>&nbsp;        return null;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public static int DefaultTextureSetting(int textureID) {
+<b class="fc"><i>65</i>&nbsp;        glBindTexture(GL_TEXTURE_2D, textureID); //Bind texture ID</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;        //Setup wrap mode
+<b class="fc"><i>68</i>&nbsp;        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);</b>
+<b class="fc"><i>69</i>&nbsp;        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;        //Setup texture scaling filtering
+<b class="fc"><i>72</i>&nbsp;        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</b>
+<b class="fc"><i>73</i>&nbsp;        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</b>
+<b class="fc"><i>74</i>&nbsp;        glBindTexture(GL_TEXTURE_2D, 0); //Bind texture ID</b>
+<b class="fc"><i>75</i>&nbsp;        return textureID;</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-05-03 14:32</div>
+</div>
+</body>
+</html>

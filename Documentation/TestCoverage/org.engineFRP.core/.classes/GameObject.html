@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameObject</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.engineFRP.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameObject (org.engineFRP.core)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameObject</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    15.8%
+  </span>
+  <span class="absValue">
+    (3/ 19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    17.3%
+  </span>
+  <span class="absValue">
+    (9/ 52)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.engineFRP.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.engineFRP.FRP.FRPKeyboard;
+<i>4</i>&nbsp;import org.engineFRP.FRP.FRPUtil;
+<i>5</i>&nbsp;import org.engineFRP.Physics.JBoxWrapper;
+<i>6</i>&nbsp;import org.engineFRP.Util.Util;
+<i>7</i>&nbsp;import org.engineFRP.rendering.Mesh;
+<i>8</i>&nbsp;import org.engineFRP.rendering.shaders.Material;
+<i>9</i>&nbsp;import org.engineFRP.maths.Vector3f;
+<i>10</i>&nbsp;import org.jbox2d.common.Vec2;
+<i>11</i>&nbsp;import sodium.Cell;
+<i>12</i>&nbsp;import sodium.Lambda2;
+<i>13</i>&nbsp;import sodium.Stream;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.util.function.Function;
+<i>16</i>&nbsp;import java.util.function.IntBinaryOperator;
+<i>17</i>&nbsp;import java.util.function.IntFunction;
+<i>18</i>&nbsp;import java.util.function.IntUnaryOperator;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;/**
+<i>21</i>&nbsp; * Created by TekMaTek on 26/01/2015.
+<i>22</i>&nbsp; */
+<i>23</i>&nbsp;public class GameObject {
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    public String name;
+<i>26</i>&nbsp;    public final Transform transform;
+<i>27</i>&nbsp;    public Mesh mesh;
+<i>28</i>&nbsp;    public Material material;
+<i>29</i>&nbsp;    public JBoxWrapper physics;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public GameObject() {
+<b class="fc"><i>32</i>&nbsp;        this(Vector3f.ZERO, Vector3f.ZERO, Vector3f.ZERO, null, Material.BuildMaterial(Vector3f.ZERO, 0.5f, 0.2f, 1.0f));</b>
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;    private GameObject(final Vector3f position, final Vector3f rotation, final Vector3f scale, final Mesh mesh, final Material mat) {</b>
+<b class="fc"><i>36</i>&nbsp;        this.material = mat;</b>
+<b class="fc"><i>37</i>&nbsp;        this.transform = new Transform(position, rotation, scale);</b>
+<b class="fc"><i>38</i>&nbsp;        this.mesh = mesh;</b>
+<b class="fc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    public GameObject(final Vector3f translation, final Mesh mesh) {
+<b class="nc"><i>42</i>&nbsp;        this(translation, Vector3f.ZERO, Vector3f.ONE, mesh, Material.white);</b>
+<b class="nc"><i>43</i>&nbsp;    }</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    public GameObject(final Vector3f translation, final Mesh mesh, final Material mat) {
+<b class="nc"><i>46</i>&nbsp;        this(translation, Vector3f.ZERO, Vector3f.ONE, mesh, mat);</b>
+<b class="nc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    public GameObject addStaticPhysics() {
+<b class="nc"><i>50</i>&nbsp;        physics = JBoxWrapper.BuildStaticBody(this, transform.translation.sample(), mesh);</b>
+<b class="nc"><i>51</i>&nbsp;        return this.updateFromJbox();</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    public GameObject addKinematicPhysics() {
+<b class="nc"><i>55</i>&nbsp;        physics = JBoxWrapper.BuildKinematicBody(this, transform.translation.sample(), mesh);</b>
+<b class="nc"><i>56</i>&nbsp;        return this.updateFromJbox();</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public GameObject addDynamicPhysics() {
+<b class="nc"><i>60</i>&nbsp;        physics = JBoxWrapper.BuildDynamicBody(this, transform.translation.sample(), mesh);</b>
+<b class="nc"><i>61</i>&nbsp;        return this.updateFromJbox();</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    private GameObject updateFromJbox() {
+<b class="nc"><i>65</i>&nbsp;        this.physics.body.setTransform(Util.Vector3fToVec2(this.transform.translation.sample())</b>
+<b class="nc"><i>66</i>&nbsp;                , this.transform.rotation.sample().z);</b>
+<b class="nc"><i>67</i>&nbsp;        return changeTranslationType(FRPUtil.setVector)</b>
+<b class="nc"><i>68</i>&nbsp;                .mergeTranslationWith(physics.updatePos())</b>
+<b class="nc"><i>69</i>&nbsp;                .mergeRotation(physics.updateRot());</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    public GameObject applyForce(Vec2 v) {
+<b class="nc"><i>73</i>&nbsp;        this.physics.applyForceToCenter(v);</b>
+<b class="nc"><i>74</i>&nbsp;        return this;</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    public GameObject updateToJbox(Stream&lt;Vector3f&gt; up) {
+<b class="nc"><i>78</i>&nbsp;        physics.updateToJbox(up</b>
+<b class="nc"><i>79</i>&nbsp;                .accum(this.transform.translation.sample(), (curV, newV) -&gt; curV.add(newV))</b>
+<b class="nc"><i>80</i>&nbsp;                .updates()</b>
+<b class="nc"><i>81</i>&nbsp;                .map(Util::Vector3fToVec2));</b>
+<b class="nc"><i>82</i>&nbsp;        return this;</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    public GameObject resetJboxPosWith(int glfwKey) {
+<b class="nc"><i>86</i>&nbsp;        physics.updateToJboxZeroForce(FRPKeyboard.keyEvent</b>
+<b class="nc"><i>87</i>&nbsp;                .filter(key -&gt; key.code == glfwKey)</b>
+<b class="nc"><i>88</i>&nbsp;                .map(key -&gt; Vector3f.ZERO)</b>
+<b class="nc"><i>89</i>&nbsp;                .accum(this.transform.translation.sample(), (curV, newV) -&gt; curV.add(newV))</b>
+<b class="nc"><i>90</i>&nbsp;                .updates()</b>
+<b class="nc"><i>91</i>&nbsp;                .map(Util::Vector3fToVec2));</b>
+<b class="nc"><i>92</i>&nbsp;        return this;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    public GameObject name(String name) {
+<b class="nc"><i>96</i>&nbsp;        this.name = name;</b>
+<b class="nc"><i>97</i>&nbsp;        return this;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    public GameObject mergeTranslationWith(final Stream&lt;Vector3f&gt; stream) {
+<b class="fc"><i>101</i>&nbsp;        this.transform.mergeTranslation(stream);</b>
+<b class="fc"><i>102</i>&nbsp;        return this;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    public GameObject mergeRotation(final Stream&lt;Vector3f&gt; stream) {
+<b class="nc"><i>106</i>&nbsp;        this.transform.mergeRotation(stream);</b>
+<b class="nc"><i>107</i>&nbsp;        return this;</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    public GameObject mergeScale(final Stream&lt;Vector3f&gt; stream) {
+<b class="nc"><i>111</i>&nbsp;        this.transform.mergeScale(stream);</b>
+<b class="nc"><i>112</i>&nbsp;        return this;</b>
+<i>113</i>&nbsp;    }
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    public GameObject changeTranslationType(Lambda2&lt;Cell&lt;Vector3f&gt;, Stream&lt;Vector3f&gt;, Cell&lt;Vector3f&gt;&gt; newType) {
+<b class="nc"><i>116</i>&nbsp;        this.transform.translation.changeResolver(newType);</b>
+<b class="nc"><i>117</i>&nbsp;        return this;</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    public GameObject translation(Vector3f vec) {
+<b class="nc"><i>121</i>&nbsp;        this.transform.translation.updateValue(vec);</b>
+<b class="nc"><i>122</i>&nbsp;        return this;</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    public GameObject scale(Vector3f vec) {
+<b class="nc"><i>126</i>&nbsp;        this.transform.scale.updateValue(vec);</b>
+<b class="nc"><i>127</i>&nbsp;        return this;</b>
+<i>128</i>&nbsp;    }
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    public &lt;V, T extends GameObject&gt; GameObject apply(Lambda2&lt;V, T, T&gt; thing, V applicative) {
+<b class="nc"><i>131</i>&nbsp;        thing.apply(applicative, (T) this);</b>
+<b class="nc"><i>132</i>&nbsp;        return this;</b>
+<i>133</i>&nbsp;    }
+<i>134</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-05-03 14:32</div>
+</div>
+</body>
+</html>

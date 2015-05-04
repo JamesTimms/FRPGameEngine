@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Node</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.engineFRP.Util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Node (org.engineFRP.Util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Node</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.9%
+  </span>
+  <span class="absValue">
+    (16/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78.7%
+  </span>
+  <span class="absValue">
+    (37/ 47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.engineFRP.Util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import sodium.Cell;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Created by TekMaTek on 22/03/2015.
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;public class Node&lt;A&gt; {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    public static final String defaultNodeName = &quot;newNode&quot;;
+<i>13</i>&nbsp;    public Cell&lt;A&gt; value;
+<i>14</i>&nbsp;    public String nodeName;
+<i>15</i>&nbsp;    private Node&lt;A&gt; parent;
+<b class="fc"><i>16</i>&nbsp;    private ArrayList&lt;Node&lt;A&gt;&gt; children = new ArrayList&lt;&gt;();</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public Node(A a) {
+<b class="fc"><i>19</i>&nbsp;        this(a, defaultNodeName);</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public Node(A a, String nodeName) {
+<b class="fc"><i>23</i>&nbsp;        this(new Cell&lt;&gt;(a), nodeName);</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<b class="fc"><i>26</i>&nbsp;    public Node(Cell&lt;A&gt; a, String nodeName) {</b>
+<b class="fc"><i>27</i>&nbsp;        value = a;</b>
+<b class="fc"><i>28</i>&nbsp;        this.nodeName = nodeName;</b>
+<b class="fc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public static &lt;B&gt; Node&lt;B&gt; newNode(B b) {
+<b class="fc"><i>32</i>&nbsp;        return new Node&lt;&gt;(b);</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public static &lt;B&gt; Node&lt;B&gt; newNode(B b, String nodeName) {
+<b class="fc"><i>36</i>&nbsp;        Node&lt;B&gt; newNode = newNode(b);</b>
+<b class="fc"><i>37</i>&nbsp;        newNode.nodeName = nodeName;</b>
+<b class="fc"><i>38</i>&nbsp;        return newNode;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * These methods shouldn&#39;t cause heap pollution but are warned that they might.
+<i>43</i>&nbsp;     *
+<i>44</i>&nbsp;     * @param children
+<i>45</i>&nbsp;     * @return
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    @SafeVarargs
+<i>48</i>&nbsp;    public final Node&lt;A&gt; addChildren(Node&lt;A&gt;... children) {
+<b class="fc"><i>49</i>&nbsp;        for(Node&lt;A&gt; child : children) {</b>
+<b class="fc"><i>50</i>&nbsp;            this.addChild(child);</b>
+<i>51</i>&nbsp;        }
+<b class="fc"><i>52</i>&nbsp;        return this;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public Node&lt;A&gt; addChild(Node&lt;A&gt; child) {//TODO: Make this use optionals.
+<b class="fc"><i>56</i>&nbsp;        child.parent = this;</b>
+<b class="fc"><i>57</i>&nbsp;        children.add(child);</b>
+<b class="fc"><i>58</i>&nbsp;        return this;</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    public Node&lt;A&gt; addChild(Cell&lt;A&gt; child, String name) {//TODO: Make this use optionals.
+<b class="nc"><i>62</i>&nbsp;        return addChild(new Node&lt;&gt;(child, name));</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * These methods shouldn&#39;t cause heap pollution but are warned that they might.
+<i>67</i>&nbsp;     *
+<i>68</i>&nbsp;     * @param children
+<i>69</i>&nbsp;     * @return
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    @SafeVarargs
+<i>72</i>&nbsp;    public final Node&lt;A&gt; addChildren(A... children) {
+<b class="fc"><i>73</i>&nbsp;        for(A child : children) {</b>
+<b class="fc"><i>74</i>&nbsp;            this.addChild(new Node&lt;&gt;(child));</b>
+<i>75</i>&nbsp;        }
+<b class="fc"><i>76</i>&nbsp;        return this;</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    public Node&lt;A&gt; addChild(A child) {//TODO: Make this use optionals.
+<b class="fc"><i>80</i>&nbsp;        return addChild(new Node&lt;&gt;(child, defaultNodeName));</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    public ArrayList&lt;Node&lt;A&gt;&gt; getSiblings() {
+<b class="fc"><i>84</i>&nbsp;        ArrayList&lt;Node&lt;A&gt;&gt; sib = (ArrayList&lt;Node&lt;A&gt;&gt;) getParent().getChildren().clone();</b>
+<b class="fc"><i>85</i>&nbsp;        sib.remove(this);</b>
+<b class="fc"><i>86</i>&nbsp;        return sib;</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    public A sample() {
+<b class="fc"><i>90</i>&nbsp;        return value.sample();</b>
+<i>91</i>&nbsp;    }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    public ArrayList&lt;Node&lt;A&gt;&gt; getChildren() {
+<b class="fc"><i>94</i>&nbsp;        return children;</b>
+<i>95</i>&nbsp;    }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    public Node&lt;A&gt; getParent() {
+<b class="fc"><i>98</i>&nbsp;        return parent;</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    public boolean isLeaf() {
+<b class="fc"><i>102</i>&nbsp;        return this.getChildren().size() == 0;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    public boolean isRoot() {
+<b class="fc"><i>106</i>&nbsp;        return this.parent == null;</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    public int getDepth() {//TODO: can this be calculated only when it changes?
+<b class="fc"><i>110</i>&nbsp;        int depth = 0;</b>
+<b class="fc"><i>111</i>&nbsp;        Node&lt;A&gt; p = parent;</b>
+<b class="fc"><i>112</i>&nbsp;        while(p != null) {</b>
+<b class="fc"><i>113</i>&nbsp;            depth++;</b>
+<b class="fc"><i>114</i>&nbsp;            p = p.parent;</b>
+<i>115</i>&nbsp;        }
+<b class="fc"><i>116</i>&nbsp;        return depth;</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    public void Delete() {
+<b class="nc"><i>120</i>&nbsp;        this.value = null;</b>
+<b class="nc"><i>121</i>&nbsp;        for(Node&lt;A&gt; node : this.children) {</b>
+<b class="nc"><i>122</i>&nbsp;            node.parent = this.parent;</b>
+<b class="nc"><i>123</i>&nbsp;            this.parent.children.add(node);</b>
+<b class="nc"><i>124</i>&nbsp;        }</b>
+<b class="nc"><i>125</i>&nbsp;        this.children = null;</b>
+<b class="nc"><i>126</i>&nbsp;        this.parent.children.remove(this);</b>
+<b class="nc"><i>127</i>&nbsp;        this.parent = null;</b>
+<i>128</i>&nbsp;//        System.gc();
+<b class="nc"><i>129</i>&nbsp;    }</b>
+<i>130</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-05-03 14:32</div>
+</div>
+</body>
+</html>

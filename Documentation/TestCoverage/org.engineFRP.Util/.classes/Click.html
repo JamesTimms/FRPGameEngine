@@ -1,0 +1,121 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Click</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.engineFRP.Util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Click (org.engineFRP.Util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Click</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.engineFRP.Util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.engineFRP.maths.Vector2f;
+<i>4</i>&nbsp;import org.engineFRP.rendering.Vertex;
+<i>5</i>&nbsp;import org.engineFRP.FRP.FRPMouse;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Created by TekMaTek on 10/03/2015.
+<i>9</i>&nbsp; */
+<b class="nc"><i>10</i>&nbsp;public class Click {</b>
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    public static boolean isInPolygon(Vertex[] vertices, Vector2f screenPoint) {
+<i>13</i>&nbsp;        //vertices must be in clockwise order.
+<i>14</i>&nbsp;//        Vertex[] vertices = shape.getVertices();
+<b class="nc"><i>15</i>&nbsp;        int vertCount = vertices.length;</b>
+<b class="nc"><i>16</i>&nbsp;        Vector2f worldPoint = FRPMouse.screenToWorldSpace(screenPoint);</b>
+<b class="nc"><i>17</i>&nbsp;        int low = 0, high = vertCount;</b>
+<i>18</i>&nbsp;        do {
+<b class="nc"><i>19</i>&nbsp;            int mid = (low + high) / 2;</b>
+<b class="nc"><i>20</i>&nbsp;            if(isPointLeftOfLine(vertices[0].getPos().getXY(), vertices[mid].getPos().getXY(), worldPoint)) {</b>
+<b class="nc"><i>21</i>&nbsp;                low = mid;</b>
+<i>22</i>&nbsp;            } else {
+<b class="nc"><i>23</i>&nbsp;                high = mid;</b>
+<i>24</i>&nbsp;            }
+<b class="nc"><i>25</i>&nbsp;        } while(low + 1 &lt; high);</b>
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;        if(low == 0 || high == vertCount) {</b>
+<b class="nc"><i>28</i>&nbsp;            return false;</b>
+<i>29</i>&nbsp;        }
+<b class="nc"><i>30</i>&nbsp;        return isPointLeftOfLine(vertices[low].getPos().getXY(), vertices[high].getPos().getXY(), worldPoint);</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    private static boolean isPointLeftOfLine(Vector2f a, Vector2f b, Vector2f point) {
+<b class="nc"><i>34</i>&nbsp;        float result = ((b.x - a.x) * (point.y - a.y)</b>
+<i>35</i>&nbsp;                - (b.y - a.y) * (point.x - a.x));
+<b class="nc"><i>36</i>&nbsp;        return result &gt; 0;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-05-03 14:32</div>
+</div>
+</body>
+</html>
