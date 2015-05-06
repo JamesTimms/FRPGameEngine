@@ -1,0 +1,17 @@
+#version 130
+
+in vec2 texCoord0;
+
+uniform vec3 color;
+uniform float balance;
+uniform float scale;
+uniform float offset;
+uniform sampler2D sampler;
+
+out vec4 fragColour;
+
+void main() {
+    vec2 scaled = texCoord0/scale;
+    vec4 sample = texture2D( sampler, scaled + offset );
+    fragColour = sample * vec4( color, 1 ) * balance;
+}

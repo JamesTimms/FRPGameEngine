@@ -145,6 +145,6 @@ public abstract class Shader {
 
     public void setUniform4m(String uniformName, Matrix4f matrix) {
         final boolean ROW_MAJOR_ORDER = true;
-        glUniformMatrix4(uniforms.get(uniformName), ROW_MAJOR_ORDER, RenderingUtil.createFlippedBuffer(matrix));
+        glUniformMatrix4fv(uniforms.get(uniformName), ROW_MAJOR_ORDER, RenderingUtil.createFlippedBuffer(matrix));
     }
 }
